@@ -1,30 +1,21 @@
 cmake_minimum_required(VERSION 3.16)
-project(SoundSpace VERSION 0.1.0 LANGUAGES CXX)
+project(SoundSpace)
 
-set(CMAKE_PREFIX_PATH "/usr/lib/x86_64-linux-gnu/cmake/Qt6")
-
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
+set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
-set(CMAKE_AUTOUIC ON)
 
-find_package(Qt6 REQUIRED COMPONENTS Core Widgets Network Sql Multimedia)
+find_package(Qt5 REQUIRED COMPONENTS Core Widgets Sql)
 
-qt_standard_project_setup()
+# 🔽 ДОБАВЬ ЭТИ СТРОКИ:
+include_directories(src)
+include_directories(src/database)
+include_directories(src/database/models)
 
-file(GLOB SOURCES "src/*.cpp" "src/*/*.cpp")
-file(GLOB HEADERS "src/*.h" "src/*/*.h")
-
-add_executable(SoundSpace ${SOURCES} ${HEADERS})
-
-target_link_libraries(SoundSpace 
-    Qt6::Core 
-    Qt6::Widgets 
-    Qt6::Network 
-    Qt6::Sql 
-    Qt6::Multimedia
+# Файлы проекта
+set(SOURCE_FILES
+    src/main.cpp
+    src/database/DatabaseManager.cpp
 )
 
-install(TARGETS SoundSpace RUNTIME DESTINATION bin)
+add_executable(SoundSpace ${SOURCE_FILES})
+target_link_libraries(SoundSpace Qt5::Core Qt5::Widgets Qt5::Sql)

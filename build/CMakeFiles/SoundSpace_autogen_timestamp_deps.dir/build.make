@@ -66,13 +66,10 @@ include CMakeFiles/SoundSpace_autogen_timestamp_deps.dir/compiler_depend.make
 # Include the progress variables for this target.
 include CMakeFiles/SoundSpace_autogen_timestamp_deps.dir/progress.make
 
-CMakeFiles/SoundSpace_autogen_timestamp_deps: /usr/lib/x86_64-linux-gnu/libQt6Core.so.6.4.2
-CMakeFiles/SoundSpace_autogen_timestamp_deps: /usr/lib/x86_64-linux-gnu/libQt6Sql.so.6.4.2
-CMakeFiles/SoundSpace_autogen_timestamp_deps: /usr/lib/qt6/libexec/moc
-CMakeFiles/SoundSpace_autogen_timestamp_deps: /usr/lib/x86_64-linux-gnu/libQt6Network.so.6.4.2
-CMakeFiles/SoundSpace_autogen_timestamp_deps: /usr/lib/qt6/libexec/uic
-CMakeFiles/SoundSpace_autogen_timestamp_deps: /usr/lib/x86_64-linux-gnu/libQt6Multimedia.so.6.4.2
-CMakeFiles/SoundSpace_autogen_timestamp_deps: /usr/lib/x86_64-linux-gnu/libQt6Widgets.so.6.4.2
+CMakeFiles/SoundSpace_autogen_timestamp_deps: /usr/lib/qt5/bin/moc
+CMakeFiles/SoundSpace_autogen_timestamp_deps: /usr/lib/x86_64-linux-gnu/libQt5Core.so.5.15.13
+CMakeFiles/SoundSpace_autogen_timestamp_deps: /usr/lib/x86_64-linux-gnu/libQt5Widgets.so.5.15.13
+CMakeFiles/SoundSpace_autogen_timestamp_deps: /usr/lib/x86_64-linux-gnu/libQt5Sql.so.5.15.13
 
 SoundSpace_autogen_timestamp_deps: CMakeFiles/SoundSpace_autogen_timestamp_deps
 SoundSpace_autogen_timestamp_deps: CMakeFiles/SoundSpace_autogen_timestamp_deps.dir/build.make

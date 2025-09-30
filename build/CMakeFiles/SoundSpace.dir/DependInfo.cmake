@@ -10,6 +10,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "" "SoundSpace_autogen/timestamp" "custom" "SoundSpace_autogen/deps"
   "/home/ionin/Рабочий стол/kursach/build/SoundSpace_autogen/mocs_compilation.cpp" "CMakeFiles/SoundSpace.dir/SoundSpace_autogen/mocs_compilation.cpp.o" "gcc" "CMakeFiles/SoundSpace.dir/SoundSpace_autogen/mocs_compilation.cpp.o.d"
+  "/home/ionin/Рабочий стол/kursach/src/database/DatabaseManager.cpp" "CMakeFiles/SoundSpace.dir/src/database/DatabaseManager.cpp.o" "gcc" "CMakeFiles/SoundSpace.dir/src/database/DatabaseManager.cpp.o.d"
+  "/home/ionin/Рабочий стол/kursach/src/main.cpp" "CMakeFiles/SoundSpace.dir/src/main.cpp.o" "gcc" "CMakeFiles/SoundSpace.dir/src/main.cpp.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

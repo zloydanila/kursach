@@ -1,0 +1,18 @@
+{
+    "C_Cpp.default.intelliSenseMode": "linux-gcc-x64",
+    "C_Cpp.default.compilerPath": "/usr/bin/g++",
+    "C_Cpp.default.cppStandard": "c++11",
+    "C_Cpp.default.includePath": [
+        "/usr/include/x86_64-linux-gnu/qt5/**"
+    ],
+    "files.associations": {
+        "*.h": "c",
+        "qapplication": "c",
+        "qmainwindow": "c",
+        "qwidget": "c",
+        "qstring": "c",
+        "qsqlquery": "c",
+        "qsqldatabase": "c"
+    },
+    "C_Cpp.errorSquiggles": "disabled"
+}

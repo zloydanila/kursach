@@ -85,51 +85,6 @@ rebuild_cache:
 rebuild_cache/fast: rebuild_cache
 .PHONY : rebuild_cache/fast
 
-# Special rule for the target list_install_components
-list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Available install components are: \"Unspecified\""
-.PHONY : list_install_components
-
-# Special rule for the target list_install_components
-list_install_components/fast: list_install_components
-.PHONY : list_install_components/fast
-
-# Special rule for the target install
-install: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install
-
-# Special rule for the target install
-install/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install/fast
-
-# Special rule for the target install/local
-install/local: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local
-
-# Special rule for the target install/local
-install/local/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local/fast
-
-# Special rule for the target install/strip
-install/strip: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing the project stripped..."
-	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip
-
-# Special rule for the target install/strip
-install/strip/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing the project stripped..."
-	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip/fast
-
 # The main all target
 all: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/ionin/Рабочий стол/kursach/build/CMakeFiles" "/home/ionin/Рабочий стол/kursach/build//CMakeFiles/progress.marks"
@@ -224,6 +179,54 @@ SoundSpace_autogen/mocs_compilation.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/SoundSpace.dir/build.make CMakeFiles/SoundSpace.dir/SoundSpace_autogen/mocs_compilation.cpp.s
 .PHONY : SoundSpace_autogen/mocs_compilation.cpp.s
 
+src/database/DatabaseManager.o: src/database/DatabaseManager.cpp.o
+.PHONY : src/database/DatabaseManager.o
+
+# target to build an object file
+src/database/DatabaseManager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SoundSpace.dir/build.make CMakeFiles/SoundSpace.dir/src/database/DatabaseManager.cpp.o
+.PHONY : src/database/DatabaseManager.cpp.o
+
+src/database/DatabaseManager.i: src/database/DatabaseManager.cpp.i
+.PHONY : src/database/DatabaseManager.i
+
+# target to preprocess a source file
+src/database/DatabaseManager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SoundSpace.dir/build.make CMakeFiles/SoundSpace.dir/src/database/DatabaseManager.cpp.i
+.PHONY : src/database/DatabaseManager.cpp.i
+
+src/database/DatabaseManager.s: src/database/DatabaseManager.cpp.s
+.PHONY : src/database/DatabaseManager.s
+
+# target to generate assembly for a file
+src/database/DatabaseManager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SoundSpace.dir/build.make CMakeFiles/SoundSpace.dir/src/database/DatabaseManager.cpp.s
+.PHONY : src/database/DatabaseManager.cpp.s
+
+src/main.o: src/main.cpp.o
+.PHONY : src/main.o
+
+# target to build an object file
+src/main.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SoundSpace.dir/build.make CMakeFiles/SoundSpace.dir/src/main.cpp.o
+.PHONY : src/main.cpp.o
+
+src/main.i: src/main.cpp.i
+.PHONY : src/main.i
+
+# target to preprocess a source file
+src/main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SoundSpace.dir/build.make CMakeFiles/SoundSpace.dir/src/main.cpp.i
+.PHONY : src/main.cpp.i
+
+src/main.s: src/main.cpp.s
+.PHONY : src/main.s
+
+# target to generate assembly for a file
+src/main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SoundSpace.dir/build.make CMakeFiles/SoundSpace.dir/src/main.cpp.s
+.PHONY : src/main.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -231,10 +234,6 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... edit_cache"
-	@echo "... install"
-	@echo "... install/local"
-	@echo "... install/strip"
-	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... SoundSpace_autogen"
 	@echo "... SoundSpace_autogen_timestamp_deps"
@@ -242,6 +241,12 @@ help:
 	@echo "... SoundSpace_autogen/mocs_compilation.o"
 	@echo "... SoundSpace_autogen/mocs_compilation.i"
 	@echo "... SoundSpace_autogen/mocs_compilation.s"
+	@echo "... src/database/DatabaseManager.o"
+	@echo "... src/database/DatabaseManager.i"
+	@echo "... src/database/DatabaseManager.s"
+	@echo "... src/main.o"
+	@echo "... src/main.i"
+	@echo "... src/main.s"
 .PHONY : help
 
 
