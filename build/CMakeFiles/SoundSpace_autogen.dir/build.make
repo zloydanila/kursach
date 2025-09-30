@@ -71,7 +71,7 @@ CMakeFiles/SoundSpace_autogen: SoundSpace_autogen/timestamp
 SoundSpace_autogen/timestamp: /usr/lib/qt5/bin/moc
 SoundSpace_autogen/timestamp: CMakeFiles/SoundSpace_autogen.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir="/home/ionin/Рабочий стол/kursach/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Automatic MOC for target SoundSpace"
-	/usr/bin/cmake -E cmake_autogen "/home/ionin/Рабочий стол/kursach/build/CMakeFiles/SoundSpace_autogen.dir/AutogenInfo.json" Debug
+	/usr/bin/cmake -E cmake_autogen "/home/ionin/Рабочий стол/kursach/build/CMakeFiles/SoundSpace_autogen.dir/AutogenInfo.json" ""
 	/usr/bin/cmake -E touch "/home/ionin/Рабочий стол/kursach/build/SoundSpace_autogen/timestamp"
 
 SoundSpace_autogen: CMakeFiles/SoundSpace_autogen

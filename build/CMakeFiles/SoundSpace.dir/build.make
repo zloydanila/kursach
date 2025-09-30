@@ -72,50 +72,50 @@ include CMakeFiles/SoundSpace.dir/flags.make
 SoundSpace_autogen/timestamp: /usr/lib/qt5/bin/moc
 SoundSpace_autogen/timestamp: CMakeFiles/SoundSpace.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir="/home/ionin/Рабочий стол/kursach/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Automatic MOC for target SoundSpace"
-	/usr/bin/cmake -E cmake_autogen "/home/ionin/Рабочий стол/kursach/build/CMakeFiles/SoundSpace_autogen.dir/AutogenInfo.json" Debug
+	/usr/bin/cmake -E cmake_autogen "/home/ionin/Рабочий стол/kursach/build/CMakeFiles/SoundSpace_autogen.dir/AutogenInfo.json" ""
 	/usr/bin/cmake -E touch "/home/ionin/Рабочий стол/kursach/build/SoundSpace_autogen/timestamp"
 
 CMakeFiles/SoundSpace.dir/SoundSpace_autogen/mocs_compilation.cpp.o: CMakeFiles/SoundSpace.dir/flags.make
 CMakeFiles/SoundSpace.dir/SoundSpace_autogen/mocs_compilation.cpp.o: SoundSpace_autogen/mocs_compilation.cpp
 CMakeFiles/SoundSpace.dir/SoundSpace_autogen/mocs_compilation.cpp.o: CMakeFiles/SoundSpace.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/home/ionin/Рабочий стол/kursach/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/SoundSpace.dir/SoundSpace_autogen/mocs_compilation.cpp.o"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SoundSpace.dir/SoundSpace_autogen/mocs_compilation.cpp.o -MF CMakeFiles/SoundSpace.dir/SoundSpace_autogen/mocs_compilation.cpp.o.d -o CMakeFiles/SoundSpace.dir/SoundSpace_autogen/mocs_compilation.cpp.o -c "/home/ionin/Рабочий стол/kursach/build/SoundSpace_autogen/mocs_compilation.cpp"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SoundSpace.dir/SoundSpace_autogen/mocs_compilation.cpp.o -MF CMakeFiles/SoundSpace.dir/SoundSpace_autogen/mocs_compilation.cpp.o.d -o CMakeFiles/SoundSpace.dir/SoundSpace_autogen/mocs_compilation.cpp.o -c "/home/ionin/Рабочий стол/kursach/build/SoundSpace_autogen/mocs_compilation.cpp"
 
 CMakeFiles/SoundSpace.dir/SoundSpace_autogen/mocs_compilation.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/SoundSpace.dir/SoundSpace_autogen/mocs_compilation.cpp.i"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/ionin/Рабочий стол/kursach/build/SoundSpace_autogen/mocs_compilation.cpp" > CMakeFiles/SoundSpace.dir/SoundSpace_autogen/mocs_compilation.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/ionin/Рабочий стол/kursach/build/SoundSpace_autogen/mocs_compilation.cpp" > CMakeFiles/SoundSpace.dir/SoundSpace_autogen/mocs_compilation.cpp.i
 
 CMakeFiles/SoundSpace.dir/SoundSpace_autogen/mocs_compilation.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/SoundSpace.dir/SoundSpace_autogen/mocs_compilation.cpp.s"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/ionin/Рабочий стол/kursach/build/SoundSpace_autogen/mocs_compilation.cpp" -o CMakeFiles/SoundSpace.dir/SoundSpace_autogen/mocs_compilation.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/ionin/Рабочий стол/kursach/build/SoundSpace_autogen/mocs_compilation.cpp" -o CMakeFiles/SoundSpace.dir/SoundSpace_autogen/mocs_compilation.cpp.s
 
 CMakeFiles/SoundSpace.dir/src/database/DatabaseManager.cpp.o: CMakeFiles/SoundSpace.dir/flags.make
 CMakeFiles/SoundSpace.dir/src/database/DatabaseManager.cpp.o: /home/ionin/Рабочий\ стол/kursach/src/database/DatabaseManager.cpp
 CMakeFiles/SoundSpace.dir/src/database/DatabaseManager.cpp.o: CMakeFiles/SoundSpace.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/home/ionin/Рабочий стол/kursach/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/SoundSpace.dir/src/database/DatabaseManager.cpp.o"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SoundSpace.dir/src/database/DatabaseManager.cpp.o -MF CMakeFiles/SoundSpace.dir/src/database/DatabaseManager.cpp.o.d -o CMakeFiles/SoundSpace.dir/src/database/DatabaseManager.cpp.o -c "/home/ionin/Рабочий стол/kursach/src/database/DatabaseManager.cpp"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SoundSpace.dir/src/database/DatabaseManager.cpp.o -MF CMakeFiles/SoundSpace.dir/src/database/DatabaseManager.cpp.o.d -o CMakeFiles/SoundSpace.dir/src/database/DatabaseManager.cpp.o -c "/home/ionin/Рабочий стол/kursach/src/database/DatabaseManager.cpp"
 
 CMakeFiles/SoundSpace.dir/src/database/DatabaseManager.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/SoundSpace.dir/src/database/DatabaseManager.cpp.i"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/ionin/Рабочий стол/kursach/src/database/DatabaseManager.cpp" > CMakeFiles/SoundSpace.dir/src/database/DatabaseManager.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/ionin/Рабочий стол/kursach/src/database/DatabaseManager.cpp" > CMakeFiles/SoundSpace.dir/src/database/DatabaseManager.cpp.i
 
 CMakeFiles/SoundSpace.dir/src/database/DatabaseManager.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/SoundSpace.dir/src/database/DatabaseManager.cpp.s"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/ionin/Рабочий стол/kursach/src/database/DatabaseManager.cpp" -o CMakeFiles/SoundSpace.dir/src/database/DatabaseManager.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/ionin/Рабочий стол/kursach/src/database/DatabaseManager.cpp" -o CMakeFiles/SoundSpace.dir/src/database/DatabaseManager.cpp.s
 
 CMakeFiles/SoundSpace.dir/src/main.cpp.o: CMakeFiles/SoundSpace.dir/flags.make
 CMakeFiles/SoundSpace.dir/src/main.cpp.o: /home/ionin/Рабочий\ стол/kursach/src/main.cpp
 CMakeFiles/SoundSpace.dir/src/main.cpp.o: CMakeFiles/SoundSpace.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir="/home/ionin/Рабочий стол/kursach/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/SoundSpace.dir/src/main.cpp.o"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SoundSpace.dir/src/main.cpp.o -MF CMakeFiles/SoundSpace.dir/src/main.cpp.o.d -o CMakeFiles/SoundSpace.dir/src/main.cpp.o -c "/home/ionin/Рабочий стол/kursach/src/main.cpp"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SoundSpace.dir/src/main.cpp.o -MF CMakeFiles/SoundSpace.dir/src/main.cpp.o.d -o CMakeFiles/SoundSpace.dir/src/main.cpp.o -c "/home/ionin/Рабочий стол/kursach/src/main.cpp"
 
 CMakeFiles/SoundSpace.dir/src/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/SoundSpace.dir/src/main.cpp.i"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/ionin/Рабочий стол/kursach/src/main.cpp" > CMakeFiles/SoundSpace.dir/src/main.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/home/ionin/Рабочий стол/kursach/src/main.cpp" > CMakeFiles/SoundSpace.dir/src/main.cpp.i
 
 CMakeFiles/SoundSpace.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/SoundSpace.dir/src/main.cpp.s"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/ionin/Рабочий стол/kursach/src/main.cpp" -o CMakeFiles/SoundSpace.dir/src/main.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/home/ionin/Рабочий стол/kursach/src/main.cpp" -o CMakeFiles/SoundSpace.dir/src/main.cpp.s
 
 # Object files for target SoundSpace
 SoundSpace_OBJECTS = \
