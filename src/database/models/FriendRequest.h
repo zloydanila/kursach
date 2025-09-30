@@ -8,8 +8,10 @@ struct FriendRequest{
     int id;
     int fromUserId;
     int toUserId;
-    QSting status; // "принято, отправлено, отклонено"
+    QString status; // "принято, отправлено, отклонено"
 
     FriendRequest(): id(0), fromUserId(0), toUserId(0){}
 
 };
+
+#endif

@@ -6,8 +6,16 @@ set(CMAKE_AUTOMOC ON)
 
 find_package(Qt5 REQUIRED COMPONENTS Core Widgets Sql)
 
-file(GLOB SOURCES "src/*.cpp" "src/*/*.cpp")
-file(GLOB HEADERS "src/*.h" "src/*/*.h")
+# 🔽 ДОБАВЬ ЭТИ СТРОКИ:
+include_directories(src)
+include_directories(src/database)
+include_directories(src/database/models)
 
-add_executable(SoundSpace ${SOURCES} ${HEADERS})
+# Файлы проекта
+set(SOURCE_FILES
+    src/main.cpp
+    src/database/DatabaseManager.cpp
+)
+
+add_executable(SoundSpace ${SOURCE_FILES})
 target_link_libraries(SoundSpace Qt5::Core Qt5::Widgets Qt5::Sql)
