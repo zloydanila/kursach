@@ -1,5 +1,5 @@
 CMakeFiles/SoundSpace.dir/src/main.cpp.o: \
- /home/ionin/Рабочий\ стол/kursach/src/main.cpp \
+ /home/salero/kursach_ILYA/kursach/src/main.cpp \
  /usr/include/stdc-predef.h \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QApplication \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qapplication.h \
@@ -291,7 +291,7 @@ CMakeFiles/SoundSpace.dir/src/main.cpp.o: \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qtextstream.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qset.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontiguouscache.h \
- /home/ionin/Рабочий\ стол/kursach/src/database/DatabaseManager.h \
+ /home/salero/kursach_ILYA/kursach/src/database/DatabaseManager.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/QString \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qstring.h \
  /usr/include/x86_64-linux-gnu/qt5/QtSql/QSqlDatabase \

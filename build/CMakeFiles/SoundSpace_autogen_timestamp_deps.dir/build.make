@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = "/home/ionin/Рабочий стол/kursach"
+CMAKE_SOURCE_DIR = /home/salero/kursach_ILYA/kursach
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = "/home/ionin/Рабочий стол/kursach/build"
+CMAKE_BINARY_DIR = /home/salero/kursach_ILYA/kursach/build
 
 # Utility rule file for SoundSpace_autogen_timestamp_deps.
 
@@ -68,8 +68,8 @@ include CMakeFiles/SoundSpace_autogen_timestamp_deps.dir/progress.make
 
 CMakeFiles/SoundSpace_autogen_timestamp_deps: /usr/lib/qt5/bin/moc
 CMakeFiles/SoundSpace_autogen_timestamp_deps: /usr/lib/x86_64-linux-gnu/libQt5Core.so.5.15.13
-CMakeFiles/SoundSpace_autogen_timestamp_deps: /usr/lib/x86_64-linux-gnu/libQt5Widgets.so.5.15.13
 CMakeFiles/SoundSpace_autogen_timestamp_deps: /usr/lib/x86_64-linux-gnu/libQt5Sql.so.5.15.13
+CMakeFiles/SoundSpace_autogen_timestamp_deps: /usr/lib/x86_64-linux-gnu/libQt5Widgets.so.5.15.13
 
 SoundSpace_autogen_timestamp_deps: CMakeFiles/SoundSpace_autogen_timestamp_deps
 SoundSpace_autogen_timestamp_deps: CMakeFiles/SoundSpace_autogen_timestamp_deps.dir/build.make
@@ -84,6 +84,6 @@ CMakeFiles/SoundSpace_autogen_timestamp_deps.dir/clean:
 .PHONY : CMakeFiles/SoundSpace_autogen_timestamp_deps.dir/clean
 
 CMakeFiles/SoundSpace_autogen_timestamp_deps.dir/depend:
-	cd "/home/ionin/Рабочий стол/kursach/build" && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" "/home/ionin/Рабочий стол/kursach" "/home/ionin/Рабочий стол/kursach" "/home/ionin/Рабочий стол/kursach/build" "/home/ionin/Рабочий стол/kursach/build" "/home/ionin/Рабочий стол/kursach/build/CMakeFiles/SoundSpace_autogen_timestamp_deps.dir/DependInfo.cmake" "--color=$(COLOR)"
+	cd /home/salero/kursach_ILYA/kursach/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/salero/kursach_ILYA/kursach /home/salero/kursach_ILYA/kursach /home/salero/kursach_ILYA/kursach/build /home/salero/kursach_ILYA/kursach/build /home/salero/kursach_ILYA/kursach/build/CMakeFiles/SoundSpace_autogen_timestamp_deps.dir/DependInfo.cmake "--color=$(COLOR)"
 .PHONY : CMakeFiles/SoundSpace_autogen_timestamp_deps.dir/depend
 

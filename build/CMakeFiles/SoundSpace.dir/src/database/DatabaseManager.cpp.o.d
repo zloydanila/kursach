@@ -1,7 +1,7 @@
 CMakeFiles/SoundSpace.dir/src/database/DatabaseManager.cpp.o: \
- /home/ionin/Рабочий\ стол/kursach/src/database/DatabaseManager.cpp \
+ /home/salero/kursach_ILYA/kursach/src/database/DatabaseManager.cpp \
  /usr/include/stdc-predef.h \
- /home/ionin/Рабочий\ стол/kursach/src/database/DatabaseManager.h \
+ /home/salero/kursach_ILYA/kursach/src/database/DatabaseManager.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/QString \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qstring.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qchar.h \

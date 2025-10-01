@@ -132,19 +132,19 @@
 			[
 				{
 					"backtrace" : 0,
-					"path" : "/home/ionin/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/kursach/build/SoundSpace_autogen/include"
+					"path" : "/home/salero/kursach_ILYA/kursach/build/SoundSpace_autogen/include"
 				},
 				{
 					"backtrace" : 9,
-					"path" : "/home/ionin/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/kursach/src"
+					"path" : "/home/salero/kursach_ILYA/kursach/src"
 				},
 				{
 					"backtrace" : 10,
-					"path" : "/home/ionin/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/kursach/src/database"
+					"path" : "/home/salero/kursach_ILYA/kursach/src/database"
 				},
 				{
 					"backtrace" : 11,
-					"path" : "/home/ionin/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/kursach/src/database/models"
+					"path" : "/home/salero/kursach_ILYA/kursach/src/database/models"
 				},
 				{
 					"backtrace" : 2,
