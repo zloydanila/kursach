@@ -2,24 +2,34 @@
 #include <QMainWindow>
 #include <QLabel>
 #include <QDebug>
+#include <QApplication>
+#include <QDebug>
 
+#include "gui/AuthWindow.h"
 #include "database/DatabaseManager.h"
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
     
-    qDebug() << "🎵 SoundSpace - Database Function Test";
+    qDebug() << "🎵 SoundSpace - Launching Application";
     qDebug() << "======================================";
     
-    // ТЕСТ 1: ИНИЦИАЛИЗАЦИЯ БД
-    qDebug() << "\n🔧 1. Testing database initialization...";
-    if (DatabaseManager::instance().initializeDatabase()) {
-        qDebug() << "✅ Database connected successfully!";
-    } else {
-        qDebug() << "❌ Database connection failed!";
+    // Инициализация БД
+    qDebug() << "🔧 Initializing database...";
+    if (!DatabaseManager::instance().initializeDatabase()) {
+        qDebug() << "❌ Failed to initialize database!";
         return -1;
     }
+    qDebug() << "✅ Database initialized successfully!";
+    
+    // Создание и отображение окна авторизации
+    AuthWindow authWindow;
+    authWindow.show();
+    
+    qDebug() << "🚀 Application started successfully!";
+    
+    return app.exec();
     
     // ТЕСТ 2: РЕГИСТРАЦИЯ ПОЛЬЗОВАТЕЛЕЙ
     qDebug() << "\n👤 2. Testing user registration...";
@@ -28,7 +38,7 @@ int main(int argc, char *argv[])
     DatabaseManager::instance().registerUser("admin", "admin123");
     DatabaseManager::instance().registerUser("alice", "alice2024");
     DatabaseManager::instance().registerUser("bob", "bobpassword");
-    
+    DatabaseManager::instance().registerUser("Stavr", "Dskalsjsjjs");
     // Попытка зарегистрировать существующего пользователя
     DatabaseManager::instance().registerUser("admin", "differentpass");
     
