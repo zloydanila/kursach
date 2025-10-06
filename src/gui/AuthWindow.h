@@ -7,7 +7,6 @@ class QStackedWidget;
 class QLineEdit;
 class QPushButton;
 class QLabel;
-class QStatusBar;
 
 class AuthWindow : public QMainWindow
 {
@@ -26,26 +25,25 @@ private slots:
 private:
     void setupUI();
     void setupConnections();
+    void showMessage(const QString& title, const QString& text, bool isError = true);
     
-    // Основные виджеты
-    QStackedWidget *m_stackedWidget;
+    bool isValidEmail(const QString& email);
+    bool isValidUsername(const QString& username);
+    bool isStrongPassword(const QString& password);
     
-    // Страница регистрации
-    QWidget *m_registerPage;
-    QLineEdit *m_registerUsername;
-    QLineEdit *m_registerPassword;
-    QLineEdit *m_registerConfirmPassword;
-    QPushButton *m_registerButton;
-    QPushButton *m_switchToLoginButton;
-    
-    // Страница входа
-    QWidget *m_loginPage;
-    QLineEdit *m_loginUsername;
-    QLineEdit *m_loginPassword;
-    QPushButton *m_loginButton;
-    QPushButton *m_switchToRegisterButton;
-    
-    QStatusBar *m_statusBar;
+    QStackedWidget *stackedWidget;
+    QWidget *regPage;
+    QLineEdit *regEmail;
+    QLineEdit *regUser;
+    QLineEdit *regPass;
+    QLineEdit *regConfirmPass;
+    QPushButton *regBtn;
+    QPushButton *toLoginBtn;
+    QWidget *loginPage;
+    QLineEdit *loginUser;
+    QLineEdit *loginPass;
+    QPushButton *loginBtn;
+    QPushButton *toRegBtn;
 };
 
 #endif

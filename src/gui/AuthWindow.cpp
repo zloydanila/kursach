@@ -1,6 +1,5 @@
 #include "AuthWindow.h"
 #include "../database/DatabaseManager.h"
-
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QFormLayout>
@@ -11,223 +10,313 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QStatusBar>
+#include <QRegularExpression>
+
+using namespace std;
 
 AuthWindow::AuthWindow(QWidget *parent)
     : QMainWindow(parent)
-    , m_stackedWidget(nullptr)
-    , m_registerPage(nullptr)
-    , m_registerUsername(nullptr)
-    , m_registerPassword(nullptr)
-    , m_registerConfirmPassword(nullptr)
-    , m_registerButton(nullptr)
-    , m_switchToLoginButton(nullptr)
-    , m_loginPage(nullptr)
-    , m_loginUsername(nullptr)
-    , m_loginPassword(nullptr)
-    , m_loginButton(nullptr)
-    , m_switchToRegisterButton(nullptr)
-    , m_statusBar(nullptr)
+    , stackedWidget(nullptr)
+    , regPage(nullptr)
+    , regEmail(nullptr)
+    , regUser(nullptr)
+    , regPass(nullptr)
+    , regConfirmPass(nullptr)
+    , regBtn(nullptr)
+    , toLoginBtn(nullptr)
+    , loginPage(nullptr)
+    , loginUser(nullptr)
+    , loginPass(nullptr)
+    , loginBtn(nullptr)
+    , toRegBtn(nullptr)
 {
     setupUI();
     setupConnections();
     
     setWindowTitle("SoundSpace - Авторизация");
-    setFixedSize(640, 480);
+    setFixedSize(400, 500);
     
-    m_statusBar = statusBar();
-    m_statusBar->showMessage("Готов к работе");
+    this->statusBar()->showMessage("Страница входа");
 }
 
 AuthWindow::~AuthWindow()
 {
 }
 
+void AuthWindow::showMessage(const QString& title, const QString& text, bool isError)
+{
+    QDialog dialog(this);
+    dialog.setWindowTitle(title);
+    dialog.setFixedSize(300, 150);
+    
+    QVBoxLayout *layout = new QVBoxLayout(&dialog);
+    
+    QLabel *label = new QLabel(text);
+    label->setAlignment(Qt::AlignCenter);
+    label->setWordWrap(true);
+    layout->addWidget(label);
+    
+    QPushButton *okButton = new QPushButton("OK");
+    connect(okButton, &QPushButton::clicked, &dialog, &QDialog::accept);
+    layout->addWidget(okButton);
+    
+    dialog.exec();
+}
 void AuthWindow::setupUI()
 {
-    m_stackedWidget = new QStackedWidget(this);
+    stackedWidget = new QStackedWidget(this);
     
-    // ===== СТРАНИЦА РЕГИСТРАЦИИ =====
-    m_registerPage = new QWidget();
-    QVBoxLayout *registerLayout = new QVBoxLayout(m_registerPage);
+    regPage = new QWidget();
+    QVBoxLayout *regLayout = new QVBoxLayout(regPage);
     
-    QFormLayout *registerForm = new QFormLayout();
+    QFormLayout *regForm = new QFormLayout();
     
-    m_registerUsername = new QLineEdit();
-    m_registerUsername->setPlaceholderText("Введите имя пользователя");
-    registerForm->addRow("Имя пользователя:", m_registerUsername);
-    
-    m_registerPassword = new QLineEdit();
-    m_registerPassword->setPlaceholderText("Введите пароль");
-    m_registerPassword->setEchoMode(QLineEdit::Password);
-    registerForm->addRow("Пароль:", m_registerPassword);
-    
-    m_registerConfirmPassword = new QLineEdit();
-    m_registerConfirmPassword->setPlaceholderText("Повторите пароль");
-    m_registerConfirmPassword->setEchoMode(QLineEdit::Password);
-    registerForm->addRow("Подтверждение:", m_registerConfirmPassword);
-    
-    registerLayout->addLayout(registerForm);
+    regEmail = new QLineEdit();
+    regEmail->setPlaceholderText("example@gmail.com");
+    regForm->addRow("Email:", regEmail);
 
-    // Условия пароля
+    regUser = new QLineEdit();
+    regUser->setPlaceholderText("Введите имя пользователя");
+    regForm->addRow("Имя пользователя:", regUser);
+    
+    regPass = new QLineEdit();
+    regPass->setPlaceholderText("Введите пароль");
+    regPass->setEchoMode(QLineEdit::Password);
+    regForm->addRow("Пароль:", regPass);
+    
+    regConfirmPass = new QLineEdit();
+    regConfirmPass->setPlaceholderText("Повторите пароль");
+    regConfirmPass->setEchoMode(QLineEdit::Password);
+    regForm->addRow("Подтверждение:", regConfirmPass);
 
-    QLabel *requirementsLabel = new QLabel();
+    regLayout->addLayout(regForm);
 
-    requirementsLabel -> setText (
-        "Длина пароля должны быть больше 6 символов\n"
-        "Длина имени пользователя больше 3 символов\n"
+    QLabel *reqLabel = new QLabel();
+    reqLabel->setText(
+        "Требования для регистрации:\n"
+        "• Email должен быть действительным\n"
+        "• Имя пользователя: минимум 3 символа\n"  
+        "• Пароль: минимум 6 символов\n"
+        "• Пароли должны совпадать"
     );
-    requirementsLabel -> setStyleSheet ("QLabel { color: blue; text-decoration: underline; border: none; }");
-    requirementsLabel -> setWordWrap(true);
-    registerLayout -> addWidget (requirementsLabel);
+    reqLabel->setStyleSheet("QLabel { color: #666; font-size: 10px; background-color: #f9f9f9; padding: 8px; border-radius: 4px; }");
+    reqLabel->setWordWrap(true);
+    regLayout->addWidget(reqLabel);
 
     
-    m_registerButton = new QPushButton("Зарегистрироваться");
-    registerLayout->addWidget(m_registerButton);
+    regBtn = new QPushButton("Зарегистрироваться");
+    regLayout->addWidget(regBtn);
     
-    m_switchToLoginButton = new QPushButton("Уже есть аккаунт? Войти");
-    m_switchToLoginButton->setStyleSheet("QPushButton { color: blue; text-decoration: underline; border: none; }");
-    registerLayout->addWidget(m_switchToLoginButton);
+    toLoginBtn = new QPushButton("Уже есть аккаунт? Войти");
+    toLoginBtn->setStyleSheet("QPushButton { color: blue; text-decoration: underline; border: none; background: transparent; }");
+    regLayout->addWidget(toLoginBtn);
     
-    registerLayout->addStretch();
+    regLayout->addStretch();
     
-    // ===== СТРАНИЦА ВХОДА =====
-    m_loginPage = new QWidget();
-    QVBoxLayout *loginLayout = new QVBoxLayout(m_loginPage);
+    loginPage = new QWidget();
+    QVBoxLayout *loginLayout = new QVBoxLayout(loginPage);
     
     QFormLayout *loginForm = new QFormLayout();
     
-    m_loginUsername = new QLineEdit();
-    m_loginUsername->setPlaceholderText("Введите имя пользователя");
-    loginForm->addRow("Имя пользователя:", m_loginUsername);
+    loginUser = new QLineEdit();
+    loginUser->setPlaceholderText("Введите имя пользователя");
+    loginForm->addRow("Имя пользователя:", loginUser);
     
-    m_loginPassword = new QLineEdit();
-    m_loginPassword->setPlaceholderText("Введите пароль");
-    m_loginPassword->setEchoMode(QLineEdit::Password);
-    loginForm->addRow("Пароль:", m_loginPassword);
+    loginPass = new QLineEdit();
+    loginPass->setPlaceholderText("Введите пароль");
+    loginPass->setEchoMode(QLineEdit::Password);
+    loginForm->addRow("Пароль:", loginPass);
     
     loginLayout->addLayout(loginForm);
     
-    m_loginButton = new QPushButton("Войти");
-    loginLayout->addWidget(m_loginButton);
+    loginBtn = new QPushButton("Войти");
+    loginLayout->addWidget(loginBtn);
     
-    m_switchToRegisterButton = new QPushButton("Нет аккаунта? Зарегистрироваться");
-    m_switchToRegisterButton->setStyleSheet("QPushButton { color: blue; text-decoration: underline; border: none; }");
-    loginLayout->addWidget(m_switchToRegisterButton);
+    toRegBtn = new QPushButton("Нет аккаунта? Зарегистрироваться");
+    toRegBtn->setStyleSheet("QPushButton { color: blue; text-decoration: underline; border: none; background: transparent; }");
+    loginLayout->addWidget(toRegBtn);
     
     loginLayout->addStretch();
     
-    // Добавляем страницы в stacked widget
-    m_stackedWidget->addWidget(m_loginPage);
-    m_stackedWidget->addWidget(m_registerPage);
+    stackedWidget->addWidget(loginPage);
+    stackedWidget->addWidget(regPage);
     
-    setCentralWidget(m_stackedWidget);
+    setCentralWidget(stackedWidget);
     
-    // По умолчанию показываем страницу входа
-    m_stackedWidget->setCurrentIndex(0);
+    stackedWidget->setCurrentIndex(0);
 }
 
 void AuthWindow::setupConnections()
 {
-    // Кнопки переключения между страницами
-    connect(m_switchToRegisterButton, SIGNAL(clicked()), this, SLOT(switchToRegister()));
-    connect(m_switchToLoginButton, SIGNAL(clicked()), this, SLOT(switchToLogin()));
+    connect(toRegBtn, SIGNAL(clicked()), this, SLOT(switchToRegister()));
+    connect(toLoginBtn, SIGNAL(clicked()), this, SLOT(switchToLogin()));
     
-    // Кнопки действий
-    connect(m_registerButton, SIGNAL(clicked()), this, SLOT(onRegisterClicked()));
-    connect(m_loginButton, SIGNAL(clicked()), this, SLOT(onLoginClicked()));
+    connect(regBtn, SIGNAL(clicked()), this, SLOT(onRegisterClicked()));
+    connect(loginBtn, SIGNAL(clicked()), this, SLOT(onLoginClicked()));
 }
 
 void AuthWindow::switchToLogin()
 {
-    m_stackedWidget->setCurrentIndex(0);
-    m_statusBar->showMessage("Страница входа");
+    stackedWidget->setCurrentIndex(0);
+    this->statusBar()->showMessage("Страница входа");
 }
 
 void AuthWindow::switchToRegister()
 {
-    m_stackedWidget->setCurrentIndex(1);
-    m_statusBar->showMessage("Страница регистрации");
+    stackedWidget->setCurrentIndex(1);
+    this->statusBar()->showMessage("Страница регистрации");
+}
+
+bool AuthWindow::isValidEmail(const QString& email)
+{
+    QRegularExpression emailRegex(R"(^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$)");
+    return emailRegex.match(email).hasMatch();
+}
+
+bool AuthWindow::isValidUsername(const QString& username)
+{
+    QRegularExpression userRegex("^[a-zA-Z0-9_]+$");
+    return username.length() >= 3 && userRegex.match(username).hasMatch();
+}
+
+bool AuthWindow::isStrongPassword(const QString& password)
+{
+    if (password.length() < 6) return false;
+    
+    bool hasLetter = false;
+    bool hasDigit = false;
+    
+    for (const QChar& ch : password) {
+        if (ch.isLetter()) hasLetter = true;
+        if (ch.isDigit()) hasDigit = true;
+    }
+    
+    return hasLetter && hasDigit;
 }
 
 void AuthWindow::onRegisterClicked()
 {
-    QString username = m_registerUsername->text().trimmed();
-    QString password = m_registerPassword->text();
-    QString confirmPassword = m_registerConfirmPassword->text();
-    m_statusBar->showMessage("Условия регистрации:");
+    QString email = regEmail->text().trimmed();
+    QString username = regUser->text().trimmed();
+    QString password = regPass->text();
+    QString confirmPass = regConfirmPass->text();
     
-    if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-        QMessageBox::warning(this, "Ошибка", "Все поля должны быть заполнены");
+    if (email.isEmpty() || username.isEmpty() || password.isEmpty() || confirmPass.isEmpty()) {
+        showMessage("Ошибка", "Все поля должны быть заполнены!");
         return;
     }
     
-    if (password != confirmPassword) {
-        QMessageBox::warning(this, "Ошибка", "Пароли не совпадают");
-        m_registerPassword->clear();
-        m_registerConfirmPassword->clear();
-        m_registerPassword->setFocus();
+    if (!isValidEmail(email)) {
+        showMessage("Ошибка", 
+            "Некорректный формат email!\n"
+            "Пример: example@gmail.com");
+        regEmail->setFocus();
+        regEmail->selectAll();
         return;
     }
     
-    if (username.length() < 3) {
-        QMessageBox::warning(this, "Ошибка", "Имя пользователя должно содержать минимум 3 символа");
-        m_registerUsername->setFocus();
+    if (!isValidUsername(username)) {
+        showMessage("Ошибка",
+            "Некорректное имя пользователя!\n"
+            "• Минимум 3 символа\n"
+            "• Только буквы, цифры и подчеркивания");
+        regUser->setFocus();
+        regUser->selectAll();
         return;
     }
     
-    if (password.length() < 6) {
-        QMessageBox::warning(this, "Ошибка", "Пароль должен содержать минимум 6 символов");
-        m_registerPassword->setFocus();
+    if (password != confirmPass) {
+        showMessage("Ошибка", "Пароли не совпадают!");
+        regPass->clear();
+        regConfirmPass->clear();
+        regPass->setFocus();
         return;
     }
     
-    m_statusBar->showMessage("Регистрация...");
+    if (!isStrongPassword(password)) {
+        showMessage("Ошибка",
+            "Слабый пароль!\n"
+            "• Минимум 6 символов\n"
+            "• Должен содержать буквы и цифры");
+        regPass->clear();
+        regConfirmPass->clear();
+        regPass->setFocus();
+        return;
+    }
     
-    // Регистрация в БД
+    QStringList weakPass = {"123456", "password", "qwerty", "111111", "admin123"};
+    if (weakPass.contains(password.toLower())) {
+        showMessage("Предупреждение", 
+            "Этот пароль слишком простой!\n"
+            "Выберите более сложный пароль.");
+        regPass->setFocus();
+        return;
+    }
+    
+    if (password.count(password[0]) == password.length()) {
+        showMessage("Ошибка", "Пароль не может состоять из одинаковых символов!");
+        regPass->clear();
+        regConfirmPass->clear();
+        regPass->setFocus();
+        return;
+    }
+    
+    this->statusBar()->showMessage("Регистрация...");
+    
     if (DatabaseManager::instance().registerUser(username, password)) {
-        QMessageBox::information(this, "Успех", "Регистрация прошла успешно!");
-        m_statusBar->showMessage("Регистрация успешна");
+        showMessage("Успех", 
+            "Регистрация прошла успешно!\n\n"
+            "Email: " + email + "\n" +
+            "Имя пользователя: " + username, false);
+        this->statusBar()->showMessage("Регистрация успешна");
         
-        // Очищаем поля и переключаемся на вход
-        m_registerUsername->clear();
-        m_registerPassword->clear();
-        m_registerConfirmPassword->clear();
+        regEmail->clear();
+        regUser->clear();
+        regPass->clear();
+        regConfirmPass->clear();
         switchToLogin();
     } else {
-        QMessageBox::critical(this, "Ошибка", "Не удалось зарегистрировать пользователя. Возможно, имя уже занято.");
-        m_statusBar->showMessage("Ошибка регистрации");
+        showMessage("Ошибка", 
+            "Не удалось зарегистрировать!\n"
+            "• Имя пользователя уже занято\n"
+            "• Проблема с базой данных");
+        this->statusBar()->showMessage("Ошибка регистрации");
     }
 }
 
 void AuthWindow::onLoginClicked()
 {
-    QString username = m_loginUsername->text().trimmed();
-    QString password = m_loginPassword->text();
+    QString username = loginUser->text().trimmed();
+    QString password = loginPass->text();
     
-    // Валидация
     if (username.isEmpty() || password.isEmpty()) {
-        QMessageBox::warning(this, "Ошибка", "Заполните все поля");
+        showMessage("Ошибка", "Заполните все поля!");
         return;
     }
     
-    m_statusBar->showMessage("Авторизация...");
+    if (username.length() > 50 || password.length() > 100) {
+        showMessage("Ошибка", "Слишком длинные данные!");
+        loginUser->clear();
+        loginPass->clear();
+        loginUser->setFocus();
+        return;
+    }
     
-    // Аутентификация в БД
+    this->statusBar()->showMessage("Авторизация...");
+    
     if (DatabaseManager::instance().authenticateUser(username, password)) {
-        QMessageBox::information(this, "Успех", "Вход выполнен успешно!");
-        m_statusBar->showMessage("Авторизация успешна");
+        showMessage("Успех", "Вход выполнен успешно!", false);
+        this->statusBar()->showMessage("Авторизация успешна");
         
-        // Здесь будет переход в основное приложение
         qDebug() << "Пользователь" << username << "вошел в систему";
         
-        // Очищаем поля
-        m_loginUsername->clear();
-        m_loginPassword->clear();
+        loginUser->clear();
+        loginPass->clear();
         
     } else {
-        QMessageBox::critical(this, "Ошибка", "Неверное имя пользователя или пароль");
-        m_statusBar->showMessage("Ошибка авторизации");
-        m_loginPassword->clear();
-        m_loginPassword->setFocus();
+        showMessage("Ошибка", "Неверное имя пользователя или пароль!");
+        this->statusBar()->showMessage("Ошибка авторизации");
+        loginPass->clear();
+        loginPass->setFocus();
     }
 }
