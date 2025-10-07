@@ -1,5 +1,5 @@
-/home/salero/kursach_ILYA/kursach/build/SoundSpace_autogen/MXUWEOXILK/moc_AuthWindow.cpp: /home/salero/kursach_ILYA/kursach/src/gui/AuthWindow.h \
-  /home/salero/kursach_ILYA/kursach/build/SoundSpace_autogen/moc_predefs.h \
+/home/ionin/Рабочий\ стол/proga_3_semak/kursach/build/SoundSpace_autogen/MXUWEOXILK/moc_AuthWindow.cpp: /home/ionin/Рабочий\ стол/proga_3_semak/kursach/src/gui/AuthWindow.h \
+  /home/ionin/Рабочий\ стол/proga_3_semak/kursach/build/SoundSpace_autogen/moc_predefs.h \
   /usr/include/asm-generic/errno-base.h \
   /usr/include/asm-generic/errno.h \
   /usr/include/assert.h \

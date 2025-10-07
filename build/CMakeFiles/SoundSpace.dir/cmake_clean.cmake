@@ -6,6 +6,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/SoundSpace.dir/SoundSpace_autogen/mocs_compilation.cpp.o.d"
   "CMakeFiles/SoundSpace.dir/src/database/DatabaseManager.cpp.o"
   "CMakeFiles/SoundSpace.dir/src/database/DatabaseManager.cpp.o.d"
+  "CMakeFiles/SoundSpace.dir/src/gui/AuthWindow.cpp.o"
+  "CMakeFiles/SoundSpace.dir/src/gui/AuthWindow.cpp.o.d"
   "CMakeFiles/SoundSpace.dir/src/main.cpp.o"
   "CMakeFiles/SoundSpace.dir/src/main.cpp.o.d"
   "SoundSpace"

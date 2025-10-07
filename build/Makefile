@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/salero/kursach_ILYA/kursach
+CMAKE_SOURCE_DIR = "/home/ionin/Рабочий стол/proga_3_semak/kursach"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/salero/kursach_ILYA/kursach/build
+CMAKE_BINARY_DIR = "/home/ionin/Рабочий стол/proga_3_semak/kursach/build"
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/salero/kursach_ILYA/kursach/build/CMakeFiles /home/salero/kursach_ILYA/kursach/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/ionin/Рабочий стол/proga_3_semak/kursach/build/CMakeFiles" "/home/ionin/Рабочий стол/proga_3_semak/kursach/build//CMakeFiles/progress.marks"
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/salero/kursach_ILYA/kursach/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/ionin/Рабочий стол/proga_3_semak/kursach/build/CMakeFiles" 0
 .PHONY : all
 
 # The main clean target
@@ -203,6 +203,30 @@ src/database/DatabaseManager.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/SoundSpace.dir/build.make CMakeFiles/SoundSpace.dir/src/database/DatabaseManager.cpp.s
 .PHONY : src/database/DatabaseManager.cpp.s
 
+src/gui/AuthWindow.o: src/gui/AuthWindow.cpp.o
+.PHONY : src/gui/AuthWindow.o
+
+# target to build an object file
+src/gui/AuthWindow.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SoundSpace.dir/build.make CMakeFiles/SoundSpace.dir/src/gui/AuthWindow.cpp.o
+.PHONY : src/gui/AuthWindow.cpp.o
+
+src/gui/AuthWindow.i: src/gui/AuthWindow.cpp.i
+.PHONY : src/gui/AuthWindow.i
+
+# target to preprocess a source file
+src/gui/AuthWindow.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SoundSpace.dir/build.make CMakeFiles/SoundSpace.dir/src/gui/AuthWindow.cpp.i
+.PHONY : src/gui/AuthWindow.cpp.i
+
+src/gui/AuthWindow.s: src/gui/AuthWindow.cpp.s
+.PHONY : src/gui/AuthWindow.s
+
+# target to generate assembly for a file
+src/gui/AuthWindow.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SoundSpace.dir/build.make CMakeFiles/SoundSpace.dir/src/gui/AuthWindow.cpp.s
+.PHONY : src/gui/AuthWindow.cpp.s
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -244,6 +268,9 @@ help:
 	@echo "... src/database/DatabaseManager.o"
 	@echo "... src/database/DatabaseManager.i"
 	@echo "... src/database/DatabaseManager.s"
+	@echo "... src/gui/AuthWindow.o"
+	@echo "... src/gui/AuthWindow.i"
+	@echo "... src/gui/AuthWindow.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

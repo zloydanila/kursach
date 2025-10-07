@@ -1,7 +1,7 @@
 CMakeFiles/SoundSpace.dir/src/gui/AuthWindow.cpp.o: \
- /home/salero/kursach_ILYA/kursach/src/gui/AuthWindow.cpp \
+ /home/ionin/Рабочий\ стол/proga_3_semak/kursach/src/gui/AuthWindow.cpp \
  /usr/include/stdc-predef.h \
- /home/salero/kursach_ILYA/kursach/src/gui/AuthWindow.h \
+ /home/ionin/Рабочий\ стол/proga_3_semak/kursach/src/gui/AuthWindow.h \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QMainWindow \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qmainwindow.h \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qtwidgetsglobal.h \
@@ -274,7 +274,7 @@ CMakeFiles/SoundSpace.dir/src/gui/AuthWindow.cpp.o: \
  /usr/include/x86_64-linux-gnu/qt5/QtGui/qkeysequence.h \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qtabwidget.h \
  /usr/include/x86_64-linux-gnu/qt5/QtGui/qicon.h \
- /home/salero/kursach_ILYA/kursach/src/gui/../database/DatabaseManager.h \
+ /home/ionin/Рабочий\ стол/proga_3_semak/kursach/src/gui/../database/DatabaseManager.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/QString \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qstring.h \
  /usr/include/x86_64-linux-gnu/qt5/QtSql/QSqlDatabase \
@@ -323,4 +323,6 @@ CMakeFiles/SoundSpace.dir/src/gui/AuthWindow.cpp.o: \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QLabel \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qlabel.h \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QStatusBar \
- /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qstatusbar.h
+ /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qstatusbar.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/QRegularExpression \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qregularexpression.h

@@ -24,6 +24,14 @@ bool DatabaseManager::initializeDatabase(){
     }
     qDebug() << "Таблица users создана";
     
+
+    if(!createTracksMetadataTable()){
+        qDebug() << "Ошибка создания таблицы tracks_metadate: " << m_database.lastError().text();
+        return false;
+    }
+    qDebug() << "Таблица tracks_metadate создана";
+
+
     if(!createTracksTable()) {
         qDebug() << "Ошибка создания таблицы tracks:" << m_database.lastError().text();
         return false;
@@ -68,17 +76,41 @@ bool DatabaseManager::createUsersTable(){
     );
 }
 
+bool DatabaseManager::createTracksMetadataTable(){
+    QSqlQuery query;
+    return query.exec(
+        "CREATE TABLE IF NOT EXISTS track_metadata("
+        "file_hash TEXT PRIMARY KEY, "
+        "title TEXT NOT NULL, "
+        "artist TEXT NOT NULL, "
+        "album TEXT, "
+        "duration INTEGER NOT NULL, "
+        "genre TEXT, "
+        "year INTEGER "
+        "bitrate INTEGER, "
+        "sample_rate INTEGER)"
+    );
+}
+
+
+
+
 bool DatabaseManager::createTracksTable(){
     QSqlQuery query;
     return query.exec(
         "CREATE TABLE IF NOT EXISTS tracks("
         "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-        "file_path TEXT UNIQUE NOT NULL, "
+        "file_path TEXT NOT NULL, "
+        "file_hash TEXT NOT NULL, "
+        "user_id INTEGER, "
+        "added_at DATETIME DEFAULT CURRENT_TIMESTAMP, "
+        "play_count INTEGER DEFAULT 0, "
         "title TEXT, "
         "artist TEXT, "
         "album TEXT, "
-        "duration INTEGER, "
-        "file_hash TEXT)"
+        "duration INTEGER,"
+        "FOREIGN KEY (file_hash) REFERENCES tracks_metadata(file_hash), "
+        "FOREIGN KEY (user_id) REFERENCES users(id))"
     );
 }
 
@@ -190,4 +222,5 @@ bool DatabaseManager::authenticateUser(const QString& username, const QString& p
             return false;
     }
 }
+
 
