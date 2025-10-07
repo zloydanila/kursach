@@ -15,7 +15,7 @@ include_directories(src/database/models)
 set(SOURCE_FILES
     src/main.cpp
     src/database/DatabaseManager.cpp
-    src/gui/AuthWindow.cpp
+    src/gui/AuthWindow/AuthWindow.cpp
 )
 
 add_executable(SoundSpace ${SOURCE_FILES})
