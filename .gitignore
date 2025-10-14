@@ -12,3 +12,4 @@ CMakeFiles/
 Makefile
 *.cmake
 .cmake/
+build/
