@@ -1,10 +1,10 @@
 CMakeFiles/SoundSpace.dir/src/database/DatabaseManager.cpp.o: \
- /home/salero/kursach_ILYA/kursach/src/database/DatabaseManager.cpp \
+ /home/ionin/Рабочий\ стол/kursach/src/database/DatabaseManager.cpp \
  /usr/include/stdc-predef.h \
- /home/salero/kursach_ILYA/kursach/src/database/DatabaseManager.h \
- /usr/include/x86_64-linux-gnu/qt5/QtCore/QString \
- /usr/include/x86_64-linux-gnu/qt5/QtCore/qstring.h \
- /usr/include/x86_64-linux-gnu/qt5/QtCore/qchar.h \
+ /home/ionin/Рабочий\ стол/kursach/src/database/DatabaseManager.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtSql/QSqlDatabase \
+ /usr/include/x86_64-linux-gnu/qt5/QtSql/qsqldatabase.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtSql/qtsqlglobal.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qglobal.h \
  /usr/include/c++/13/type_traits \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++config.h \
@@ -99,6 +99,9 @@ CMakeFiles/SoundSpace.dir/src/database/DatabaseManager.cpp.o: \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qglobalstatic.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qnumeric.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qversiontagging.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtSql/qtsql-config.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qstring.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qchar.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qbytearray.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qrefcount.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qnamespace.h \
@@ -179,11 +182,6 @@ CMakeFiles/SoundSpace.dir/src/database/DatabaseManager.cpp.o: \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qstringliteral.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qstringalgorithms.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qstringview.h \
- /usr/include/x86_64-linux-gnu/qt5/QtSql/QSqlDatabase \
- /usr/include/x86_64-linux-gnu/qt5/QtSql/qsqldatabase.h \
- /usr/include/x86_64-linux-gnu/qt5/QtSql/qtsqlglobal.h \
- /usr/include/x86_64-linux-gnu/qt5/QtSql/qtsql-config.h \
- /usr/include/x86_64-linux-gnu/qt5/QtCore/qstring.h \
  /usr/include/x86_64-linux-gnu/qt5/QtSql/QSqlQuery \
  /usr/include/x86_64-linux-gnu/qt5/QtSql/qsqlquery.h \
  /usr/include/x86_64-linux-gnu/qt5/QtSql/qsqldatabase.h \
@@ -257,5 +255,11 @@ CMakeFiles/SoundSpace.dir/src/database/DatabaseManager.cpp.o: \
  /usr/include/c++/13/ext/concurrence.h \
  /usr/include/c++/13/bits/shared_ptr_atomic.h \
  /usr/include/c++/13/backward/auto_ptr.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/QList \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qlist.h \
+ /home/ionin/Рабочий\ стол/kursach/src/database/models/Track.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/QString \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qstring.h \
+ /home/ionin/Рабочий\ стол/kursach/src/database/models/Playlist.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/QCryptographicHash \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qcryptographichash.h

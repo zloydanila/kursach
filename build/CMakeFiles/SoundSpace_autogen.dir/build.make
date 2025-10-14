@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/salero/kursach_ILYA/kursach
+CMAKE_SOURCE_DIR = "/home/ionin/Рабочий стол/kursach"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/salero/kursach_ILYA/kursach/build
+CMAKE_BINARY_DIR = "/home/ionin/Рабочий стол/kursach/build"
 
 # Utility rule file for SoundSpace_autogen.
 
@@ -70,9 +70,9 @@ CMakeFiles/SoundSpace_autogen: SoundSpace_autogen/timestamp
 
 SoundSpace_autogen/timestamp: /usr/lib/qt5/bin/moc
 SoundSpace_autogen/timestamp: CMakeFiles/SoundSpace_autogen.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/home/salero/kursach_ILYA/kursach/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Automatic MOC for target SoundSpace"
-	/usr/bin/cmake -E cmake_autogen /home/salero/kursach_ILYA/kursach/build/CMakeFiles/SoundSpace_autogen.dir/AutogenInfo.json ""
-	/usr/bin/cmake -E touch /home/salero/kursach_ILYA/kursach/build/SoundSpace_autogen/timestamp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir="/home/ionin/Рабочий стол/kursach/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Automatic MOC for target SoundSpace"
+	/usr/bin/cmake -E cmake_autogen "/home/ionin/Рабочий стол/kursach/build/CMakeFiles/SoundSpace_autogen.dir/AutogenInfo.json" ""
+	/usr/bin/cmake -E touch "/home/ionin/Рабочий стол/kursach/build/SoundSpace_autogen/timestamp"
 
 SoundSpace_autogen: CMakeFiles/SoundSpace_autogen
 SoundSpace_autogen: SoundSpace_autogen/timestamp
@@ -88,6 +88,6 @@ CMakeFiles/SoundSpace_autogen.dir/clean:
 .PHONY : CMakeFiles/SoundSpace_autogen.dir/clean
 
 CMakeFiles/SoundSpace_autogen.dir/depend:
-	cd /home/salero/kursach_ILYA/kursach/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/salero/kursach_ILYA/kursach /home/salero/kursach_ILYA/kursach /home/salero/kursach_ILYA/kursach/build /home/salero/kursach_ILYA/kursach/build /home/salero/kursach_ILYA/kursach/build/CMakeFiles/SoundSpace_autogen.dir/DependInfo.cmake "--color=$(COLOR)"
+	cd "/home/ionin/Рабочий стол/kursach/build" && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" "/home/ionin/Рабочий стол/kursach" "/home/ionin/Рабочий стол/kursach" "/home/ionin/Рабочий стол/kursach/build" "/home/ionin/Рабочий стол/kursach/build" "/home/ionin/Рабочий стол/kursach/build/CMakeFiles/SoundSpace_autogen.dir/DependInfo.cmake" "--color=$(COLOR)"
 .PHONY : CMakeFiles/SoundSpace_autogen.dir/depend
 

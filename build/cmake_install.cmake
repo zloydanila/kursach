@@ -1,4 +1,4 @@
-# Install script for directory: /home/salero/kursach_ILYA/kursach
+# Install script for directory: /home/ionin/Рабочий стол/kursach
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/salero/kursach_ILYA/kursach/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/ionin/Рабочий стол/kursach/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_SQL_LIB -DQT_WIDGETS_LIB
 
-CXX_INCLUDES = -I/home/salero/kursach_ILYA/kursach/build/SoundSpace_autogen/include -I/home/salero/kursach_ILYA/kursach/src -I/home/salero/kursach_ILYA/kursach/src/database -I/home/salero/kursach_ILYA/kursach/src/database/models -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -isystem /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtSql
+CXX_INCLUDES = -I"/home/ionin/Рабочий стол/kursach/build/SoundSpace_autogen/include" -I"/home/ionin/Рабочий стол/kursach/src" -I"/home/ionin/Рабочий стол/kursach/src/database" -I"/home/ionin/Рабочий стол/kursach/src/core" -I"/home/ionin/Рабочий стол/kursach/src/gui" -I"/home/ionin/Рабочий стол/kursach/src/gui/AuthWindow" -I"/home/ionin/Рабочий стол/kursach/src/gui/MainWindow" -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -isystem /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtSql
 
 CXX_FLAGS = -std=gnu++11 -fPIC
 

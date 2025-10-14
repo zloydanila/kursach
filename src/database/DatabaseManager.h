@@ -1,39 +1,62 @@
 #ifndef DATABASEMANAGER_H
 #define DATABASEMANAGER_H
 
-#include <QString>
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QDebug>
+#include <QList>
+
+#include "models/Track.h"
+#include "models/Playlist.h"
 
 class DatabaseManager
 {
 public:
+
     static DatabaseManager& instance();
     
-    // Инициализация БД
     bool initializeDatabase();
     bool isDatabaseOpen() const;
-    
-    // Работа с пользователями
+
+    QString hashPassword(const QString& password);
     bool registerUser(const QString& username, const QString& password);
-    bool authenticateUser(const QString& username, const QString& password);  // 🔽 ИСПРАВЛЕНО название
+    bool authenticateUser(const QString& username, const QString& password);
+    bool userExists(const QString& username);
+    int getUserId(const QString& username);
     
+
+    bool addTrackMetadata(const QString& fileHash, const QString& title, 
+                         const QString& artist, const QString& album, 
+                         int duration, const QString& genre = "", int year = 0,
+                         int bitrate = 0, int sampleRate = 0);
+    bool addTrackToUser(const QString& filePath, const QString& fileHash,
+                       int userId, const QString& title, const QString& artist,
+                       const QString& album, int duration);
+    QList<Track> getUserTracks(int userId);
+    bool incrementPlayCount(int trackId);
+
+    int createPlaylist(int userId, const QString& name);
+    bool addTrackToPlaylist(int playlistId, int trackId, int position = -1);
+    QList<Playlist> getUserPlaylists(int userId);
+    QList<Track> getPlaylistTracks(int playlistId);
+
 private:
+
     DatabaseManager() = default;
+    ~DatabaseManager() = default;
+
+    DatabaseManager(const DatabaseManager&) = delete;
+    DatabaseManager& operator=(const DatabaseManager&) = delete;
     
-    // Создание таблиц
+    QSqlDatabase m_database;
+
     bool createUsersTable();
+    bool createTracksMetadataTable();
     bool createTracksTable();
     bool createPlaylistsTable();
     bool createPlaylistTracksTable();
     bool createFriendsTable();
-    
-    // Безопасность
-    QString hashPassword(const QString& password);
-
-    QSqlDatabase m_database;
 };
 
-#endif
+#endif 

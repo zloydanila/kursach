@@ -12,7 +12,8 @@
         "qwidget": "c",
         "qstring": "c",
         "qsqlquery": "c",
-        "qsqldatabase": "c"
+        "qsqldatabase": "c",
+        "qsqlerror": "cpp"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }
