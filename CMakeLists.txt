@@ -6,15 +6,18 @@ set(CMAKE_AUTOMOC ON)
 
 find_package(Qt5 REQUIRED COMPONENTS Core Widgets Sql)
 
-# 🔽 ДОБАВЬ ЭТИ СТРОКИ:
 include_directories(src)
 include_directories(src/database)
-include_directories(src/database/models)
+include_directories(src/core)
+include_directories(src/gui)
+include_directories(src/gui/AuthWindow)
+include_directories(src/gui/MainWindow)
 
-# Файлы проекта
 set(SOURCE_FILES
     src/main.cpp
     src/database/DatabaseManager.cpp
+    src/gui/AuthWindow/AuthWindow.cpp
+    src/gui/MainWindow/MainWindow.cpp
 )
 
 add_executable(SoundSpace ${SOURCE_FILES})
