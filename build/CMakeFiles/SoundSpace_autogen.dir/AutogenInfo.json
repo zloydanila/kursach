@@ -74,7 +74,12 @@
 		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Widgets/Qt5WidgetsMacros.cmake",
 		"/usr/share/cmake-3.28/Modules/CMakeParseArguments.cmake",
 		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Sql/Qt5SqlConfigVersion.cmake",
-		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Sql/Qt5SqlConfig.cmake"
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Sql/Qt5SqlConfig.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Network/Qt5NetworkConfigVersion.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Network/Qt5NetworkConfig.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Network/Qt5Network_QConnmanEnginePlugin.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Network/Qt5Network_QGenericEnginePlugin.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Network/Qt5Network_QNetworkManagerEnginePlugin.cmake"
 	],
 	"CMAKE_SOURCE_DIR" : "/home/ionin/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/kursach",
 	"DEP_FILE" : "/home/ionin/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/kursach/build/SoundSpace_autogen/deps",
@@ -85,6 +90,12 @@
 			"/home/ionin/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/kursach/src/database/DatabaseManager.h",
 			"Mu",
 			"M7KQ2GL7XF/moc_DatabaseManager.cpp",
+			null
+		],
+		[
+			"/home/ionin/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/kursach/src/database/api/MusicAPIManager.h",
+			"Mu",
+			"OMUT2NUK4C/moc_MusicAPIManager.cpp",
 			null
 		],
 		[
@@ -107,7 +118,7 @@
 	[
 		"QT_CORE_LIB",
 		"QT_GUI_LIB",
-		"QT_NO_DEBUG",
+		"QT_NETWORK_LIB",
 		"QT_SQL_LIB",
 		"QT_WIDGETS_LIB"
 	],
@@ -126,12 +137,14 @@
 		"/home/ionin/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/kursach/src/gui",
 		"/home/ionin/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/kursach/src/gui/AuthWindow",
 		"/home/ionin/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/kursach/src/gui/MainWindow",
+		"/home/ionin/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/kursach/src/api",
 		"/usr/include/x86_64-linux-gnu/qt5",
 		"/usr/include/x86_64-linux-gnu/qt5/QtCore",
 		"/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++",
 		"/usr/include/x86_64-linux-gnu/qt5/QtWidgets",
 		"/usr/include/x86_64-linux-gnu/qt5/QtGui",
 		"/usr/include/x86_64-linux-gnu/qt5/QtSql",
+		"/usr/include/x86_64-linux-gnu/qt5/QtNetwork",
 		"/usr/include/c++/13",
 		"/usr/include/x86_64-linux-gnu/c++/13",
 		"/usr/include/c++/13/backward",
@@ -145,7 +158,7 @@
 	"MOC_PATH_PREFIX" : false,
 	"MOC_PREDEFS_CMD" : 
 	[
-		"/usr/bin/c++",
+		"/usr/bin/g++",
 		"-std=gnu++11",
 		"-dM",
 		"-E",
@@ -167,6 +180,11 @@
 	[
 		[
 			"/home/ionin/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/kursach/src/database/DatabaseManager.cpp",
+			"Mu",
+			null
+		],
+		[
+			"/home/ionin/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/kursach/src/database/api/MusicAPIManager.cpp",
 			"Mu",
 			null
 		],

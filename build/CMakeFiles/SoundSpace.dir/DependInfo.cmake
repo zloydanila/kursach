@@ -11,6 +11,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "" "SoundSpace_autogen/timestamp" "custom" "SoundSpace_autogen/deps"
   "/home/ionin/Рабочий стол/kursach/build/SoundSpace_autogen/mocs_compilation.cpp" "CMakeFiles/SoundSpace.dir/SoundSpace_autogen/mocs_compilation.cpp.o" "gcc" "CMakeFiles/SoundSpace.dir/SoundSpace_autogen/mocs_compilation.cpp.o.d"
   "/home/ionin/Рабочий стол/kursach/src/database/DatabaseManager.cpp" "CMakeFiles/SoundSpace.dir/src/database/DatabaseManager.cpp.o" "gcc" "CMakeFiles/SoundSpace.dir/src/database/DatabaseManager.cpp.o.d"
+  "/home/ionin/Рабочий стол/kursach/src/database/api/MusicAPIManager.cpp" "CMakeFiles/SoundSpace.dir/src/database/api/MusicAPIManager.cpp.o" "gcc" "CMakeFiles/SoundSpace.dir/src/database/api/MusicAPIManager.cpp.o.d"
   "/home/ionin/Рабочий стол/kursach/src/gui/AuthWindow/AuthWindow.cpp" "CMakeFiles/SoundSpace.dir/src/gui/AuthWindow/AuthWindow.cpp.o" "gcc" "CMakeFiles/SoundSpace.dir/src/gui/AuthWindow/AuthWindow.cpp.o.d"
   "/home/ionin/Рабочий стол/kursach/src/gui/MainWindow/MainWindow.cpp" "CMakeFiles/SoundSpace.dir/src/gui/MainWindow/MainWindow.cpp.o" "gcc" "CMakeFiles/SoundSpace.dir/src/gui/MainWindow/MainWindow.cpp.o.d"
   "/home/ionin/Рабочий стол/kursach/src/main.cpp" "CMakeFiles/SoundSpace.dir/src/main.cpp.o" "gcc" "CMakeFiles/SoundSpace.dir/src/main.cpp.o.d"

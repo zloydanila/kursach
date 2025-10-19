@@ -203,6 +203,30 @@ src/database/DatabaseManager.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/SoundSpace.dir/build.make CMakeFiles/SoundSpace.dir/src/database/DatabaseManager.cpp.s
 .PHONY : src/database/DatabaseManager.cpp.s
 
+src/database/api/MusicAPIManager.o: src/database/api/MusicAPIManager.cpp.o
+.PHONY : src/database/api/MusicAPIManager.o
+
+# target to build an object file
+src/database/api/MusicAPIManager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SoundSpace.dir/build.make CMakeFiles/SoundSpace.dir/src/database/api/MusicAPIManager.cpp.o
+.PHONY : src/database/api/MusicAPIManager.cpp.o
+
+src/database/api/MusicAPIManager.i: src/database/api/MusicAPIManager.cpp.i
+.PHONY : src/database/api/MusicAPIManager.i
+
+# target to preprocess a source file
+src/database/api/MusicAPIManager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SoundSpace.dir/build.make CMakeFiles/SoundSpace.dir/src/database/api/MusicAPIManager.cpp.i
+.PHONY : src/database/api/MusicAPIManager.cpp.i
+
+src/database/api/MusicAPIManager.s: src/database/api/MusicAPIManager.cpp.s
+.PHONY : src/database/api/MusicAPIManager.s
+
+# target to generate assembly for a file
+src/database/api/MusicAPIManager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SoundSpace.dir/build.make CMakeFiles/SoundSpace.dir/src/database/api/MusicAPIManager.cpp.s
+.PHONY : src/database/api/MusicAPIManager.cpp.s
+
 src/gui/AuthWindow/AuthWindow.o: src/gui/AuthWindow/AuthWindow.cpp.o
 .PHONY : src/gui/AuthWindow/AuthWindow.o
 
@@ -292,6 +316,9 @@ help:
 	@echo "... src/database/DatabaseManager.o"
 	@echo "... src/database/DatabaseManager.i"
 	@echo "... src/database/DatabaseManager.s"
+	@echo "... src/database/api/MusicAPIManager.o"
+	@echo "... src/database/api/MusicAPIManager.i"
+	@echo "... src/database/api/MusicAPIManager.s"
 	@echo "... src/gui/AuthWindow/AuthWindow.o"
 	@echo "... src/gui/AuthWindow/AuthWindow.i"
 	@echo "... src/gui/AuthWindow/AuthWindow.s"

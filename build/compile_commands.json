@@ -1,0 +1,38 @@
+[
+{
+  "directory": "/home/ionin/Рабочий стол/kursach/build",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -I\"/home/ionin/Рабочий стол/kursach/build/SoundSpace_autogen/include\" -I\"/home/ionin/Рабочий стол/kursach/src\" -I\"/home/ionin/Рабочий стол/kursach/src/database\" -I\"/home/ionin/Рабочий стол/kursach/src/core\" -I\"/home/ionin/Рабочий стол/kursach/src/gui\" -I\"/home/ionin/Рабочий стол/kursach/src/gui/AuthWindow\" -I\"/home/ionin/Рабочий стол/kursach/src/gui/MainWindow\" -I\"/home/ionin/Рабочий стол/kursach/src/api\" -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -isystem /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtSql -isystem /usr/include/x86_64-linux-gnu/qt5/QtNetwork -g -std=gnu++11 -fPIC -o CMakeFiles/SoundSpace.dir/SoundSpace_autogen/mocs_compilation.cpp.o -c \"/home/ionin/Рабочий стол/kursach/build/SoundSpace_autogen/mocs_compilation.cpp\"",
+  "file": "/home/ionin/Рабочий стол/kursach/build/SoundSpace_autogen/mocs_compilation.cpp",
+  "output": "CMakeFiles/SoundSpace.dir/SoundSpace_autogen/mocs_compilation.cpp.o"
+},
+{
+  "directory": "/home/ionin/Рабочий стол/kursach/build",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -I\"/home/ionin/Рабочий стол/kursach/build/SoundSpace_autogen/include\" -I\"/home/ionin/Рабочий стол/kursach/src\" -I\"/home/ionin/Рабочий стол/kursach/src/database\" -I\"/home/ionin/Рабочий стол/kursach/src/core\" -I\"/home/ionin/Рабочий стол/kursach/src/gui\" -I\"/home/ionin/Рабочий стол/kursach/src/gui/AuthWindow\" -I\"/home/ionin/Рабочий стол/kursach/src/gui/MainWindow\" -I\"/home/ionin/Рабочий стол/kursach/src/api\" -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -isystem /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtSql -isystem /usr/include/x86_64-linux-gnu/qt5/QtNetwork -g -std=gnu++11 -fPIC -o CMakeFiles/SoundSpace.dir/src/main.cpp.o -c \"/home/ionin/Рабочий стол/kursach/src/main.cpp\"",
+  "file": "/home/ionin/Рабочий стол/kursach/src/main.cpp",
+  "output": "CMakeFiles/SoundSpace.dir/src/main.cpp.o"
+},
+{
+  "directory": "/home/ionin/Рабочий стол/kursach/build",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -I\"/home/ionin/Рабочий стол/kursach/build/SoundSpace_autogen/include\" -I\"/home/ionin/Рабочий стол/kursach/src\" -I\"/home/ionin/Рабочий стол/kursach/src/database\" -I\"/home/ionin/Рабочий стол/kursach/src/core\" -I\"/home/ionin/Рабочий стол/kursach/src/gui\" -I\"/home/ionin/Рабочий стол/kursach/src/gui/AuthWindow\" -I\"/home/ionin/Рабочий стол/kursach/src/gui/MainWindow\" -I\"/home/ionin/Рабочий стол/kursach/src/api\" -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -isystem /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtSql -isystem /usr/include/x86_64-linux-gnu/qt5/QtNetwork -g -std=gnu++11 -fPIC -o CMakeFiles/SoundSpace.dir/src/database/DatabaseManager.cpp.o -c \"/home/ionin/Рабочий стол/kursach/src/database/DatabaseManager.cpp\"",
+  "file": "/home/ionin/Рабочий стол/kursach/src/database/DatabaseManager.cpp",
+  "output": "CMakeFiles/SoundSpace.dir/src/database/DatabaseManager.cpp.o"
+},
+{
+  "directory": "/home/ionin/Рабочий стол/kursach/build",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -I\"/home/ionin/Рабочий стол/kursach/build/SoundSpace_autogen/include\" -I\"/home/ionin/Рабочий стол/kursach/src\" -I\"/home/ionin/Рабочий стол/kursach/src/database\" -I\"/home/ionin/Рабочий стол/kursach/src/core\" -I\"/home/ionin/Рабочий стол/kursach/src/gui\" -I\"/home/ionin/Рабочий стол/kursach/src/gui/AuthWindow\" -I\"/home/ionin/Рабочий стол/kursach/src/gui/MainWindow\" -I\"/home/ionin/Рабочий стол/kursach/src/api\" -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -isystem /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtSql -isystem /usr/include/x86_64-linux-gnu/qt5/QtNetwork -g -std=gnu++11 -fPIC -o CMakeFiles/SoundSpace.dir/src/gui/AuthWindow/AuthWindow.cpp.o -c \"/home/ionin/Рабочий стол/kursach/src/gui/AuthWindow/AuthWindow.cpp\"",
+  "file": "/home/ionin/Рабочий стол/kursach/src/gui/AuthWindow/AuthWindow.cpp",
+  "output": "CMakeFiles/SoundSpace.dir/src/gui/AuthWindow/AuthWindow.cpp.o"
+},
+{
+  "directory": "/home/ionin/Рабочий стол/kursach/build",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -I\"/home/ionin/Рабочий стол/kursach/build/SoundSpace_autogen/include\" -I\"/home/ionin/Рабочий стол/kursach/src\" -I\"/home/ionin/Рабочий стол/kursach/src/database\" -I\"/home/ionin/Рабочий стол/kursach/src/core\" -I\"/home/ionin/Рабочий стол/kursach/src/gui\" -I\"/home/ionin/Рабочий стол/kursach/src/gui/AuthWindow\" -I\"/home/ionin/Рабочий стол/kursach/src/gui/MainWindow\" -I\"/home/ionin/Рабочий стол/kursach/src/api\" -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -isystem /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtSql -isystem /usr/include/x86_64-linux-gnu/qt5/QtNetwork -g -std=gnu++11 -fPIC -o CMakeFiles/SoundSpace.dir/src/gui/MainWindow/MainWindow.cpp.o -c \"/home/ionin/Рабочий стол/kursach/src/gui/MainWindow/MainWindow.cpp\"",
+  "file": "/home/ionin/Рабочий стол/kursach/src/gui/MainWindow/MainWindow.cpp",
+  "output": "CMakeFiles/SoundSpace.dir/src/gui/MainWindow/MainWindow.cpp.o"
+},
+{
+  "directory": "/home/ionin/Рабочий стол/kursach/build",
+  "command": "/usr/bin/g++ -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NETWORK_LIB -DQT_SQL_LIB -DQT_WIDGETS_LIB -I\"/home/ionin/Рабочий стол/kursach/build/SoundSpace_autogen/include\" -I\"/home/ionin/Рабочий стол/kursach/src\" -I\"/home/ionin/Рабочий стол/kursach/src/database\" -I\"/home/ionin/Рабочий стол/kursach/src/core\" -I\"/home/ionin/Рабочий стол/kursach/src/gui\" -I\"/home/ionin/Рабочий стол/kursach/src/gui/AuthWindow\" -I\"/home/ionin/Рабочий стол/kursach/src/gui/MainWindow\" -I\"/home/ionin/Рабочий стол/kursach/src/api\" -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -isystem /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -isystem /usr/include/x86_64-linux-gnu/qt5/QtWidgets -isystem /usr/include/x86_64-linux-gnu/qt5/QtGui -isystem /usr/include/x86_64-linux-gnu/qt5/QtSql -isystem /usr/include/x86_64-linux-gnu/qt5/QtNetwork -g -std=gnu++11 -fPIC -o CMakeFiles/SoundSpace.dir/src/database/api/MusicAPIManager.cpp.o -c \"/home/ionin/Рабочий стол/kursach/src/database/api/MusicAPIManager.cpp\"",
+  "file": "/home/ionin/Рабочий стол/kursach/src/database/api/MusicAPIManager.cpp",
+  "output": "CMakeFiles/SoundSpace.dir/src/database/api/MusicAPIManager.cpp.o"
+}
+]
