@@ -3,6 +3,7 @@
 
 #include "gui/AuthWindow/AuthWindow.h"
 #include "database/DatabaseManager.h"
+#include "api/MusicAPIManager.h"
 
 int main(int argc, char *argv[])
 {
@@ -19,27 +20,16 @@ int main(int argc, char *argv[])
     }
     qDebug() << "✅ Database initialized successfully!";
     
-    // 🔽 ТЕСТИРОВАНИЕ БД (РАСКОММЕНТИРУЙ ЕСЛИ НУЖНО)
-    /*
-    qDebug() << "\n👤 Testing user registration...";
-    DatabaseManager::instance().registerUser("admin", "admin123");
-    DatabaseManager::instance().registerUser("alice", "alice2024");
-    DatabaseManager::instance().registerUser("bob", "bobpassword");
-    DatabaseManager::instance().registerUser("Stavr", "Dskalsjsjjs");
-    
-    qDebug() << "\n🔐 Testing authentication...";
-    if (DatabaseManager::instance().authenticateUser("admin", "admin123")) {
-        qDebug() << "✅ Admin authentication: SUCCESS";
-    } else {
-        qDebug() << "❌ Admin authentication: FAILED";
-    }
-    */
+    // Создание менеджера API
+    qDebug() << "🔧 Initializing Last.fm API...";
+    MusicAPIManager *apiManager = new MusicAPIManager();
+    qDebug() << "✅ Last.fm API initialized!";
     
     // Создание и отображение окна авторизации
     AuthWindow authWindow;
     authWindow.show();
     
     qDebug() << "🚀 Application started successfully!";
-    
+
     return app.exec();
 }

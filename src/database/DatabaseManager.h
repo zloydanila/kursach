@@ -40,6 +40,9 @@ public:
     bool addTrackToPlaylist(int playlistId, int trackId, int position = -1);
     QList<Playlist> getUserPlaylists(int userId);
     QList<Track> getPlaylistTracks(int playlistId);
+    bool addTrackFromAPI(int userId, const QString& title, const QString& artist, 
+                        const QString& album = "", int duration = 0, 
+                        const QString& genre = "", const QString& coverUrl = "");
 
 private:
 
@@ -57,6 +60,7 @@ private:
     bool createPlaylistsTable();
     bool createPlaylistTracksTable();
     bool createFriendsTable();
+
 };
 
 #endif 

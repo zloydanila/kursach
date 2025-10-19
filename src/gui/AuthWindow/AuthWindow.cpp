@@ -400,7 +400,21 @@ void AuthWindow::onLoginClicked()
 
 void AuthWindow::showMainWindow(const QString& username)
 {
-    MainWindow *mainWindow = new MainWindow(username);
+    // Получаем ID пользователя из БД
+    int userId = DatabaseManager::instance().getUserId(username);
+    
+    if (userId == -1) {
+        qDebug() << "❌ Ошибка: не удалось получить ID пользователя" << username;
+        QMessageBox::warning(this, "Ошибка", "Не удалось получить данные пользователя");
+        return;
+    }
+    
+    qDebug() << "✅ Открываем главное окно для пользователя:" << username << "(ID:" << userId << ")";
+    
+    // Создаем главное окно
+    MainWindow *mainWindow = new MainWindow(username, userId);
     mainWindow->show();
-    this->hide();
+    
+    // Закрываем окно авторизации
+    this->close();
 }

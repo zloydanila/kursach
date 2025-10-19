@@ -473,3 +473,40 @@ int DatabaseManager::getUserId(const QString& username) {
     
     return query.value("id").toInt();
 }
+
+bool DatabaseManager::addTrackFromAPI(int userId, const QString& title, const QString& artist, 
+                                     const QString& album, int duration, 
+                                     const QString& genre, const QString& coverUrl) 
+{
+    QString uniqueData = QString("%1|%2|%3").arg(artist).arg(title).arg(album);
+    QString fileHash = hashPassword(uniqueData);
+
+    if (!addTrackMetadata(fileHash, title, artist, album, duration, genre, 0, 0, 0)) {
+        qDebug() << "Ошибка добавления метаданных API трека";
+        return false;
+    }
+    
+    QString virtualPath = QString("lastfm://%1/%2").arg(artist).arg(title);
+    
+    QSqlQuery query;
+    query.prepare(
+        "INSERT INTO tracks (file_path, file_hash, user_id, title, artist, album, duration) "
+        "VALUES (?, ?, ?, ?, ?, ?, ?)"
+    );
+    
+    query.addBindValue(virtualPath);
+    query.addBindValue(fileHash);
+    query.addBindValue(userId);
+    query.addBindValue(title);
+    query.addBindValue(artist);
+    query.addBindValue(album);
+    query.addBindValue(duration);
+    
+    if (!query.exec()) {
+        qDebug() << "Ошибка добавления API трека пользователю:" << query.lastError().text();
+        return false;
+    }
+    
+    qDebug() << "✅ API трек добавлен:" << title << "-" << artist;
+    return true;
+}
