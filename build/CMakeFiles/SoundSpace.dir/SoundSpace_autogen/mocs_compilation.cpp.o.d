@@ -1,7 +1,7 @@
 CMakeFiles/SoundSpace.dir/SoundSpace_autogen/mocs_compilation.cpp.o: \
  /home/ionin/Рабочий\ стол/kursach/build/SoundSpace_autogen/mocs_compilation.cpp \
  /usr/include/stdc-predef.h \
- /home/ionin/Рабочий\ стол/kursach/build/SoundSpace_autogen/OMUT2NUK4C/moc_MusicAPIManager.cpp \
+ /home/ionin/Рабочий\ стол/kursach/build/SoundSpace_autogen/IWZHHUTWVH/moc_AudioPlayer.cpp \
  /usr/include/c++/13/memory /usr/include/c++/13/bits/memoryfwd.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/13/bits/os_defines.h \
@@ -113,7 +113,7 @@ CMakeFiles/SoundSpace.dir/SoundSpace_autogen/mocs_compilation.cpp.o: \
  /usr/include/c++/13/bits/atomic_base.h \
  /usr/include/c++/13/bits/atomic_lockfree_defines.h \
  /usr/include/c++/13/backward/auto_ptr.h \
- /home/ionin/Рабочий\ стол/kursach/build/SoundSpace_autogen/OMUT2NUK4C/../../../src/database/api/MusicAPIManager.h \
+ /home/ionin/Рабочий\ стол/kursach/build/SoundSpace_autogen/IWZHHUTWVH/../../../src/database/api/AudioPlayer/AudioPlayer.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/QObject \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qobject.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qobjectdefs.h \
@@ -232,40 +232,61 @@ CMakeFiles/SoundSpace.dir/SoundSpace_autogen/mocs_compilation.cpp.o: \
  /usr/include/c++/13/ratio /usr/include/c++/13/cstdint \
  /usr/include/c++/13/limits /usr/include/c++/13/ctime \
  /usr/include/c++/13/bits/parse_numbers.h \
- /usr/include/x86_64-linux-gnu/qt5/QtNetwork/QNetworkAccessManager \
- /usr/include/x86_64-linux-gnu/qt5/QtNetwork/qnetworkaccessmanager.h \
- /usr/include/x86_64-linux-gnu/qt5/QtNetwork/qtnetworkglobal.h \
- /usr/include/x86_64-linux-gnu/qt5/QtNetwork/qtnetwork-config.h \
- /usr/include/x86_64-linux-gnu/qt5/QtNetwork/qnetworkrequest.h \
- /usr/include/x86_64-linux-gnu/qt5/QtCore/QSharedDataPointer \
+ /usr/include/x86_64-linux-gnu/qt5/QtMultimedia/QMediaPlayer \
+ /usr/include/x86_64-linux-gnu/qt5/QtMultimedia/qmediaplayer.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtMultimedia/qtmultimediaglobal.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qtguiglobal.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtGui/qtgui-config.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtMultimedia/qtmultimedia-config.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtMultimedia/qmediaobject.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qobject.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtMultimedia/qmultimedia.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtMultimedia/qmediacontent.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qshareddata.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qhash.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtMultimedia/qmediaresource.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qmap.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtNetwork/qnetworkrequest.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtNetwork/qtnetworkglobal.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtNetwork/qtnetwork-config.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/QSharedDataPointer \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qshareddata.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/QString \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qstring.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/QUrl \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qurl.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/QVariant \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qvariant.h \
- /usr/include/x86_64-linux-gnu/qt5/QtCore/qmap.h \
- /usr/include/x86_64-linux-gnu/qt5/QtCore/qobject.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtMultimedia/qmediaenumdebug.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qmetaobject.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qvariant.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qtextstream.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qiodevice.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qlocale.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qset.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontiguouscache.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qsharedpointer.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/qsharedpointer_impl.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtMultimedia/qaudio.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtNetwork/qnetworkconfiguration.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtMultimedia/QAudioOutput \
+ /usr/include/x86_64-linux-gnu/qt5/QtMultimedia/qaudiooutput.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtMultimedia/qaudioformat.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtMultimedia/qaudiodeviceinfo.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtCore/QUrl \
+ /home/ionin/Рабочий\ стол/kursach/build/SoundSpace_autogen/OMUT2NUK4C/moc_MusicAPIManager.cpp \
+ /home/ionin/Рабочий\ стол/kursach/build/SoundSpace_autogen/OMUT2NUK4C/../../../src/database/api/MusicAPIManager.h \
+ /usr/include/x86_64-linux-gnu/qt5/QtNetwork/QNetworkAccessManager \
+ /usr/include/x86_64-linux-gnu/qt5/QtNetwork/qnetworkaccessmanager.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/QVector \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qvector.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/QObject \
  /usr/include/x86_64-linux-gnu/qt5/QtNetwork/QSslConfiguration \
  /usr/include/x86_64-linux-gnu/qt5/QtNetwork/qsslconfiguration.h \
- /usr/include/x86_64-linux-gnu/qt5/QtCore/qshareddata.h \
  /usr/include/x86_64-linux-gnu/qt5/QtNetwork/qsslsocket.h \
  /usr/include/x86_64-linux-gnu/qt5/QtNetwork/qtcpsocket.h \
  /usr/include/x86_64-linux-gnu/qt5/QtNetwork/qabstractsocket.h \
- /usr/include/x86_64-linux-gnu/qt5/QtCore/qiodevice.h \
- /usr/include/x86_64-linux-gnu/qt5/QtCore/qdebug.h \
- /usr/include/x86_64-linux-gnu/qt5/QtCore/qtextstream.h \
- /usr/include/x86_64-linux-gnu/qt5/QtCore/qlocale.h \
- /usr/include/x86_64-linux-gnu/qt5/QtCore/qvariant.h \
- /usr/include/x86_64-linux-gnu/qt5/QtCore/qset.h \
- /usr/include/x86_64-linux-gnu/qt5/QtCore/qcontiguouscache.h \
- /usr/include/x86_64-linux-gnu/qt5/QtCore/qsharedpointer.h \
- /usr/include/x86_64-linux-gnu/qt5/QtCore/qsharedpointer_impl.h \
  /usr/include/x86_64-linux-gnu/qt5/QtNetwork/qsslerror.h \
  /usr/include/x86_64-linux-gnu/qt5/QtNetwork/qsslcertificate.h \
  /usr/include/x86_64-linux-gnu/qt5/QtCore/qcryptographichash.h \
@@ -304,8 +325,6 @@ CMakeFiles/SoundSpace.dir/SoundSpace_autogen/mocs_compilation.cpp.o: \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/QMainWindow \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qmainwindow.h \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qtwidgetsglobal.h \
- /usr/include/x86_64-linux-gnu/qt5/QtGui/qtguiglobal.h \
- /usr/include/x86_64-linux-gnu/qt5/QtGui/qtgui-config.h \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qtwidgets-config.h \
  /usr/include/x86_64-linux-gnu/qt5/QtWidgets/qwidget.h \
  /usr/include/x86_64-linux-gnu/qt5/QtGui/qwindowdefs.h \

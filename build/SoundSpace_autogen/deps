@@ -6,6 +6,8 @@ SoundSpace_autogen/timestamp: \
 	/home/ionin/Рабочий\ стол/kursach/build/SoundSpace_autogen/moc_predefs.h \
 	/home/ionin/Рабочий\ стол/kursach/src/database/DatabaseManager.cpp \
 	/home/ionin/Рабочий\ стол/kursach/src/database/DatabaseManager.h \
+	/home/ionin/Рабочий\ стол/kursach/src/database/api/AudioPlayer/AudioPlayer.cpp \
+	/home/ionin/Рабочий\ стол/kursach/src/database/api/AudioPlayer/AudioPlayer.h \
 	/home/ionin/Рабочий\ стол/kursach/src/database/api/MusicAPIManager.cpp \
 	/home/ionin/Рабочий\ стол/kursach/src/database/api/MusicAPIManager.h \
 	/home/ionin/Рабочий\ стол/kursach/src/gui/AuthWindow/AuthWindow.cpp \
@@ -316,6 +318,7 @@ SoundSpace_autogen/timestamp: \
 	/usr/include/x86_64-linux-gnu/qt5/QtCore/qlogging.h \
 	/usr/include/x86_64-linux-gnu/qt5/QtCore/qmap.h \
 	/usr/include/x86_64-linux-gnu/qt5/QtCore/qmargins.h \
+	/usr/include/x86_64-linux-gnu/qt5/QtCore/qmetaobject.h \
 	/usr/include/x86_64-linux-gnu/qt5/QtCore/qmetatype.h \
 	/usr/include/x86_64-linux-gnu/qt5/QtCore/qnamespace.h \
 	/usr/include/x86_64-linux-gnu/qt5/QtCore/qnumeric.h \
@@ -387,6 +390,20 @@ SoundSpace_autogen/timestamp: \
 	/usr/include/x86_64-linux-gnu/qt5/QtGui/qtransform.h \
 	/usr/include/x86_64-linux-gnu/qt5/QtGui/qvalidator.h \
 	/usr/include/x86_64-linux-gnu/qt5/QtGui/qwindowdefs.h \
+	/usr/include/x86_64-linux-gnu/qt5/QtMultimedia/QAudioOutput \
+	/usr/include/x86_64-linux-gnu/qt5/QtMultimedia/QMediaPlayer \
+	/usr/include/x86_64-linux-gnu/qt5/QtMultimedia/qaudio.h \
+	/usr/include/x86_64-linux-gnu/qt5/QtMultimedia/qaudiodeviceinfo.h \
+	/usr/include/x86_64-linux-gnu/qt5/QtMultimedia/qaudioformat.h \
+	/usr/include/x86_64-linux-gnu/qt5/QtMultimedia/qaudiooutput.h \
+	/usr/include/x86_64-linux-gnu/qt5/QtMultimedia/qmediacontent.h \
+	/usr/include/x86_64-linux-gnu/qt5/QtMultimedia/qmediaenumdebug.h \
+	/usr/include/x86_64-linux-gnu/qt5/QtMultimedia/qmediaobject.h \
+	/usr/include/x86_64-linux-gnu/qt5/QtMultimedia/qmediaplayer.h \
+	/usr/include/x86_64-linux-gnu/qt5/QtMultimedia/qmediaresource.h \
+	/usr/include/x86_64-linux-gnu/qt5/QtMultimedia/qmultimedia.h \
+	/usr/include/x86_64-linux-gnu/qt5/QtMultimedia/qtmultimedia-config.h \
+	/usr/include/x86_64-linux-gnu/qt5/QtMultimedia/qtmultimediaglobal.h \
 	/usr/include/x86_64-linux-gnu/qt5/QtNetwork/QNetworkAccessManager \
 	/usr/include/x86_64-linux-gnu/qt5/QtNetwork/QNetworkReply \
 	/usr/include/x86_64-linux-gnu/qt5/QtNetwork/QNetworkRequest \
@@ -394,6 +411,7 @@ SoundSpace_autogen/timestamp: \
 	/usr/include/x86_64-linux-gnu/qt5/QtNetwork/QSslPreSharedKeyAuthenticator \
 	/usr/include/x86_64-linux-gnu/qt5/QtNetwork/qabstractsocket.h \
 	/usr/include/x86_64-linux-gnu/qt5/QtNetwork/qnetworkaccessmanager.h \
+	/usr/include/x86_64-linux-gnu/qt5/QtNetwork/qnetworkconfiguration.h \
 	/usr/include/x86_64-linux-gnu/qt5/QtNetwork/qnetworkreply.h \
 	/usr/include/x86_64-linux-gnu/qt5/QtNetwork/qnetworkrequest.h \
 	/usr/include/x86_64-linux-gnu/qt5/QtNetwork/qssl.h \
@@ -491,6 +509,8 @@ SoundSpace_autogen/timestamp: \
 	/usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QXcbEglIntegrationPlugin.cmake \
 	/usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QXcbGlxIntegrationPlugin.cmake \
 	/usr/lib/x86_64-linux-gnu/cmake/Qt5Gui/Qt5Gui_QXcbIntegrationPlugin.cmake \
+	/usr/lib/x86_64-linux-gnu/cmake/Qt5Multimedia/Qt5MultimediaConfig.cmake \
+	/usr/lib/x86_64-linux-gnu/cmake/Qt5Multimedia/Qt5MultimediaConfigVersion.cmake \
 	/usr/lib/x86_64-linux-gnu/cmake/Qt5Network/Qt5NetworkConfig.cmake \
 	/usr/lib/x86_64-linux-gnu/cmake/Qt5Network/Qt5NetworkConfigVersion.cmake \
 	/usr/lib/x86_64-linux-gnu/cmake/Qt5Network/Qt5Network_QConnmanEnginePlugin.cmake \

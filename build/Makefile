@@ -203,6 +203,30 @@ src/database/DatabaseManager.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/SoundSpace.dir/build.make CMakeFiles/SoundSpace.dir/src/database/DatabaseManager.cpp.s
 .PHONY : src/database/DatabaseManager.cpp.s
 
+src/database/api/AudioPlayer/AudioPlayer.o: src/database/api/AudioPlayer/AudioPlayer.cpp.o
+.PHONY : src/database/api/AudioPlayer/AudioPlayer.o
+
+# target to build an object file
+src/database/api/AudioPlayer/AudioPlayer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SoundSpace.dir/build.make CMakeFiles/SoundSpace.dir/src/database/api/AudioPlayer/AudioPlayer.cpp.o
+.PHONY : src/database/api/AudioPlayer/AudioPlayer.cpp.o
+
+src/database/api/AudioPlayer/AudioPlayer.i: src/database/api/AudioPlayer/AudioPlayer.cpp.i
+.PHONY : src/database/api/AudioPlayer/AudioPlayer.i
+
+# target to preprocess a source file
+src/database/api/AudioPlayer/AudioPlayer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SoundSpace.dir/build.make CMakeFiles/SoundSpace.dir/src/database/api/AudioPlayer/AudioPlayer.cpp.i
+.PHONY : src/database/api/AudioPlayer/AudioPlayer.cpp.i
+
+src/database/api/AudioPlayer/AudioPlayer.s: src/database/api/AudioPlayer/AudioPlayer.cpp.s
+.PHONY : src/database/api/AudioPlayer/AudioPlayer.s
+
+# target to generate assembly for a file
+src/database/api/AudioPlayer/AudioPlayer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SoundSpace.dir/build.make CMakeFiles/SoundSpace.dir/src/database/api/AudioPlayer/AudioPlayer.cpp.s
+.PHONY : src/database/api/AudioPlayer/AudioPlayer.cpp.s
+
 src/database/api/MusicAPIManager.o: src/database/api/MusicAPIManager.cpp.o
 .PHONY : src/database/api/MusicAPIManager.o
 
@@ -316,6 +340,9 @@ help:
 	@echo "... src/database/DatabaseManager.o"
 	@echo "... src/database/DatabaseManager.i"
 	@echo "... src/database/DatabaseManager.s"
+	@echo "... src/database/api/AudioPlayer/AudioPlayer.o"
+	@echo "... src/database/api/AudioPlayer/AudioPlayer.i"
+	@echo "... src/database/api/AudioPlayer/AudioPlayer.s"
 	@echo "... src/database/api/MusicAPIManager.o"
 	@echo "... src/database/api/MusicAPIManager.i"
 	@echo "... src/database/api/MusicAPIManager.s"

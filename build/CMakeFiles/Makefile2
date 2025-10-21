@@ -84,12 +84,12 @@ CMakeFiles/SoundSpace.dir/all: CMakeFiles/SoundSpace_autogen_timestamp_deps.dir/
 CMakeFiles/SoundSpace.dir/all: CMakeFiles/SoundSpace_autogen.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/SoundSpace.dir/build.make CMakeFiles/SoundSpace.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/SoundSpace.dir/build.make CMakeFiles/SoundSpace.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir="/home/ionin/Рабочий стол/kursach/build/CMakeFiles" --progress-num=1,2,3,4,5,6,7,8 "Built target SoundSpace"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir="/home/ionin/Рабочий стол/kursach/build/CMakeFiles" --progress-num=1,2,3,4,5,6,7,8,9 "Built target SoundSpace"
 .PHONY : CMakeFiles/SoundSpace.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/SoundSpace.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/ionin/Рабочий стол/kursach/build/CMakeFiles" 9
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/ionin/Рабочий стол/kursach/build/CMakeFiles" 10
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/SoundSpace.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/ionin/Рабочий стол/kursach/build/CMakeFiles" 0
 .PHONY : CMakeFiles/SoundSpace.dir/rule
@@ -136,7 +136,7 @@ CMakeFiles/SoundSpace_autogen_timestamp_deps.dir/clean:
 CMakeFiles/SoundSpace_autogen.dir/all: CMakeFiles/SoundSpace_autogen_timestamp_deps.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/SoundSpace_autogen.dir/build.make CMakeFiles/SoundSpace_autogen.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/SoundSpace_autogen.dir/build.make CMakeFiles/SoundSpace_autogen.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir="/home/ionin/Рабочий стол/kursach/build/CMakeFiles" --progress-num=9 "Built target SoundSpace_autogen"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir="/home/ionin/Рабочий стол/kursach/build/CMakeFiles" --progress-num=10 "Built target SoundSpace_autogen"
 .PHONY : CMakeFiles/SoundSpace_autogen.dir/all
 
 # Build rule for subdir invocation for target.

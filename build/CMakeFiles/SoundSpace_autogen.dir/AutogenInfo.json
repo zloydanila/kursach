@@ -79,7 +79,20 @@
 		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Network/Qt5NetworkConfig.cmake",
 		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Network/Qt5Network_QConnmanEnginePlugin.cmake",
 		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Network/Qt5Network_QGenericEnginePlugin.cmake",
-		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Network/Qt5Network_QNetworkManagerEnginePlugin.cmake"
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Network/Qt5Network_QNetworkManagerEnginePlugin.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5/Qt5ConfigVersion.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5/Qt5Config.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5/Qt5ModuleLocation.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Core/Qt5CoreConfigVersion.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Core/Qt5CoreConfig.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Widgets/Qt5WidgetsConfigVersion.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Widgets/Qt5WidgetsConfig.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Sql/Qt5SqlConfigVersion.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Sql/Qt5SqlConfig.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Network/Qt5NetworkConfigVersion.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Network/Qt5NetworkConfig.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Multimedia/Qt5MultimediaConfigVersion.cmake",
+		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Multimedia/Qt5MultimediaConfig.cmake"
 	],
 	"CMAKE_SOURCE_DIR" : "/home/ionin/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/kursach",
 	"DEP_FILE" : "/home/ionin/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/kursach/build/SoundSpace_autogen/deps",
@@ -90,6 +103,12 @@
 			"/home/ionin/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/kursach/src/database/DatabaseManager.h",
 			"Mu",
 			"M7KQ2GL7XF/moc_DatabaseManager.cpp",
+			null
+		],
+		[
+			"/home/ionin/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/kursach/src/database/api/AudioPlayer/AudioPlayer.h",
+			"Mu",
+			"IWZHHUTWVH/moc_AudioPlayer.cpp",
 			null
 		],
 		[
@@ -118,6 +137,7 @@
 	[
 		"QT_CORE_LIB",
 		"QT_GUI_LIB",
+		"QT_MULTIMEDIA_LIB",
 		"QT_NETWORK_LIB",
 		"QT_SQL_LIB",
 		"QT_WIDGETS_LIB"
@@ -145,6 +165,7 @@
 		"/usr/include/x86_64-linux-gnu/qt5/QtGui",
 		"/usr/include/x86_64-linux-gnu/qt5/QtSql",
 		"/usr/include/x86_64-linux-gnu/qt5/QtNetwork",
+		"/usr/include/x86_64-linux-gnu/qt5/QtMultimedia",
 		"/usr/include/c++/13",
 		"/usr/include/x86_64-linux-gnu/c++/13",
 		"/usr/include/c++/13/backward",
@@ -180,6 +201,11 @@
 	[
 		[
 			"/home/ionin/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/kursach/src/database/DatabaseManager.cpp",
+			"Mu",
+			null
+		],
+		[
+			"/home/ionin/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/kursach/src/database/api/AudioPlayer/AudioPlayer.cpp",
 			"Mu",
 			null
 		],
