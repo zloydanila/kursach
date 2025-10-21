@@ -67,10 +67,10 @@ include CMakeFiles/SoundSpace_autogen_timestamp_deps.dir/compiler_depend.make
 include CMakeFiles/SoundSpace_autogen_timestamp_deps.dir/progress.make
 
 CMakeFiles/SoundSpace_autogen_timestamp_deps: /usr/lib/x86_64-linux-gnu/libQt5Core.so.5.15.13
-CMakeFiles/SoundSpace_autogen_timestamp_deps: /usr/lib/qt5/bin/moc
-CMakeFiles/SoundSpace_autogen_timestamp_deps: /usr/lib/x86_64-linux-gnu/libQt5Widgets.so.5.15.13
 CMakeFiles/SoundSpace_autogen_timestamp_deps: /usr/lib/x86_64-linux-gnu/libQt5Network.so.5.15.13
+CMakeFiles/SoundSpace_autogen_timestamp_deps: /usr/lib/qt5/bin/moc
 CMakeFiles/SoundSpace_autogen_timestamp_deps: /usr/lib/x86_64-linux-gnu/libQt5Sql.so.5.15.13
+CMakeFiles/SoundSpace_autogen_timestamp_deps: /usr/lib/x86_64-linux-gnu/libQt5Widgets.so.5.15.13
 
 SoundSpace_autogen_timestamp_deps: CMakeFiles/SoundSpace_autogen_timestamp_deps
 SoundSpace_autogen_timestamp_deps: CMakeFiles/SoundSpace_autogen_timestamp_deps.dir/build.make
