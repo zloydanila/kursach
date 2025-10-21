@@ -4,8 +4,8 @@ project(SoundSpace)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_AUTOMOC ON)
 
-# ДОБАВЬ Qt5::Network для работы с API
 find_package(Qt5 REQUIRED COMPONENTS Core Widgets Sql Network)
+find_package(Qt5 REQUIRED COMPONENTS Core Widgets Sql Network Multimedia)
 
 include_directories(src)
 include_directories(src/database)
@@ -21,6 +21,7 @@ set(SOURCE_FILES
     src/gui/AuthWindow/AuthWindow.cpp
     src/gui/MainWindow/MainWindow.cpp
     src/database/api/MusicAPIManager.cpp
+    src/database/api/AudioPlayer/AudioPlayer.cpp
 )
 
 add_executable(SoundSpace ${SOURCE_FILES})
@@ -30,4 +31,5 @@ target_link_libraries(SoundSpace
     Qt5::Widgets 
     Qt5::Sql 
     Qt5::Network
+    Qt5::Multimedia
 )

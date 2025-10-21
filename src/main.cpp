@@ -1,35 +1,27 @@
 #include <QApplication>
 #include <QDebug>
+#include <QTimer>
 
 #include "gui/AuthWindow/AuthWindow.h"
 #include "database/DatabaseManager.h"
 #include "api/MusicAPIManager.h"
+#include "api/AudioPlayer/AudioPlayer.h"
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-    
-    qDebug() << "🎵 SoundSpace - Launching Application";
-    qDebug() << "======================================";
-    
-    // Инициализация БД
-    qDebug() << "🔧 Initializing database...";
+    qDebug() << "создание базы данных" ;
     if (!DatabaseManager::instance().initializeDatabase()) {
-        qDebug() << "❌ Failed to initialize database!";
+        qDebug() << "ошибка создания БД";
         return -1;
     }
-    qDebug() << "✅ Database initialized successfully!";
-    
-    // Создание менеджера API
-    qDebug() << "🔧 Initializing Last.fm API...";
+    qDebug() << "БД успешно создана";
+    qDebug() << "подключение к API";
     MusicAPIManager *apiManager = new MusicAPIManager();
-    qDebug() << "✅ Last.fm API initialized!";
+    qDebug() << "API подключено";
     
-    // Создание и отображение окна авторизации
     AuthWindow authWindow;
     authWindow.show();
     
-    qDebug() << "🚀 Application started successfully!";
-
     return app.exec();
 }
