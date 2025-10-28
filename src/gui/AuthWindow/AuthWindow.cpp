@@ -1,5 +1,5 @@
 #include "AuthWindow.h"
-#include "../database/DatabaseManager.h"
+#include "database/DatabaseManager.h"
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QFormLayout>
