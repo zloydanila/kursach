@@ -1,5 +1,5 @@
 #include "MusicAPIManager.h"
-#include "../database/DatabaseManager.h"
+#include "database/DatabaseManager.h"
 #include <QDebug>
 #include <QSslError>
 

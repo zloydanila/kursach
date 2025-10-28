@@ -7,13 +7,12 @@
 #include <QDebug>
 #include <QList>
 
-#include "models/Track.h"
-#include "models/Playlist.h"
+#include "../core/Track.h"
+#include "../core/Playlist.h"
 
 class DatabaseManager
 {
 public:
-
     static DatabaseManager& instance();
     
     bool initializeDatabase();
@@ -24,8 +23,10 @@ public:
     bool authenticateUser(const QString& username, const QString& password);
     bool userExists(const QString& username);
     int getUserId(const QString& username);
-    
 
+    
+    bool deleteTrack(int trackId);  
+    
     bool addTrackMetadata(const QString& fileHash, const QString& title, 
                          const QString& artist, const QString& album, 
                          int duration, const QString& genre = "", int year = 0,
@@ -43,7 +44,6 @@ public:
     bool addTrackFromAPI(int userId, const QString& title, const QString& artist, 
                         const QString& album = "", int duration = 0, 
                         const QString& genre = "", const QString& coverUrl = "");
-
 private:
 
     DatabaseManager() = default;

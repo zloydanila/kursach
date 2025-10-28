@@ -1,9 +1,24 @@
-#include <DatabaseManager.h>
+#include "DatabaseManager.h"
 #include <QCryptographicHash>
 
 DatabaseManager& DatabaseManager::instance(){
     static DatabaseManager instance;
     return instance;
+}
+
+bool DatabaseManager::deleteTrack(int trackId)
+{
+    QSqlQuery query;
+    query.prepare("DELETE FROM tracks WHERE id = ?");  
+    query.addBindValue(trackId);
+    
+    if (query.exec()) {
+        qDebug() << "Трек успешно удален, ID:" << trackId;
+        return true;
+    } else {
+        qDebug() << "Ошибка удаления трека:" << query.lastError().text();
+        return false;
+    }
 }
 
 bool DatabaseManager::initializeDatabase(){
