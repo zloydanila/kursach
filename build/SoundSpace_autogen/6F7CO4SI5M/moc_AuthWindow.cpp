@@ -33,19 +33,18 @@ struct qt_meta_stringdata_AuthWindow_t {
 static const qt_meta_stringdata_AuthWindow_t qt_meta_stringdata_AuthWindow = {
     {
 QT_MOC_LITERAL(0, 0, 10), // "AuthWindow"
-QT_MOC_LITERAL(1, 11, 17), // "onRegisterClicked"
-QT_MOC_LITERAL(2, 29, 0), // ""
-QT_MOC_LITERAL(3, 30, 14), // "onLoginClicked"
-QT_MOC_LITERAL(4, 45, 13), // "switchToLogin"
-QT_MOC_LITERAL(5, 59, 16), // "switchToRegister"
+QT_MOC_LITERAL(1, 11, 13), // "switchToLogin"
+QT_MOC_LITERAL(2, 25, 0), // ""
+QT_MOC_LITERAL(3, 26, 16), // "switchToRegister"
+QT_MOC_LITERAL(4, 43, 17), // "onRegisterClicked"
+QT_MOC_LITERAL(5, 61, 14), // "onLoginClicked"
 QT_MOC_LITERAL(6, 76, 14), // "showMainWindow"
 QT_MOC_LITERAL(7, 91, 8) // "username"
 
     },
-    "AuthWindow\0onRegisterClicked\0\0"
-    "onLoginClicked\0switchToLogin\0"
-    "switchToRegister\0showMainWindow\0"
-    "username"
+    "AuthWindow\0switchToLogin\0\0switchToRegister\0"
+    "onRegisterClicked\0onLoginClicked\0"
+    "showMainWindow\0username"
 };
 #undef QT_MOC_LITERAL
 
@@ -85,10 +84,10 @@ void AuthWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         auto *_t = static_cast<AuthWindow *>(_o);
         (void)_t;
         switch (_id) {
-        case 0: _t->onRegisterClicked(); break;
-        case 1: _t->onLoginClicked(); break;
-        case 2: _t->switchToLogin(); break;
-        case 3: _t->switchToRegister(); break;
+        case 0: _t->switchToLogin(); break;
+        case 1: _t->switchToRegister(); break;
+        case 2: _t->onRegisterClicked(); break;
+        case 3: _t->onLoginClicked(); break;
         case 4: _t->showMainWindow((*reinterpret_cast< const QString(*)>(_a[1]))); break;
         default: ;
         }

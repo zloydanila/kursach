@@ -3,22 +3,28 @@
 #include <QDebug>
 #include <QSslError>
 
+#include "MusicAPIManager.h"
+#include "../database/DatabaseManager.h"
+#include <QDebug>
+#include <QSslError>
+
 MusicAPIManager::MusicAPIManager(QObject *parent) 
     : QObject(parent)
     , m_networkManager(new QNetworkAccessManager(this))
     , m_apiKey("5d63cb6ba6780da3f1306e10539e4b01")  
     , m_baseUrl("https://ws.audioscrobbler.com/2.0/")
+    , m_jamendoClientId("e31f93b6")
+    , m_jamendoBaseUrl("https://api.jamendo.com/v3.0/")
     , m_currentUserId(-1)
 {
     qDebug() << "🎵 MusicAPIManager initialized";
     
-    // Настройки сетевого менеджера
     m_networkManager->setRedirectPolicy(QNetworkRequest::NoLessSafeRedirectPolicy);
     
-    // Подключаем общий обработчик
     connect(m_networkManager, &QNetworkAccessManager::finished,
             this, &MusicAPIManager::handleNetworkResponse);
 }
+
 
 void MusicAPIManager::searchTracks(const QString& query, int userId)
 {
@@ -66,10 +72,60 @@ void MusicAPIManager::getTopTracks(int userId)
     m_networkManager->get(request);
 }
 
+void MusicAPIManager::searchTracksWithAudio(const QString& query, int userId)
+{
+    m_currentUserId = userId;
+    
+    qDebug() << "=== JAMENDO SEARCH START ===";
+    qDebug() << "Query:" << query;
+    
+    // Если Jamendo Client ID не настроен, используем обычный поиск
+    if (m_jamendoClientId.isEmpty() || m_jamendoClientId == "YOUR_JAMENDO_CLIENT_ID") {
+        qDebug() << "⚠️ Jamendo Client ID not configured, using Last.fm search";
+        searchTracks(query, userId);
+        return;
+    }
+    
+    QUrl url(m_jamendoBaseUrl + "tracks/");
+    QUrlQuery params;
+    params.addQueryItem("client_id", m_jamendoClientId);
+    params.addQueryItem("format", "json");
+    params.addQueryItem("search", query);
+    params.addQueryItem("limit", "10");
+    params.addQueryItem("audioformat", "mp32");  // MP3 формат
+    params.addQueryItem("imagesize", "300");     // Размер обложки
+    
+    url.setQuery(params);
+    
+    qDebug() << "Jamendo Request URL:" << url.toString();
+    
+    QNetworkRequest request(url);
+    QNetworkReply *reply = m_networkManager->get(request);
+    
+    // Связываем конкретный reply с обработчиком Jamendo
+    connect(reply, &QNetworkReply::finished, this, [this, reply]() {
+        if (reply->error() == QNetworkReply::NoError) {
+            this->processJamendoSearchResponse(reply->readAll());
+        } else {
+            qDebug() << "❌ Jamendo network error:" << reply->errorString();
+        }
+        reply->deleteLater();
+    });
+}
+
+void MusicAPIManager::playTrackFromAPI(const QString& trackId, const QString& service)
+{
+    if (service == "jamendo") {
+        // Для Jamendo audio URL уже есть в данных трека
+        emit trackAudioUrlReady(trackId, "");
+    }
+}
+
 void MusicAPIManager::handleNetworkResponse(QNetworkReply *reply)
 {
     if (!reply) {
         qDebug() << "❌ No reply object!";
+        emit networkError("No reply object");
         return;
     }
     
@@ -78,19 +134,18 @@ void MusicAPIManager::handleNetworkResponse(QNetworkReply *reply)
     qDebug() << "Error:" << reply->error();
     qDebug() << "Error string:" << reply->errorString();
     
-    // Сразу читаем все данные
     QByteArray responseData = reply->readAll();
     qDebug() << "Response size:" << responseData.size() << "bytes";
     
     if (responseData.isEmpty()) {
         qDebug() << "❌ Empty response!";
+        emit networkError("Empty response");
         reply->deleteLater();
         return;
     }
     
     qDebug() << "First 200 chars:" << responseData.left(200);
     
-    // Определяем тип запроса по URL
     QString urlString = reply->url().toString();
     
     if (reply->error() == QNetworkReply::NoError) {
@@ -100,15 +155,18 @@ void MusicAPIManager::handleNetworkResponse(QNetworkReply *reply)
             processTopTracksResponse(responseData);
         } else {
             qDebug() << "❌ Unknown request type";
+            emit networkError("Unknown request type");
         }
     } else {
         qDebug() << "❌ Network error:" << reply->errorString();
+        emit networkError(reply->errorString());
         reply->ignoreSslErrors();
     }
     
     reply->deleteLater();
     qDebug() << "=== RESPONSE COMPLETE ===\n";
 }
+
 
 void MusicAPIManager::processTopTracksResponse(const QByteArray& responseData)
 {
@@ -268,4 +326,58 @@ void MusicAPIManager::processTracksData(const QJsonArray& tracksArray)
     
     qDebug() << "🎵 Emitting tracksFound signal with" << processedTracks.size() << "tracks";
     emit tracksFound(processedTracks);
+}
+
+void MusicAPIManager::processJamendoSearchResponse(const QByteArray& responseData)
+{
+    QJsonParseError parseError;
+    QJsonDocument doc = QJsonDocument::fromJson(responseData, &parseError);
+    
+    if (parseError.error != QJsonParseError::NoError) {
+        qDebug() << "❌ Jamendo JSON Parse error:" << parseError.errorString();
+        return;
+    }
+    
+    QJsonObject root = doc.object();
+    QJsonArray results = root["results"].toArray();
+    
+    qDebug() << "✅ Jamendo results:" << results.size() << "tracks found";
+    
+    QVariantList processedTracks;
+    
+    for (const QJsonValue &trackValue : results) {
+        QJsonObject trackObj = trackValue.toObject();
+        
+        QVariantMap track;
+        track["id"] = trackObj["id"].toString();
+        track["title"] = trackObj["name"].toString();
+        track["artist"] = trackObj["artist_name"].toString();
+        track["duration"] = trackObj["duration"].toInt();
+        track["audioUrl"] = trackObj["audio"].toString();
+        track["coverUrl"] = trackObj["image"].toString();
+        track["album"] = trackObj["album_name"].toString();
+        track["service"] = "jamendo";
+        
+        // Статистика
+        track["listeners"] = QString::number(trackObj["listens"].toInt());
+        
+        processedTracks.append(track);
+        
+        qDebug() << "🎵 Jamendo track:" << track["title"].toString() 
+                 << "-" << track["artist"].toString()
+                 << "Audio:" << track["audioUrl"].toString();
+        
+        // Сохраняем в БД
+        DatabaseManager::instance().addTrackFromAPI(
+            m_currentUserId,
+            track["title"].toString(),
+            track["artist"].toString(),
+            track["album"].toString(),
+            track["duration"].toInt(),
+            "", // genre
+            track["coverUrl"].toString()
+        );
+    }
+    
+    emit jamendoTracksFound(processedTracks);
 }

@@ -311,12 +311,8 @@
   /usr/include/x86_64-linux-gnu/qt5/QtCore/qversiontagging.h \
   /usr/include/x86_64-linux-gnu/qt5/QtGui/qtgui-config.h \
   /usr/include/x86_64-linux-gnu/qt5/QtGui/qtguiglobal.h \
-  /usr/include/x86_64-linux-gnu/qt5/QtMultimedia/QAudioOutput \
   /usr/include/x86_64-linux-gnu/qt5/QtMultimedia/QMediaPlayer \
   /usr/include/x86_64-linux-gnu/qt5/QtMultimedia/qaudio.h \
-  /usr/include/x86_64-linux-gnu/qt5/QtMultimedia/qaudiodeviceinfo.h \
-  /usr/include/x86_64-linux-gnu/qt5/QtMultimedia/qaudioformat.h \
-  /usr/include/x86_64-linux-gnu/qt5/QtMultimedia/qaudiooutput.h \
   /usr/include/x86_64-linux-gnu/qt5/QtMultimedia/qmediacontent.h \
   /usr/include/x86_64-linux-gnu/qt5/QtMultimedia/qmediaenumdebug.h \
   /usr/include/x86_64-linux-gnu/qt5/QtMultimedia/qmediaobject.h \

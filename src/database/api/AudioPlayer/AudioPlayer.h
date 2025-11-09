@@ -3,47 +3,40 @@
 
 #include <QObject>
 #include <QMediaPlayer>
-#include <QAudioOutput>
-#include <QUrl>
 
 class AudioPlayer : public QObject
 {
     Q_OBJECT
-
-public: 
+public:
     explicit AudioPlayer(QObject *parent = nullptr);
     ~AudioPlayer();
 
+    void loadTrack(const QString &filePath);
     void play();
     void pause();
     void stop();
     void setVolume(int volume);
-
-    void loadTrack(const QString& filePath);
-    void setPosition(qint64 position);
-
-    bool isPlaying() const;
     int volume() const;
+    bool isPlaying() const;
     qint64 duration() const;
     qint64 position() const;
     QString currentTrack() const;
 
 signals:
+    void trackChanged(const QString &trackName);
     void playbackStateChanged(bool playing);
-    void positionChanged(qint64 position);
-    void durationChanged(qint64 duration);
     void volumeChanged(int volume);
-    void trackChanged(const QString& trackTitle);
-    void errorOccurred(const QString& errorMessage);
+    void durationChanged(qint64 duration);
+    void positionChanged(qint64 position);
+    void errorOccurred(const QString &message);
 
 private slots:
-    void onMediaStatusChanged(QMediaPlayer::MediaStatus status);
+    void onStateChanged(QMediaPlayer::State state);
     void onPlayerError(QMediaPlayer::Error error);
 
 private:
     QMediaPlayer *m_player;
-    QAudioOutput *m_audioOutput;
     QString m_currentTrack;
 };
 
-#endif
+#endif // AUDIOPLAYER_H

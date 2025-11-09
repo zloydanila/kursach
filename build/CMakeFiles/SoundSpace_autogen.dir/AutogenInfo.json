@@ -80,17 +80,6 @@
 		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Network/Qt5Network_QConnmanEnginePlugin.cmake",
 		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Network/Qt5Network_QGenericEnginePlugin.cmake",
 		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Network/Qt5Network_QNetworkManagerEnginePlugin.cmake",
-		"/usr/lib/x86_64-linux-gnu/cmake/Qt5/Qt5ConfigVersion.cmake",
-		"/usr/lib/x86_64-linux-gnu/cmake/Qt5/Qt5Config.cmake",
-		"/usr/lib/x86_64-linux-gnu/cmake/Qt5/Qt5ModuleLocation.cmake",
-		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Core/Qt5CoreConfigVersion.cmake",
-		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Core/Qt5CoreConfig.cmake",
-		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Widgets/Qt5WidgetsConfigVersion.cmake",
-		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Widgets/Qt5WidgetsConfig.cmake",
-		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Sql/Qt5SqlConfigVersion.cmake",
-		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Sql/Qt5SqlConfig.cmake",
-		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Network/Qt5NetworkConfigVersion.cmake",
-		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Network/Qt5NetworkConfig.cmake",
 		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Multimedia/Qt5MultimediaConfigVersion.cmake",
 		"/usr/lib/x86_64-linux-gnu/cmake/Qt5Multimedia/Qt5MultimediaConfig.cmake"
 	],
@@ -101,31 +90,49 @@
 	[
 		[
 			"/home/ionin/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/kursach/src/database/DatabaseManager.h",
-			"Mu",
+			"MU",
 			"M7KQ2GL7XF/moc_DatabaseManager.cpp",
 			null
 		],
 		[
 			"/home/ionin/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/kursach/src/database/api/AudioPlayer/AudioPlayer.h",
-			"Mu",
+			"MU",
 			"IWZHHUTWVH/moc_AudioPlayer.cpp",
 			null
 		],
 		[
+			"/home/ionin/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/kursach/src/database/api/AudioPlayer/TrackWidget.h",
+			"MU",
+			"IWZHHUTWVH/moc_TrackWidget.cpp",
+			null
+		],
+		[
 			"/home/ionin/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/kursach/src/database/api/MusicAPIManager.h",
-			"Mu",
+			"MU",
 			"OMUT2NUK4C/moc_MusicAPIManager.cpp",
 			null
 		],
 		[
+			"/home/ionin/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/kursach/src/database/socialNetwork/FriendsManager.h",
+			"MU",
+			"6UQP42Y7N4/moc_FriendsManager.cpp",
+			null
+		],
+		[
+			"/home/ionin/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/kursach/src/database/socialNetwork/MessagesManager.h",
+			"MU",
+			"6UQP42Y7N4/moc_MessagesManager.cpp",
+			null
+		],
+		[
 			"/home/ionin/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/kursach/src/gui/AuthWindow/AuthWindow.h",
-			"Mu",
+			"MU",
 			"6F7CO4SI5M/moc_AuthWindow.cpp",
 			null
 		],
 		[
 			"/home/ionin/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/kursach/src/gui/MainWindow/MainWindow.h",
-			"Mu",
+			"MU",
 			"JV3FWA2OM2/moc_MainWindow.cpp",
 			null
 		]
@@ -153,11 +160,12 @@
 	[
 		"/home/ionin/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/kursach/src",
 		"/home/ionin/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/kursach/src/database",
-		"/home/ionin/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/kursach/src/core",
+		"/home/ionin/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/kursach/src/database/api",
+		"/home/ionin/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/kursach/src/database/socialNetwork",
+		"/home/ionin/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/kursach/src/database/models",
 		"/home/ionin/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/kursach/src/gui",
 		"/home/ionin/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/kursach/src/gui/AuthWindow",
 		"/home/ionin/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/kursach/src/gui/MainWindow",
-		"/home/ionin/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/kursach/src/api",
 		"/usr/include/x86_64-linux-gnu/qt5",
 		"/usr/include/x86_64-linux-gnu/qt5/QtCore",
 		"/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++",
@@ -180,7 +188,7 @@
 	"MOC_PREDEFS_CMD" : 
 	[
 		"/usr/bin/g++",
-		"-std=gnu++11",
+		"-std=gnu++17",
 		"-dM",
 		"-E",
 		"-c",
@@ -193,7 +201,7 @@
 	"PARALLEL" : 8,
 	"PARSE_CACHE_FILE" : "/home/ionin/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/kursach/build/CMakeFiles/SoundSpace_autogen.dir/ParseCache.txt",
 	"QT_MOC_EXECUTABLE" : "/usr/lib/qt5/bin/moc",
-	"QT_UIC_EXECUTABLE" : "",
+	"QT_UIC_EXECUTABLE" : "/usr/lib/qt5/bin/uic",
 	"QT_VERSION_MAJOR" : 5,
 	"QT_VERSION_MINOR" : 15,
 	"SETTINGS_FILE" : "/home/ionin/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/kursach/build/CMakeFiles/SoundSpace_autogen.dir/AutogenUsed.txt",
@@ -201,34 +209,53 @@
 	[
 		[
 			"/home/ionin/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/kursach/src/database/DatabaseManager.cpp",
-			"Mu",
+			"MU",
 			null
 		],
 		[
 			"/home/ionin/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/kursach/src/database/api/AudioPlayer/AudioPlayer.cpp",
-			"Mu",
+			"MU",
+			null
+		],
+		[
+			"/home/ionin/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/kursach/src/database/api/AudioPlayer/TrackWidget.cpp",
+			"MU",
 			null
 		],
 		[
 			"/home/ionin/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/kursach/src/database/api/MusicAPIManager.cpp",
-			"Mu",
+			"MU",
+			null
+		],
+		[
+			"/home/ionin/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/kursach/src/database/socialNetwork/FriendsManager.cpp",
+			"MU",
+			null
+		],
+		[
+			"/home/ionin/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/kursach/src/database/socialNetwork/MessagesManager.cpp",
+			"MU",
 			null
 		],
 		[
 			"/home/ionin/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/kursach/src/gui/AuthWindow/AuthWindow.cpp",
-			"Mu",
+			"MU",
 			null
 		],
 		[
 			"/home/ionin/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/kursach/src/gui/MainWindow/MainWindow.cpp",
-			"Mu",
+			"MU",
 			null
 		],
 		[
 			"/home/ionin/\u0420\u0430\u0431\u043e\u0447\u0438\u0439 \u0441\u0442\u043e\u043b/kursach/src/main.cpp",
-			"Mu",
+			"MU",
 			null
 		]
 	],
+	"UIC_OPTIONS" : [],
+	"UIC_SEARCH_PATHS" : [],
+	"UIC_SKIP" : [],
+	"UIC_UI_FILES" : [],
 	"VERBOSITY" : 0
 }

@@ -2,89 +2,199 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QStackedWidget>
-#include <QLabel>
-#include <QPushButton>
-#include <QFrame>
-#include <QLineEdit>
 #include <QListWidget>
 #include <QTextEdit>
-#include <QFileDialog>
-#include <QMessageBox>
-#include <QDir>
-#include <QFile>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QSplitter>
+#include <QVariantMap>
+#include <QLabel>
+#include <QStackedWidget>
 #include <QPixmap>
-#include <QPainter>
-#include <QPainterPath>
-#include "api/MusicAPIManager.h"
+#include <QHBoxLayout>
+#include <QVector>
+#include <QEvent>
+#include <QMediaPlayer>
+#include <QTabWidget>
+
+#include "database/api/MusicAPIManager.h"
+#include "database/socialNetwork/FriendsManager.h"
+#include "database/socialNetwork/MessagesManager.h"
+#include "AudioPlayer/AudioPlayer.h"
+#include "models/Track.h"
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit MainWindow(const QString& username, int userId, QWidget *parent = nullptr);
+    MainWindow(const QString& username, int userId, QWidget *parent = nullptr);
     ~MainWindow();
 
+protected:
+    void resizeEvent(QResizeEvent* ev) override;
+    bool eventFilter(QObject *obj, QEvent *event) override;
+
 private slots:
+    // ---- Навигация между страницами ----
     void showProfilePage();
     void showMessagesPage();
     void showFriendsPage();
     void showNotificationsPage();
     void showPlaylistPage();
+
+    // ---- Поиск музыки (Jamendo / Last.fm) ----
     void searchMusic();
-    void onTracksFound(const QVariantList& tracks);
     void showTopTracks();
-    void changeAvatar();
+    void onTracksFound(const QVariantList& tracks);
+    void onNetworkError(const QString& error);
+
+    // ---- Управление плеером ----
+    void addSelectedTrackToPlaylist();
+    void playSelectedTrack();
+    void pausePlayback();
+    void stopPlayback();
+    void onPlaybackStateChanged(QMediaPlayer::State state);
+    void onPositionChanged(qint64 position);
+    void onDurationChanged(qint64 duration);
+
+    // ---- Друзья ----
+    void searchUsers();
+    void onUsersFound(const QList<QVariantMap>& users);
+    void sendFriendRequest(int userId);
+    void acceptFriendRequest(int userId);
+    void rejectFriendRequest(int userId);
+    void removeFriend(int friendId);
+    void loadFriends();
+    void loadFriendRequests();
+    void refreshFriendsData();
+
+    // ---- Сообщения ----
+    void refreshDialogs();
+    void openChat(int friendId);
+    void sendMessage();
+    void onNewMessageReceived(int fromUserId, const QString& username, const QString& message, const QDateTime& timestamp);
 
 private:
+    // ---- Инициализация UI ----
     void setupUI();
     void setupConnections();
     void createSidebar();
     void createPages();
+    void createMessagesPage();
+    void createFriendsPage();
     void createMusicPage();
+
+    // ---- Аватар ----
     void loadUserAvatar();
     void setupAvatar();
     void setAvatarPixmap(const QPixmap& pixmap);
     void setDefaultAvatar();
     void saveAvatar(const QPixmap& avatar);
+    void changeAvatar();
+    void onAvatarButtonEnter();
+    void onAvatarButtonLeave();
 
+    // ---- Вспомогательные методы ----
+    void enableSearchControls(bool enable);
+    int bubbleMaxWidth() const;
+    void addMessageBubble(const QVariantMap& message, const QString& friendName);
+    QPixmap makeAvatar(int userId, const QString &username, int size);
+    QString formatTime(qint64 milliseconds);
+
+    // ---- Моя музыка (локальная / библиотека пользователя) ----
+    void loadUserTracks();
+    void onPlaylistItemClicked(QListWidgetItem *item);
+    void onTrackDeleteRequested(int trackId);
+    void onAddToPlaylistRequested(int trackId);
+    void playTrack(int trackId);
+    void playNextTrack();
+    void playPrevTrack();
+    void onTrackFinished();
+    void deleteAllTracks();
+
+private:
+    // ===== Данные пользователя =====
     QString currentUsername;
-    int currentUserId;
-    
-    // UI элементы
-    QWidget *sidebar;
+    int     currentUserId;
+
+    // ===== Навигация / левое меню =====
+    QWidget     *sidebar;
     QPushButton *avatarButton;
-    QLabel *usernameLabel;
+    QLabel      *avatarOverlay;
+    QLabel      *usernameLabel;
+
+    QPushButton *myMusicBtn;
     QPushButton *profileBtn;
-    QPushButton *messagesBtn;
-    QPushButton *friendsBtn;
-    QPushButton *notificationsBtn;
-    QPushButton *playlistBtn;
     QPushButton *musicSearchBtn;
-    
+    QPushButton *playlistBtn;
+    QPushButton *friendsBtn;
+    QPushButton *messagesBtn;
+    QPushButton *notificationsBtn;
+
+    // ===== Основные страницы =====
     QStackedWidget *mainStack;
-    QWidget *profilePage;
-    QWidget *messagesPage;
-    QWidget *friendsPage;
-    QWidget *notificationsPage;
-    QWidget *playlistPage;
-    QWidget *musicPage;
-    
-    // Элементы для страницы музыки
-    QLineEdit *searchInput;
+    QWidget        *myMusicPage;
+    QWidget        *profilePage;
+    QWidget        *messagesPage;
+    QWidget        *friendsPage;
+    QWidget        *notificationsPage;
+    QWidget        *playlistPage;
+    QWidget        *musicPage;
+
+    // ===== Страница "Моя музыка" =====
+    QListWidget  *userTracksList;
+    QHBoxLayout  *controlsLayout;
+    QPushButton  *refreshTracksBtn;
+    QPushButton  *addLocalTrackBtn;
+    QString       controlButtonStyle;
+
+    QVector<Track> currentTracks;
+    int            currentTrackIndex;
+
+    // ===== Страница поиска музыки =====
+    QLineEdit   *searchInput;
     QPushButton *searchButton;
     QPushButton *topTracksButton;
     QListWidget *tracksList;
-    QTextEdit *trackInfo;
-    
-    MusicAPIManager *apiManager;
-    QString avatarPath;
+    QTextEdit   *trackInfo;
 
+    // ===== Управление плеером =====
+    QPushButton *playButton;
+    QPushButton *pauseButton;
+    QPushButton *stopButton;
+    QLabel      *currentTimeLabel;
+    QLabel      *totalTimeLabel;
+    QLabel      *nowPlayingLabel;
+    QMediaPlayer *mediaPlayer;
+    QString      currentAudioUrl;
+
+    // ===== Друзья =====
+    QLineEdit   *friendSearchInput;
+    QPushButton *friendSearchButton;
+    QListWidget *usersList;
+    QListWidget *friendsList;
+    QListWidget *friendRequestsList;
+    QTabWidget  *friendsTabWidget;
+
+    // ===== Сообщения =====
+    QSplitter    *messagesSplitter;
+    QListWidget  *dialogsList;
+    QLabel       *chatHeaderAvatar;
+    QLabel       *chatHeaderTitle;
+    QListWidget  *conversationList;
+    QLineEdit    *messageInput;
+    QPushButton  *sendMessageButton;
+    int           currentChatUserId;
+
+    // ===== Менеджеры =====
+    MusicAPIManager *apiManager;
+    AudioPlayer     *audioPlayer;
+
+    // ===== Индексы страниц =====
     enum PageIndex {
-        PROFILE_PAGE = 0,
+        MY_MUSIC_PAGE = 0,
+        PROFILE_PAGE,
         MESSAGES_PAGE,
         FRIENDS_PAGE,
         NOTIFICATIONS_PAGE,
@@ -93,4 +203,4 @@ private:
     };
 };
 
-#endif 
+#endif // MAINWINDOW_H

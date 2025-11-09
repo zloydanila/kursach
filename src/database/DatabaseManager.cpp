@@ -30,11 +30,9 @@ bool DatabaseManager::initializeDatabase(){
         qDebug() << "Ошибка подключения к Railway:" << m_database.lastError().text();
         return false;
     }
-    
-    qDebug() << "✅ Успешно подключились к Railway!";
     qDebug() << "БД успешно подключена";
 
-    qDebug() << "Создание таблиц...";
+    qDebug() << "Создание таблиц";
     
     if(!createUsersTable()) {
         qDebug() << "Ошибка создания таблицы users:" << m_database.lastError().text();
@@ -72,14 +70,25 @@ bool DatabaseManager::initializeDatabase(){
         qDebug() << "Ошибка создания таблицы friends:" << m_database.lastError().text();
         return false;
     }
+
     qDebug() << "Таблица friends создана";
     
-    qDebug() << "Все таблицы успешно созданы!";
+    if(!createMessagesTable()){
+        qDebug() << "Ошибка создания таблицы Messages: " << m_database.lastError().text();
+        return false;
+    }
+    
+    qDebug() << "Таблица messages создана";
+
+    if(!updateFriendsTable()) {
+        qDebug() << "Ошибка обновления таблицы friends:" << m_database.lastError().text();
+        return false;
+    }
+    qDebug() << "Таблица friends обновлена";
+
+    qDebug() << "Все таблицы успешно созданы";
 
     QSqlQuery query("SELECT version();");
-    if (query.exec() && query.next()) {
-        qDebug() << "✅ PostgreSQL version:" << query.value(0).toString();
-    }
     return true;
 }
 
@@ -171,6 +180,29 @@ bool DatabaseManager::createFriendsTable(){
         "FOREIGN KEY (user_id) REFERENCES users(id), "
         "FOREIGN KEY (friend_id) REFERENCES users(id))"
     );
+}
+
+bool DatabaseManager::createMessagesTable(){
+    QSqlQuery query;
+    return query.exec(
+        "CREATE TABLE IF NOT EXISTS messages("
+        "id SERIAL PRIMARY KEY, "
+        "from_user_id INTEGER REFERENCES users(id) ON DELETE CASCADE, "
+        "to_user_id INTEGER REFERENCES users(id) ON DELETE CASCADE, "
+        "message_text TEXT NOT NULL, "
+        "is_read BOOLEAN DEFAULT FALSE, "
+        "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, "
+        "CONSTRAINT check_not_self_message CHECK(from_user_id != to_user_id)"
+        ")"
+    );
+}
+
+bool DatabaseManager::updateFriendsTable()
+{
+    QSqlQuery query;
+    QString addColumn = "ALTER TABLE friends ADD COLUMN IF NOT EXISTS status TEXT DEFAULT 'accepted'";
+    
+    return true;
 }
 
 QString DatabaseManager::hashPassword(const QString& password){
@@ -508,5 +540,43 @@ bool DatabaseManager::addTrackFromAPI(int userId, const QString& title, const QS
     }
     
     qDebug() << "✅ API трек добавлен:" << title << "-" << artist;
+    return true;
+}
+
+bool DatabaseManager::addTrackToUserLibrary(int userId, const QString& title, const QString& artist, 
+                                          const QString& album, int duration, const QString& coverUrl)
+{
+    QString uniqueData = QString("%1|%2|%3|%4").arg(userId).arg(artist).arg(title).arg(album);
+    QString fileHash = hashPassword(uniqueData);
+
+    // Сначала добавляем метаданные
+    if (!addTrackMetadata(fileHash, title, artist, album, duration, "", 0, 0, 0)) {
+        qDebug() << "❌ Ошибка добавления метаданных трека";
+        return false;
+    }
+    
+    // Затем добавляем трек пользователю
+    QString virtualPath = QString("api://%1/%2").arg(artist).arg(title);
+    
+    QSqlQuery query;
+    query.prepare(
+        "INSERT INTO tracks (file_path, file_hash, user_id, title, artist, album, duration) "
+        "VALUES (?, ?, ?, ?, ?, ?, ?)"
+    );
+    
+    query.addBindValue(virtualPath);
+    query.addBindValue(fileHash);
+    query.addBindValue(userId);
+    query.addBindValue(title);
+    query.addBindValue(artist);
+    query.addBindValue(album);
+    query.addBindValue(duration);
+    
+    if (!query.exec()) {
+        qDebug() << "❌ Ошибка добавления трека пользователю:" << query.lastError().text();
+        return false;
+    }
+    
+    qDebug() << "✅ Трек добавлен в библиотеку пользователя:" << title << "-" << artist;
     return true;
 }

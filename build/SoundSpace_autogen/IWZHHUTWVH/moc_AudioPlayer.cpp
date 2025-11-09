@@ -23,7 +23,7 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_AudioPlayer_t {
     QByteArrayData data[20];
-    char stringdata0[258];
+    char stringdata0[239];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -33,34 +33,33 @@ struct qt_meta_stringdata_AudioPlayer_t {
 static const qt_meta_stringdata_AudioPlayer_t qt_meta_stringdata_AudioPlayer = {
     {
 QT_MOC_LITERAL(0, 0, 11), // "AudioPlayer"
-QT_MOC_LITERAL(1, 12, 20), // "playbackStateChanged"
-QT_MOC_LITERAL(2, 33, 0), // ""
-QT_MOC_LITERAL(3, 34, 7), // "playing"
-QT_MOC_LITERAL(4, 42, 15), // "positionChanged"
-QT_MOC_LITERAL(5, 58, 8), // "position"
-QT_MOC_LITERAL(6, 67, 15), // "durationChanged"
-QT_MOC_LITERAL(7, 83, 8), // "duration"
-QT_MOC_LITERAL(8, 92, 13), // "volumeChanged"
-QT_MOC_LITERAL(9, 106, 6), // "volume"
-QT_MOC_LITERAL(10, 113, 12), // "trackChanged"
-QT_MOC_LITERAL(11, 126, 10), // "trackTitle"
-QT_MOC_LITERAL(12, 137, 13), // "errorOccurred"
-QT_MOC_LITERAL(13, 151, 12), // "errorMessage"
-QT_MOC_LITERAL(14, 164, 20), // "onMediaStatusChanged"
-QT_MOC_LITERAL(15, 185, 25), // "QMediaPlayer::MediaStatus"
-QT_MOC_LITERAL(16, 211, 6), // "status"
-QT_MOC_LITERAL(17, 218, 13), // "onPlayerError"
-QT_MOC_LITERAL(18, 232, 19), // "QMediaPlayer::Error"
-QT_MOC_LITERAL(19, 252, 5) // "error"
+QT_MOC_LITERAL(1, 12, 12), // "trackChanged"
+QT_MOC_LITERAL(2, 25, 0), // ""
+QT_MOC_LITERAL(3, 26, 9), // "trackName"
+QT_MOC_LITERAL(4, 36, 20), // "playbackStateChanged"
+QT_MOC_LITERAL(5, 57, 7), // "playing"
+QT_MOC_LITERAL(6, 65, 13), // "volumeChanged"
+QT_MOC_LITERAL(7, 79, 6), // "volume"
+QT_MOC_LITERAL(8, 86, 15), // "durationChanged"
+QT_MOC_LITERAL(9, 102, 8), // "duration"
+QT_MOC_LITERAL(10, 111, 15), // "positionChanged"
+QT_MOC_LITERAL(11, 127, 8), // "position"
+QT_MOC_LITERAL(12, 136, 13), // "errorOccurred"
+QT_MOC_LITERAL(13, 150, 7), // "message"
+QT_MOC_LITERAL(14, 158, 14), // "onStateChanged"
+QT_MOC_LITERAL(15, 173, 19), // "QMediaPlayer::State"
+QT_MOC_LITERAL(16, 193, 5), // "state"
+QT_MOC_LITERAL(17, 199, 13), // "onPlayerError"
+QT_MOC_LITERAL(18, 213, 19), // "QMediaPlayer::Error"
+QT_MOC_LITERAL(19, 233, 5) // "error"
 
     },
-    "AudioPlayer\0playbackStateChanged\0\0"
-    "playing\0positionChanged\0position\0"
-    "durationChanged\0duration\0volumeChanged\0"
-    "volume\0trackChanged\0trackTitle\0"
-    "errorOccurred\0errorMessage\0"
-    "onMediaStatusChanged\0QMediaPlayer::MediaStatus\0"
-    "status\0onPlayerError\0QMediaPlayer::Error\0"
+    "AudioPlayer\0trackChanged\0\0trackName\0"
+    "playbackStateChanged\0playing\0volumeChanged\0"
+    "volume\0durationChanged\0duration\0"
+    "positionChanged\0position\0errorOccurred\0"
+    "message\0onStateChanged\0QMediaPlayer::State\0"
+    "state\0onPlayerError\0QMediaPlayer::Error\0"
     "error"
 };
 #undef QT_MOC_LITERAL
@@ -91,11 +90,11 @@ static const uint qt_meta_data_AudioPlayer[] = {
       17,    1,   75,    2, 0x08 /* Private */,
 
  // signals: parameters
-    QMetaType::Void, QMetaType::Bool,    3,
-    QMetaType::Void, QMetaType::LongLong,    5,
-    QMetaType::Void, QMetaType::LongLong,    7,
-    QMetaType::Void, QMetaType::Int,    9,
-    QMetaType::Void, QMetaType::QString,   11,
+    QMetaType::Void, QMetaType::QString,    3,
+    QMetaType::Void, QMetaType::Bool,    5,
+    QMetaType::Void, QMetaType::Int,    7,
+    QMetaType::Void, QMetaType::LongLong,    9,
+    QMetaType::Void, QMetaType::LongLong,   11,
     QMetaType::Void, QMetaType::QString,   13,
 
  // slots: parameters
@@ -111,13 +110,13 @@ void AudioPlayer::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         auto *_t = static_cast<AudioPlayer *>(_o);
         (void)_t;
         switch (_id) {
-        case 0: _t->playbackStateChanged((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 1: _t->positionChanged((*reinterpret_cast< qint64(*)>(_a[1]))); break;
-        case 2: _t->durationChanged((*reinterpret_cast< qint64(*)>(_a[1]))); break;
-        case 3: _t->volumeChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 4: _t->trackChanged((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        case 0: _t->trackChanged((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        case 1: _t->playbackStateChanged((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 2: _t->volumeChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 3: _t->durationChanged((*reinterpret_cast< qint64(*)>(_a[1]))); break;
+        case 4: _t->positionChanged((*reinterpret_cast< qint64(*)>(_a[1]))); break;
         case 5: _t->errorOccurred((*reinterpret_cast< const QString(*)>(_a[1]))); break;
-        case 6: _t->onMediaStatusChanged((*reinterpret_cast< QMediaPlayer::MediaStatus(*)>(_a[1]))); break;
+        case 6: _t->onStateChanged((*reinterpret_cast< QMediaPlayer::State(*)>(_a[1]))); break;
         case 7: _t->onPlayerError((*reinterpret_cast< QMediaPlayer::Error(*)>(_a[1]))); break;
         default: ;
         }
@@ -128,7 +127,7 @@ void AudioPlayer::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<int*>(_a[0]) = -1; break;
             case 0:
-                *reinterpret_cast<int*>(_a[0]) = qRegisterMetaType< QMediaPlayer::MediaStatus >(); break;
+                *reinterpret_cast<int*>(_a[0]) = qRegisterMetaType< QMediaPlayer::State >(); break;
             }
             break;
         case 7:
@@ -142,36 +141,36 @@ void AudioPlayer::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
     } else if (_c == QMetaObject::IndexOfMethod) {
         int *result = reinterpret_cast<int *>(_a[0]);
         {
-            using _t = void (AudioPlayer::*)(bool );
-            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&AudioPlayer::playbackStateChanged)) {
+            using _t = void (AudioPlayer::*)(const QString & );
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&AudioPlayer::trackChanged)) {
                 *result = 0;
                 return;
             }
         }
         {
-            using _t = void (AudioPlayer::*)(qint64 );
-            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&AudioPlayer::positionChanged)) {
+            using _t = void (AudioPlayer::*)(bool );
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&AudioPlayer::playbackStateChanged)) {
                 *result = 1;
-                return;
-            }
-        }
-        {
-            using _t = void (AudioPlayer::*)(qint64 );
-            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&AudioPlayer::durationChanged)) {
-                *result = 2;
                 return;
             }
         }
         {
             using _t = void (AudioPlayer::*)(int );
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&AudioPlayer::volumeChanged)) {
+                *result = 2;
+                return;
+            }
+        }
+        {
+            using _t = void (AudioPlayer::*)(qint64 );
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&AudioPlayer::durationChanged)) {
                 *result = 3;
                 return;
             }
         }
         {
-            using _t = void (AudioPlayer::*)(const QString & );
-            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&AudioPlayer::trackChanged)) {
+            using _t = void (AudioPlayer::*)(qint64 );
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&AudioPlayer::positionChanged)) {
                 *result = 4;
                 return;
             }
@@ -227,35 +226,35 @@ int AudioPlayer::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 }
 
 // SIGNAL 0
-void AudioPlayer::playbackStateChanged(bool _t1)
+void AudioPlayer::trackChanged(const QString & _t1)
 {
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))) };
     QMetaObject::activate(this, &staticMetaObject, 0, _a);
 }
 
 // SIGNAL 1
-void AudioPlayer::positionChanged(qint64 _t1)
+void AudioPlayer::playbackStateChanged(bool _t1)
 {
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))) };
     QMetaObject::activate(this, &staticMetaObject, 1, _a);
 }
 
 // SIGNAL 2
-void AudioPlayer::durationChanged(qint64 _t1)
+void AudioPlayer::volumeChanged(int _t1)
 {
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))) };
     QMetaObject::activate(this, &staticMetaObject, 2, _a);
 }
 
 // SIGNAL 3
-void AudioPlayer::volumeChanged(int _t1)
+void AudioPlayer::durationChanged(qint64 _t1)
 {
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))) };
     QMetaObject::activate(this, &staticMetaObject, 3, _a);
 }
 
 // SIGNAL 4
-void AudioPlayer::trackChanged(const QString & _t1)
+void AudioPlayer::positionChanged(qint64 _t1)
 {
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))) };
     QMetaObject::activate(this, &staticMetaObject, 4, _a);

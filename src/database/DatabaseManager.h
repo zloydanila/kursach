@@ -5,62 +5,72 @@
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QDebug>
-#include <QList>
-
+#include "models/User.h"
 #include "models/Track.h"
 #include "models/Playlist.h"
+#include "models/PlaylistTracks.h"
 
 class DatabaseManager
 {
-public:
-
-    static DatabaseManager& instance();
-    
-    bool initializeDatabase();
-    bool isDatabaseOpen() const;
-
-    QString hashPassword(const QString& password);
-    bool registerUser(const QString& username, const QString& password);
-    bool authenticateUser(const QString& username, const QString& password);
-    bool userExists(const QString& username);
-    int getUserId(const QString& username);
-    
-
-    bool addTrackMetadata(const QString& fileHash, const QString& title, 
-                         const QString& artist, const QString& album, 
-                         int duration, const QString& genre = "", int year = 0,
-                         int bitrate = 0, int sampleRate = 0);
-    bool addTrackToUser(const QString& filePath, const QString& fileHash,
-                       int userId, const QString& title, const QString& artist,
-                       const QString& album, int duration);
-    QList<Track> getUserTracks(int userId);
-    bool incrementPlayCount(int trackId);
-
-    int createPlaylist(int userId, const QString& name);
-    bool addTrackToPlaylist(int playlistId, int trackId, int position = -1);
-    QList<Playlist> getUserPlaylists(int userId);
-    QList<Track> getPlaylistTracks(int playlistId);
-    bool addTrackFromAPI(int userId, const QString& title, const QString& artist, 
-                        const QString& album = "", int duration = 0, 
-                        const QString& genre = "", const QString& coverUrl = "");
-
 private:
+    QSqlDatabase m_database;
+    static DatabaseManager* m_instance;
 
     DatabaseManager() = default;
     ~DatabaseManager() = default;
 
+public:
+    static DatabaseManager& instance();
     DatabaseManager(const DatabaseManager&) = delete;
     DatabaseManager& operator=(const DatabaseManager&) = delete;
-    
-    QSqlDatabase m_database;
 
+    bool initializeDatabase();
+    bool isDatabaseOpen() const;
+
+    // Пользователи
+    bool registerUser(const QString& username, const QString& password);
+    bool authenticateUser(const QString& username, const QString& password);
+    bool userExists(const QString& username);
+    int getUserId(const QString& username);
+
+    // Треки
+    bool addTrackMetadata(const QString& fileHash, const QString& title, 
+                         const QString& artist, const QString& album, 
+                         int duration, const QString& genre, int year,
+                         int bitrate, int sampleRate);
+    
+    bool addTrackToUser(const QString& filePath, const QString& fileHash,
+                       int userId, const QString& title, const QString& artist,
+                       const QString& album, int duration);
+    
+    bool addTrackFromAPI(int userId, const QString& title, const QString& artist, 
+                        const QString& album, int duration, 
+                        const QString& genre, const QString& coverUrl);
+    
+    bool addTrackToUserLibrary(int userId, const QString& title, const QString& artist, 
+                              const QString& album, int duration, const QString& coverUrl);
+    
+    QList<Track> getUserTracks(int userId); // ОДНО объявление
+
+    // Плейлисты
+    int createPlaylist(int userId, const QString& name);
+    bool addTrackToPlaylist(int playlistId, int trackId, int position);
+    QList<Playlist> getUserPlaylists(int userId);
+    QList<Track> getPlaylistTracks(int playlistId);
+
+    // Статистика
+    bool incrementPlayCount(int trackId);
+
+private:
     bool createUsersTable();
     bool createTracksMetadataTable();
     bool createTracksTable();
     bool createPlaylistsTable();
     bool createPlaylistTracksTable();
     bool createFriendsTable();
-
+    bool createMessagesTable();
+    bool updateFriendsTable();
+    QString hashPassword(const QString& password);
 };
 
-#endif 
+#endif // DATABASEMANAGER_H

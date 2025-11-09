@@ -227,6 +227,30 @@ src/database/api/AudioPlayer/AudioPlayer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/SoundSpace.dir/build.make CMakeFiles/SoundSpace.dir/src/database/api/AudioPlayer/AudioPlayer.cpp.s
 .PHONY : src/database/api/AudioPlayer/AudioPlayer.cpp.s
 
+src/database/api/AudioPlayer/TrackWidget.o: src/database/api/AudioPlayer/TrackWidget.cpp.o
+.PHONY : src/database/api/AudioPlayer/TrackWidget.o
+
+# target to build an object file
+src/database/api/AudioPlayer/TrackWidget.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SoundSpace.dir/build.make CMakeFiles/SoundSpace.dir/src/database/api/AudioPlayer/TrackWidget.cpp.o
+.PHONY : src/database/api/AudioPlayer/TrackWidget.cpp.o
+
+src/database/api/AudioPlayer/TrackWidget.i: src/database/api/AudioPlayer/TrackWidget.cpp.i
+.PHONY : src/database/api/AudioPlayer/TrackWidget.i
+
+# target to preprocess a source file
+src/database/api/AudioPlayer/TrackWidget.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SoundSpace.dir/build.make CMakeFiles/SoundSpace.dir/src/database/api/AudioPlayer/TrackWidget.cpp.i
+.PHONY : src/database/api/AudioPlayer/TrackWidget.cpp.i
+
+src/database/api/AudioPlayer/TrackWidget.s: src/database/api/AudioPlayer/TrackWidget.cpp.s
+.PHONY : src/database/api/AudioPlayer/TrackWidget.s
+
+# target to generate assembly for a file
+src/database/api/AudioPlayer/TrackWidget.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SoundSpace.dir/build.make CMakeFiles/SoundSpace.dir/src/database/api/AudioPlayer/TrackWidget.cpp.s
+.PHONY : src/database/api/AudioPlayer/TrackWidget.cpp.s
+
 src/database/api/MusicAPIManager.o: src/database/api/MusicAPIManager.cpp.o
 .PHONY : src/database/api/MusicAPIManager.o
 
@@ -250,6 +274,54 @@ src/database/api/MusicAPIManager.s: src/database/api/MusicAPIManager.cpp.s
 src/database/api/MusicAPIManager.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/SoundSpace.dir/build.make CMakeFiles/SoundSpace.dir/src/database/api/MusicAPIManager.cpp.s
 .PHONY : src/database/api/MusicAPIManager.cpp.s
+
+src/database/socialNetwork/FriendsManager.o: src/database/socialNetwork/FriendsManager.cpp.o
+.PHONY : src/database/socialNetwork/FriendsManager.o
+
+# target to build an object file
+src/database/socialNetwork/FriendsManager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SoundSpace.dir/build.make CMakeFiles/SoundSpace.dir/src/database/socialNetwork/FriendsManager.cpp.o
+.PHONY : src/database/socialNetwork/FriendsManager.cpp.o
+
+src/database/socialNetwork/FriendsManager.i: src/database/socialNetwork/FriendsManager.cpp.i
+.PHONY : src/database/socialNetwork/FriendsManager.i
+
+# target to preprocess a source file
+src/database/socialNetwork/FriendsManager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SoundSpace.dir/build.make CMakeFiles/SoundSpace.dir/src/database/socialNetwork/FriendsManager.cpp.i
+.PHONY : src/database/socialNetwork/FriendsManager.cpp.i
+
+src/database/socialNetwork/FriendsManager.s: src/database/socialNetwork/FriendsManager.cpp.s
+.PHONY : src/database/socialNetwork/FriendsManager.s
+
+# target to generate assembly for a file
+src/database/socialNetwork/FriendsManager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SoundSpace.dir/build.make CMakeFiles/SoundSpace.dir/src/database/socialNetwork/FriendsManager.cpp.s
+.PHONY : src/database/socialNetwork/FriendsManager.cpp.s
+
+src/database/socialNetwork/MessagesManager.o: src/database/socialNetwork/MessagesManager.cpp.o
+.PHONY : src/database/socialNetwork/MessagesManager.o
+
+# target to build an object file
+src/database/socialNetwork/MessagesManager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SoundSpace.dir/build.make CMakeFiles/SoundSpace.dir/src/database/socialNetwork/MessagesManager.cpp.o
+.PHONY : src/database/socialNetwork/MessagesManager.cpp.o
+
+src/database/socialNetwork/MessagesManager.i: src/database/socialNetwork/MessagesManager.cpp.i
+.PHONY : src/database/socialNetwork/MessagesManager.i
+
+# target to preprocess a source file
+src/database/socialNetwork/MessagesManager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SoundSpace.dir/build.make CMakeFiles/SoundSpace.dir/src/database/socialNetwork/MessagesManager.cpp.i
+.PHONY : src/database/socialNetwork/MessagesManager.cpp.i
+
+src/database/socialNetwork/MessagesManager.s: src/database/socialNetwork/MessagesManager.cpp.s
+.PHONY : src/database/socialNetwork/MessagesManager.s
+
+# target to generate assembly for a file
+src/database/socialNetwork/MessagesManager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/SoundSpace.dir/build.make CMakeFiles/SoundSpace.dir/src/database/socialNetwork/MessagesManager.cpp.s
+.PHONY : src/database/socialNetwork/MessagesManager.cpp.s
 
 src/gui/AuthWindow/AuthWindow.o: src/gui/AuthWindow/AuthWindow.cpp.o
 .PHONY : src/gui/AuthWindow/AuthWindow.o
@@ -343,9 +415,18 @@ help:
 	@echo "... src/database/api/AudioPlayer/AudioPlayer.o"
 	@echo "... src/database/api/AudioPlayer/AudioPlayer.i"
 	@echo "... src/database/api/AudioPlayer/AudioPlayer.s"
+	@echo "... src/database/api/AudioPlayer/TrackWidget.o"
+	@echo "... src/database/api/AudioPlayer/TrackWidget.i"
+	@echo "... src/database/api/AudioPlayer/TrackWidget.s"
 	@echo "... src/database/api/MusicAPIManager.o"
 	@echo "... src/database/api/MusicAPIManager.i"
 	@echo "... src/database/api/MusicAPIManager.s"
+	@echo "... src/database/socialNetwork/FriendsManager.o"
+	@echo "... src/database/socialNetwork/FriendsManager.i"
+	@echo "... src/database/socialNetwork/FriendsManager.s"
+	@echo "... src/database/socialNetwork/MessagesManager.o"
+	@echo "... src/database/socialNetwork/MessagesManager.i"
+	@echo "... src/database/socialNetwork/MessagesManager.s"
 	@echo "... src/gui/AuthWindow/AuthWindow.o"
 	@echo "... src/gui/AuthWindow/AuthWindow.i"
 	@echo "... src/gui/AuthWindow/AuthWindow.s"
