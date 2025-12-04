@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QListWidgetItem>
 #include <QProgressDialog>
+#include "../Frameless/FramelessWindow.h"
 
 class QStackedWidget;
 class QListWidget;
@@ -16,7 +17,7 @@ class MusicAPIManager;
 class AudioPlayer;
 struct Track;
 
-class MainWindow : public QMainWindow
+class MainWindow : public FramelessWindow
 {
     Q_OBJECT
 
@@ -39,8 +40,7 @@ private slots:
     void onPlaylistItemClicked(QListWidgetItem *item);
     void onTrackDeleteRequested(int trackId);
     void onNetworkError(const QString& error);
-    void onAvatarButtonEnter();
-    void onAvatarButtonLeave();
+    void showRoomsPage();
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event) override;
@@ -52,12 +52,17 @@ private:
     void createPages();
     void createMusicPage();
     void createMyMusicPage();
+    void createRoomsPage();
     void loadUserAvatar();
     void setupAvatar();
     void setAvatarPixmap(const QPixmap& pixmap);
     void setDefaultAvatar();
     void saveAvatar(const QPixmap& avatar);
     void enableSearchControls(bool enable);
+    void showAvatarOverlay();
+    void hideAvatarOverlay();
+    void onAvatarButtonEnter();
+    void onAvatarButtonLeave();
 
     QString currentUsername;
     int currentUserId;
@@ -73,6 +78,7 @@ private:
     QPushButton *playlistBtn;
     QPushButton *musicSearchBtn;
     QPushButton *myMusicBtn;
+    QPushButton *roomsBtn;
     
     QStackedWidget *mainStack;
     QWidget *profilePage;
@@ -82,6 +88,7 @@ private:
     QWidget *playlistPage;
     QWidget *musicPage;
     QWidget *myMusicPage;
+    QWidget *roomsPage;
     
     QLineEdit *searchInput;
     QPushButton *searchButton;
@@ -108,7 +115,8 @@ private:
         FRIENDS_PAGE,
         NOTIFICATIONS_PAGE,
         PLAYLIST_PAGE,
-        MUSIC_PAGE
+        MUSIC_PAGE,
+        ROOMS_PAGE  
     };
 };
 

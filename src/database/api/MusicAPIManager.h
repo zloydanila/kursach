@@ -9,6 +9,7 @@
 #include <QJsonArray>
 #include <QUrlQuery>
 #include <QVariant>
+#include "../../gui/Frameless/FramelessWindow.h"
 
 class MusicAPIManager : public QObject
 {

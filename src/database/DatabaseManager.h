@@ -2,65 +2,74 @@
 #define DATABASEMANAGER_H
 
 #include <QSqlDatabase>
-#include <QSqlQuery>
-#include <QSqlError>
-#include <QDebug>
+#include <QString>
 #include <QList>
+#include <QMutex>
+#include <QObject>
 
-#include "../core/Track.h"
-#include "../core/Playlist.h"
+struct Track {
+    int id;
+    QString filePath;
+    QString fileHash;
+    QString title;
+    QString artist;
+    QString album;
+    int duration;
+    int playCount;
+    QString addedAt;
+};
 
-class DatabaseManager
+struct Playlist {
+    int id;
+    int userId;
+    QString name;
+    QString createdAt;
+};
+
+class DatabaseManager : public QObject
 {
+    Q_OBJECT
+
 public:
     static DatabaseManager& instance();
     
-    bool initializeDatabase();
-    bool isDatabaseOpen() const;
-
-    QString hashPassword(const QString& password);
+    // Подключение
+    bool initialize();
+    bool isConnected() const;
+    
+    // Пользователи
     bool registerUser(const QString& username, const QString& password);
     bool authenticateUser(const QString& username, const QString& password);
-    bool userExists(const QString& username);
     int getUserId(const QString& username);
-
     
-    bool deleteTrack(int trackId);  
-    
-    bool addTrackMetadata(const QString& fileHash, const QString& title, 
-                         const QString& artist, const QString& album, 
-                         int duration, const QString& genre = "", int year = 0,
-                         int bitrate = 0, int sampleRate = 0);
-    bool addTrackToUser(const QString& filePath, const QString& fileHash,
-                       int userId, const QString& title, const QString& artist,
-                       const QString& album, int duration);
+    // Треки
+    bool addTrack(const QString& filePath, const QString& title, 
+                 const QString& artist, const QString& album, 
+                 int duration, int userId);
     QList<Track> getUserTracks(int userId);
     bool incrementPlayCount(int trackId);
-
-    int createPlaylist(int userId, const QString& name);
-    bool addTrackToPlaylist(int playlistId, int trackId, int position = -1);
-    QList<Playlist> getUserPlaylists(int userId);
-    QList<Track> getPlaylistTracks(int playlistId);
-    bool addTrackFromAPI(int userId, const QString& title, const QString& artist, 
-                        const QString& album = "", int duration = 0, 
-                        const QString& genre = "", const QString& coverUrl = "");
+    bool deleteTrack(int trackId);
+    
+    // API интеграция
+ bool addTrackFromAPI(int userId, const QString& title, 
+                    const QString& artist, const QString& coverUrl,
+                    const QString& album = "", int duration = 0,
+                    const QString& genre = "");
+    
 private:
-
-    DatabaseManager() = default;
-    ~DatabaseManager() = default;
-
+    DatabaseManager(QObject *parent = nullptr);
+    ~DatabaseManager();
     DatabaseManager(const DatabaseManager&) = delete;
     DatabaseManager& operator=(const DatabaseManager&) = delete;
     
-    QSqlDatabase m_database;
-
-    bool createUsersTable();
-    bool createTracksMetadataTable();
-    bool createTracksTable();
-    bool createPlaylistsTable();
-    bool createPlaylistTracksTable();
-    bool createFriendsTable();
-
+    bool openConnection();
+    bool createTables();
+    QString hashPassword(const QString& password);
+    QString generateFileHash(const QString& filePath);
+    
+    QSqlDatabase m_db;
+    static QMutex m_mutex;
+    bool m_initialized;
 };
 
-#endif 
+#endif // DATABASEMANAGER_H
