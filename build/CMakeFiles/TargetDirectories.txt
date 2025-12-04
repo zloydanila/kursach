@@ -1,5 +1,0 @@
-/home/ionin/Рабочий стол/kursach/build/CMakeFiles/SoundSpace.dir
-/home/ionin/Рабочий стол/kursach/build/CMakeFiles/edit_cache.dir
-/home/ionin/Рабочий стол/kursach/build/CMakeFiles/rebuild_cache.dir
-/home/ionin/Рабочий стол/kursach/build/CMakeFiles/SoundSpace_autogen_timestamp_deps.dir
-/home/ionin/Рабочий стол/kursach/build/CMakeFiles/SoundSpace_autogen.dir

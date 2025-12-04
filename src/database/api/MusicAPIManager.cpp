@@ -1,5 +1,5 @@
-#include "MusicAPIManager.h"
-#include "database/DatabaseManager.h"
+#include "../../database/api/MusicAPIManager.h"
+#include "../../database/DatabaseManager.h"
 #include <QDebug>
 #include <QSslError>
 
@@ -10,7 +10,7 @@ MusicAPIManager::MusicAPIManager(QObject *parent)
     , m_baseUrl("https://ws.audioscrobbler.com/2.0/")
     , m_currentUserId(-1)
 {
-    qDebug() << "🎵 MusicAPIManager initialized";
+    qDebug() << "MusicAPIManager initialized";
     
     // Настройки сетевого менеджера
     m_networkManager->setRedirectPolicy(QNetworkRequest::NoLessSafeRedirectPolicy);
@@ -69,7 +69,7 @@ void MusicAPIManager::getTopTracks(int userId)
 void MusicAPIManager::handleNetworkResponse(QNetworkReply *reply)
 {
     if (!reply) {
-        qDebug() << "❌ No reply object!";
+        qDebug() << "No reply object!";
         return;
     }
     
@@ -83,7 +83,7 @@ void MusicAPIManager::handleNetworkResponse(QNetworkReply *reply)
     qDebug() << "Response size:" << responseData.size() << "bytes";
     
     if (responseData.isEmpty()) {
-        qDebug() << "❌ Empty response!";
+        qDebug() << "Empty response!";
         reply->deleteLater();
         return;
     }
@@ -99,10 +99,10 @@ void MusicAPIManager::handleNetworkResponse(QNetworkReply *reply)
         } else if (urlString.contains("chart.gettoptracks")) {
             processTopTracksResponse(responseData);
         } else {
-            qDebug() << "❌ Unknown request type";
+            qDebug() << "Unknown request type";
         }
     } else {
-        qDebug() << "❌ Network error:" << reply->errorString();
+        qDebug() << "Network error:" << reply->errorString();
         reply->ignoreSslErrors();
     }
     
@@ -116,21 +116,21 @@ void MusicAPIManager::processTopTracksResponse(const QByteArray& responseData)
     QJsonDocument doc = QJsonDocument::fromJson(responseData, &parseError);
     
     if (parseError.error != QJsonParseError::NoError) {
-        qDebug() << "❌ JSON Parse error:" << parseError.errorString();
+        qDebug() << "JSON Parse error:" << parseError.errorString();
         qDebug() << "At position:" << parseError.offset;
         qDebug() << "Error context:" << responseData.mid(parseError.offset - 10, 20);
         return;
     }
     
     if (doc.isNull()) {
-        qDebug() << "❌ Failed to parse JSON for top tracks";
+        qDebug() << "Failed to parse JSON for top tracks";
         return;
     }
     
     QJsonObject root = doc.object();
     
     if (root.contains("error")) {
-        qDebug() << "❌ API Error:" << root["error"].toInt() << "-" << root["message"].toString();
+        qDebug() << "API Error:" << root["error"].toInt() << "-" << root["message"].toString();
         return;
     }
     
@@ -153,10 +153,10 @@ void MusicAPIManager::processTopTracksResponse(const QByteArray& responseData)
             
             processTracksData(tracks);
         } else {
-            qDebug() << "❌ No 'track' array in tracks object";
+            qDebug() << "No 'track' array in tracks object";
         }
     } else {
-        qDebug() << "❌ Unexpected top tracks response structure";
+        qDebug() << "Unexpected top tracks response structure";
         qDebug() << "Root keys:" << root.keys();
     }
 }
@@ -167,20 +167,20 @@ void MusicAPIManager::processSearchResponse(const QByteArray& responseData)
     QJsonDocument doc = QJsonDocument::fromJson(responseData, &parseError);
     
     if (parseError.error != QJsonParseError::NoError) {
-        qDebug() << "❌ JSON Parse error:" << parseError.errorString();
+        qDebug() << "JSON Parse error:" << parseError.errorString();
         qDebug() << "At position:" << parseError.offset;
         return;
     }
     
     if (doc.isNull()) {
-        qDebug() << "❌ Failed to parse JSON for search";
+        qDebug() << "Failed to parse JSON for search";
         return;
     }
     
     QJsonObject root = doc.object();
     
     if (root.contains("error")) {
-        qDebug() << "❌ API Error:" << root["error"].toInt() << "-" << root["message"].toString();
+        qDebug() << "API Error:" << root["error"].toInt() << "-" << root["message"].toString();
         return;
     }
     
@@ -199,7 +199,7 @@ void MusicAPIManager::processSearchResponse(const QByteArray& responseData)
         
         processTracksData(tracks);
     } else {
-        qDebug() << "❌ Unexpected search response structure";
+        qDebug() << "Unexpected search response structure";
         qDebug() << "Root keys:" << root.keys();
     }
 }
@@ -228,6 +228,7 @@ void MusicAPIManager::processTracksData(const QJsonArray& tracksArray)
         track["title"] = trackObj["name"].toString();
         
         // Обработка изображений
+        QString coverUrl;
         if (trackObj.contains("image")) {
             QJsonArray images = trackObj["image"].toArray();
             if (!images.isEmpty()) {
@@ -235,12 +236,14 @@ void MusicAPIManager::processTracksData(const QJsonArray& tracksArray)
                 for (int i = images.size() - 1; i >= 0; --i) {
                     QString imageUrl = images[i].toObject()["#text"].toString();
                     if (!imageUrl.isEmpty()) {
-                        track["coverUrl"] = imageUrl;
+                        coverUrl = imageUrl;
                         break;
                     }
                 }
             }
         }
+        
+        track["coverUrl"] = coverUrl;
 
         // Обработка статистики
         if (trackObj.contains("listeners")) {
@@ -252,20 +255,17 @@ void MusicAPIManager::processTracksData(const QJsonArray& tracksArray)
         
         processedTracks.append(track);
         
-        qDebug() << "🎵 Processing track:" << track["title"].toString() << "-" << track["artist"].toString();
+        qDebug() << "Processing track:" << track["title"].toString() << "-" << track["artist"].toString();
         
-        // Сохраняем в БД
+        // Сохраняем в БД - используем новый метод с 4 параметрами
         DatabaseManager::instance().addTrackFromAPI(
             m_currentUserId,
             track["title"].toString(),
             track["artist"].toString(),
-            "", // album
-            0,  // duration  
-            "", // genre
-            track["coverUrl"].toString()
+            coverUrl
         );
     }
     
-    qDebug() << "🎵 Emitting tracksFound signal with" << processedTracks.size() << "tracks";
+    qDebug() << "Emitting tracksFound signal with" << processedTracks.size() << "tracks";
     emit tracksFound(processedTracks);
 }

@@ -52,4 +52,4 @@ private:
     QSlider *volumeSlider;
 };
 
-#endif 
+#endif

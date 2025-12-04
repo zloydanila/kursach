@@ -2,12 +2,12 @@
 #define AUTHWINDOW_H
 
 #include <QMainWindow>
-#include "../MainWindow/MainWindow.h"
 
 class QStackedWidget;
 class QLineEdit;
 class QPushButton;
 class QLabel;
+class QWidget;
 
 class AuthWindow : public QMainWindow
 {
@@ -24,6 +24,9 @@ private slots:
     void switchToRegister();
     void showMainWindow(const QString& username);
 
+protected:
+    bool eventFilter(QObject *obj, QEvent *event) override;
+
 private:
     void setupUI();
     void setupConnections();
@@ -35,6 +38,7 @@ private:
     bool isStrongPassword(const QString& password);
     bool hasSqlInjection(const QString& input);
     
+    // UI элементы
     QStackedWidget *stackedWidget;
     QWidget *regPage;
     QLineEdit *regEmail;
@@ -48,6 +52,11 @@ private:
     QLineEdit *loginPass;
     QPushButton *loginBtn;
     QPushButton *toRegBtn;
+    
+    // Для перемещения окна
+    QWidget *titleBarWidget;
+    bool m_dragging;
+    QPoint m_dragPosition;
 };
 
 #endif
