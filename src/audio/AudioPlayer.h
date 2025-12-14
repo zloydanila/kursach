@@ -2,6 +2,7 @@
 #define AUDIOPLAYER_H
 
 #include <QMediaPlayer>
+#include <QObject>
 #include <QWidget>
 
 class QSlider;
@@ -19,6 +20,8 @@ public:
     void setupPlayerControls(QWidget *parent);
     QWidget* getPlayerControls() const { return playerControls; }
 
+    void playRadio(const QString& streamUrl, const QString& title, const QString& artist);
+    void stopRadio();
     void playTrack(const QString& filePath);
     void pauseTrack();
     void setVolume(int volume);
@@ -26,6 +29,7 @@ public:
 
     bool isPlaying() const;
     QString formatTime(qint64 milliseconds);
+    QString currentRadioTitle() const { return m_currentRadioTitle; }
 
 public slots:
     void playSelectedTrack();
@@ -35,21 +39,28 @@ public slots:
     void onPlaybackStateChanged();
     void updatePlaybackButtons();
     void updateTrackInfo(const QString& title, const QString& artist);
+    void onVolumeIconClicked();
 
 signals:
     void trackFinished();
+    void radioStateChanged(bool isPlaying, const QString& title);
 
 private:
+    void updateNowPlayingLabel();
+    void updateVolumeIcon();
+
     QMediaPlayer *mediaPlayer;
     QWidget *playerControls;
     QLabel *nowPlayingLabel;
-    QLabel *currentTimeLabel;
-    QLabel *totalTimeLabel;
-    QSlider *progressSlider;
-    QToolButton *playPauseBtn;
     QToolButton *previousBtn;
     QToolButton *nextBtn;
+    QToolButton *volumeIcon;
     QSlider *volumeSlider;
+    QToolButton *stopBtn;
+
+    QString m_currentRadioTitle;
+    QString m_currentRadioArtist;
+    bool m_isRadioPlaying = false;
 };
 
 #endif

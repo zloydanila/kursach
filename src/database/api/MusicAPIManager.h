@@ -1,15 +1,10 @@
-#ifndef MUSICAPIMANAGER_H
-#define MUSICAPIMANAGER_H
+#ifndef MUSICAPIMANAGERH
+#define MUSICAPIMANAGERH
 
 #include <QObject>
-#include <QNetworkAccessManager>
-#include <QNetworkReply>
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QJsonArray>
-#include <QUrlQuery>
-#include <QVariant>
-#include "../../gui/Frameless/FramelessWindow.h"
+#include <QVector>
+#include <core/models/Track.h>
+#include <network/RadioBrowserAPI.h>
 
 class MusicAPIManager : public QObject
 {
@@ -17,26 +12,19 @@ class MusicAPIManager : public QObject
 
 public:
     explicit MusicAPIManager(QObject *parent = nullptr);
-    
-    void searchTracks(const QString& query, int userId);
-    void getTopTracks(int userId);
+    void searchStations(const QString &query, int userId);
+    void getTopStations(int userId);
+    void getStationsByGenre(const QString &genre, int userId);
 
 signals:
-    void tracksFound(const QVariantList& tracks);
-    void errorOccurred(const QString& error);
+    void stationsFound(const QVariantList &stations);
+    void errorOccurred(const QString &error);
 
 private slots:
-    void handleNetworkResponse(QNetworkReply *reply);
+    void onRadioBrowserStations(const QVariantList &stations);
 
 private:
-    QNetworkAccessManager *m_networkManager;
-    QString m_apiKey;
-    QString m_baseUrl;
-    int m_currentUserId;
-    
-    void processTracksData(const QJsonArray& tracksArray);
-    void processSearchResponse(const QByteArray& responseData);        
-    void processTopTracksResponse(const QByteArray& responseData);  
+    RadioBrowserAPI *mradioBrowser;
 };
 
-#endif 
+#endif

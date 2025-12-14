@@ -2,59 +2,37 @@
 #define AUTHWINDOW_H
 
 #include <QMainWindow>
+#include <QStackedWidget>
 
-class QStackedWidget;
-class QLineEdit;
-class QPushButton;
-class QLabel;
-class QWidget;
+class LoginForm;
+class RegisterForm;
 
 class AuthWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    AuthWindow(QWidget *parent = nullptr);
+    explicit AuthWindow(QWidget *parent = nullptr);
     ~AuthWindow();
-
-private slots:
-    void onRegisterClicked();
-    void onLoginClicked();
-    void switchToLogin();
-    void switchToRegister();
-    void showMainWindow(const QString& username);
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event) override;
 
+private slots:
+    void onLoginSuccess(const QString& username, int userId);
+    void onRegisterSuccess();
+    void switchToLogin();
+    void switchToRegister();
+
 private:
     void setupUI();
-    void setupConnections();
-    void showMessage(const QString& title, const QString& text, bool isError = true);
-    void showSqlInjectionError();
+    void showMainWindow(const QString& username, int userId);
     
-    bool isValidEmail(const QString& email);
-    bool isValidUsername(const QString& username);
-    bool isStrongPassword(const QString& password);
-    bool hasSqlInjection(const QString& input);
+    QStackedWidget* m_stackedWidget;
+    LoginForm* m_loginForm;
+    RegisterForm* m_registerForm;
     
-    // UI элементы
-    QStackedWidget *stackedWidget;
-    QWidget *regPage;
-    QLineEdit *regEmail;
-    QLineEdit *regUser;
-    QLineEdit *regPass;
-    QLineEdit *regConfirmPass;
-    QPushButton *regBtn;
-    QPushButton *toLoginBtn;
-    QWidget *loginPage;
-    QLineEdit *loginUser;
-    QLineEdit *loginPass;
-    QPushButton *loginBtn;
-    QPushButton *toRegBtn;
-    
-    // Для перемещения окна
-    QWidget *titleBarWidget;
+    QWidget* m_titleBarWidget;
     bool m_dragging;
     QPoint m_dragPosition;
 };
