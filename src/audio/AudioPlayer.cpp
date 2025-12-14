@@ -3,36 +3,37 @@
 #include <QLabel>
 #include <QToolButton>
 #include <QHBoxLayout>
-#include <QVBoxLayout>
 #include <QStyle>
-#include <QTime>
 #include <QApplication>
-#include <QGraphicsDropShadowEffect>
+#include <QDebug>
 
 AudioPlayer::AudioPlayer(QObject *parent)
     : QObject(parent)
     , mediaPlayer(new QMediaPlayer(this))
     , playerControls(nullptr)
     , nowPlayingLabel(nullptr)
-    , currentTimeLabel(nullptr)
-    , totalTimeLabel(nullptr)
-    , progressSlider(nullptr)
-    , playPauseBtn(nullptr)
     , previousBtn(nullptr)
     , nextBtn(nullptr)
+    , volumeIcon(nullptr)
     , volumeSlider(nullptr)
+    , stopBtn(nullptr)
 {
     mediaPlayer->setVolume(50);
+    
+    connect(mediaPlayer, &QMediaPlayer::stateChanged, this, &AudioPlayer::onPlaybackStateChanged);
+    connect(mediaPlayer, &QMediaPlayer::mediaStatusChanged, this, [this](QMediaPlayer::MediaStatus status) {
+        if (status == QMediaPlayer::EndOfMedia || status == QMediaPlayer::InvalidMedia) {
+            stopRadio();
+        }
+    });
 }
 
-AudioPlayer::~AudioPlayer()
-{
-}
+AudioPlayer::~AudioPlayer() {}
 
 void AudioPlayer::setupPlayerControls(QWidget *parent)
 {
     playerControls = new QWidget(parent);
-    playerControls->setFixedHeight(100);
+    playerControls->setFixedHeight(80);
     playerControls->setStyleSheet(R"(
         QWidget {
             background: rgba(15, 15, 20, 0.95);
@@ -41,17 +42,10 @@ void AudioPlayer::setupPlayerControls(QWidget *parent)
     )");
     
     QHBoxLayout *layout = new QHBoxLayout(playerControls);
-    layout->setContentsMargins(30, 15, 30, 15);
+    layout->setContentsMargins(30, 10, 30, 10);
     layout->setSpacing(20);
     
-    // Левая часть: информация о треке
-    QWidget *trackInfoWidget = new QWidget();
-    trackInfoWidget->setFixedWidth(250);
-    QVBoxLayout *trackLayout = new QVBoxLayout(trackInfoWidget);
-    trackLayout->setContentsMargins(0, 0, 0, 0);
-    trackLayout->setSpacing(5);
-    
-    nowPlayingLabel = new QLabel("Не воспроизводится");
+    nowPlayingLabel = new QLabel("Нет активной радиостанции");
     nowPlayingLabel->setStyleSheet(R"(
         QLabel {
             color: #FFFFFF;
@@ -60,38 +54,18 @@ void AudioPlayer::setupPlayerControls(QWidget *parent)
             background: transparent;
         }
     )");
-    nowPlayingLabel->setWordWrap(true);
+    nowPlayingLabel->setMinimumWidth(200);
+    nowPlayingLabel->setMaximumWidth(300);
+    layout->addWidget(nowPlayingLabel);
+    layout->addStretch();
     
-    QLabel *artistLabel = new QLabel("SoundSpace");
-    artistLabel->setStyleSheet(R"(
-        QLabel {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 12px;
-            background: transparent;
-        }
-    )");
-    
-    trackLayout->addWidget(nowPlayingLabel);
-    trackLayout->addWidget(artistLabel);
-    layout->addWidget(trackInfoWidget);
-    
-    // Центральная часть: управление воспроизведением
-    QWidget *controlsWidget = new QWidget();
-    QVBoxLayout *controlsLayout = new QVBoxLayout(controlsWidget);
-    controlsLayout->setContentsMargins(0, 0, 0, 0);
-    controlsLayout->setSpacing(10);
-    
-    QHBoxLayout *playbackLayout = new QHBoxLayout();
-    playbackLayout->setAlignment(Qt::AlignCenter);
-    playbackLayout->setSpacing(15);
-    
-    // Стили для кнопок плеера
     QString playerBtnStyle = R"(
         QToolButton {
             background: transparent;
             border: none;
             color: rgba(255, 255, 255, 0.7);
             border-radius: 15px;
+            font-size: 16px;
         }
         QToolButton:hover {
             color: #FFFFFF;
@@ -100,130 +74,41 @@ void AudioPlayer::setupPlayerControls(QWidget *parent)
     )";
     
     previousBtn = new QToolButton();
-    previousBtn->setIcon(QIcon::fromTheme("media-skip-backward"));
+    previousBtn->setText("⏮");
     previousBtn->setStyleSheet(playerBtnStyle);
     previousBtn->setFixedSize(40, 40);
-    
-    playPauseBtn = new QToolButton();
-    playPauseBtn->setIcon(QIcon::fromTheme("media-playback-start"));
-    playPauseBtn->setStyleSheet(R"(
-        QToolButton {
-            background: #8A2BE2;
-            border: none;
-            border-radius: 20px;
-            color: white;
-            padding: 10px;
-        }
-        QToolButton:hover {
-            background: #9B4BFF;
-        }
-    )");
-    playPauseBtn->setFixedSize(50, 50);
+    layout->addWidget(previousBtn);
     
     nextBtn = new QToolButton();
-    nextBtn->setIcon(QIcon::fromTheme("media-skip-forward"));
+    nextBtn->setText("⏭");
     nextBtn->setStyleSheet(playerBtnStyle);
     nextBtn->setFixedSize(40, 40);
+    layout->addWidget(nextBtn);
     
-    playbackLayout->addWidget(previousBtn);
-    playbackLayout->addWidget(playPauseBtn);
-    playbackLayout->addWidget(nextBtn);
+    stopBtn = new QToolButton();
+    stopBtn->setText("⏹");
+    stopBtn->setStyleSheet(playerBtnStyle);
+    stopBtn->setFixedSize(40, 40);
+    connect(stopBtn, &QToolButton::clicked, this, &AudioPlayer::stopRadio);
+    layout->addWidget(stopBtn);
     
-    // Прогресс бар с временем
-    QHBoxLayout *progressLayout = new QHBoxLayout();
-    progressLayout->setSpacing(10);
+    layout->addSpacing(20);
     
-    currentTimeLabel = new QLabel("0:00");
-    currentTimeLabel->setStyleSheet(R"(
-        QLabel {
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 11px;
-            min-width: 40px;
-        }
-    )");
-    
-    progressSlider = new QSlider(Qt::Horizontal);
-    progressSlider->setStyleSheet(R"(
-        QSlider::groove:horizontal {
-            background: rgba(255, 255, 255, 0.1);
-            height: 4px;
-            border-radius: 2px;
-        }
-        QSlider::sub-page:horizontal {
-            background: #8A2BE2;
-            border-radius: 2px;
-        }
-        QSlider::handle:horizontal {
-            background: #FFFFFF;
-            width: 12px;
-            height: 12px;
-            margin: -4px 0;
-            border-radius: 6px;
-        }
-        QSlider::handle:horizontal:hover {
-            background: #8A2BE2;
-            width: 14px;
-            height: 14px;
-            margin: -5px 0;
-        }
-    )");
-    
-    totalTimeLabel = new QLabel("0:00");
-    totalTimeLabel->setStyleSheet(R"(
-        QLabel {
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 11px;
-            min-width: 40px;
-        }
-    )");
-    
-    progressLayout->addWidget(currentTimeLabel);
-    progressLayout->addWidget(progressSlider, 1);
-    progressLayout->addWidget(totalTimeLabel);
-    
-    controlsLayout->addLayout(playbackLayout);
-    controlsLayout->addLayout(progressLayout);
-    layout->addWidget(controlsWidget, 1);
-    
-    // Правая часть: дополнительные функции
-    QWidget *rightWidget = new QWidget();
-    rightWidget->setFixedWidth(200);
-    QHBoxLayout *rightLayout = new QHBoxLayout(rightWidget);
-    rightLayout->setContentsMargins(0, 0, 0, 0);
-    rightLayout->setSpacing(15);
-    
-    // Кнопка добавления в избранное
-    QToolButton *likeBtn = new QToolButton();
-    likeBtn->setText("♡");
-    likeBtn->setStyleSheet(R"(
-        QToolButton {
-            background: transparent;
-            border: none;
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 16px;
-        }
-        QToolButton:hover {
-            color: #FF4444;
-        }
-        QToolButton[liked="true"] {
-            color: #FF4444;
-        }
-    )");
-    
-    // Ползунок громкости
     QWidget *volumeWidget = new QWidget();
     QHBoxLayout *volumeLayout = new QHBoxLayout(volumeWidget);
     volumeLayout->setContentsMargins(0, 0, 0, 0);
     volumeLayout->setSpacing(8);
     
-    QToolButton *volumeIcon = new QToolButton();
+    volumeIcon = new QToolButton();
     volumeIcon->setText("🔊");
     volumeIcon->setStyleSheet(playerBtnStyle);
+    volumeIcon->setFixedSize(35, 35);
+    connect(volumeIcon, &QToolButton::clicked, this, &AudioPlayer::onVolumeIconClicked);
     
     volumeSlider = new QSlider(Qt::Horizontal);
     volumeSlider->setRange(0, 100);
     volumeSlider->setValue(50);
-    volumeSlider->setFixedWidth(80);
+    volumeSlider->setFixedWidth(100);
     volumeSlider->setStyleSheet(R"(
         QSlider::groove:horizontal {
             background: rgba(255, 255, 255, 0.1);
@@ -248,50 +133,44 @@ void AudioPlayer::setupPlayerControls(QWidget *parent)
     
     volumeLayout->addWidget(volumeIcon);
     volumeLayout->addWidget(volumeSlider);
+    layout->addWidget(volumeWidget);
     
-    rightLayout->addWidget(likeBtn);
-    rightLayout->addWidget(volumeWidget);
-    layout->addWidget(rightWidget);
-    
-    // Подключаем сигналы
-    connect(playPauseBtn, &QToolButton::clicked, this, &AudioPlayer::playSelectedTrack);
-    connect(previousBtn, &QToolButton::clicked, this, &AudioPlayer::trackFinished);
-    connect(nextBtn, &QToolButton::clicked, this, &AudioPlayer::trackFinished);
-    connect(progressSlider, &QSlider::sliderMoved, this, &AudioPlayer::seekTrack);
-    
-    // Исправленный connect для volumeSlider
-    connect(volumeSlider, &QSlider::valueChanged, this, [this, volumeIcon](int value) {
+    connect(volumeSlider, &QSlider::valueChanged, this, [this](int value) {
         mediaPlayer->setVolume(value);
-        
-        // Обновляем иконку громкости
-        if (value == 0) {
-            volumeIcon->setText("🔇");
-        } else if (value < 33) {
-            volumeIcon->setText("🔈");
-        } else if (value < 66) {
-            volumeIcon->setText("🔉");
-        } else {
-            volumeIcon->setText("🔊");
-        }
+        updateVolumeIcon();
     });
     
-    connect(mediaPlayer, &QMediaPlayer::positionChanged, this, &AudioPlayer::onPositionChanged);
-    connect(mediaPlayer, &QMediaPlayer::durationChanged, this, &AudioPlayer::onDurationChanged);
-    connect(mediaPlayer, &QMediaPlayer::stateChanged, this, &AudioPlayer::onPlaybackStateChanged);
-    
-    // Кнопка лайка
-    connect(likeBtn, &QToolButton::clicked, likeBtn, [likeBtn]() {
-        bool liked = likeBtn->property("liked").toBool();
-        likeBtn->setProperty("liked", !liked);
-        likeBtn->setStyleSheet(likeBtn->styleSheet());
-        likeBtn->setText(!liked ? "❤️" : "♡");
-    });
+    updateNowPlayingLabel();
+    updateVolumeIcon();
+}
+
+void AudioPlayer::playRadio(const QString& streamUrl, const QString& title, const QString& artist)
+{
+    qDebug() << "Playing radio station:" << title << streamUrl;
+    mediaPlayer->setMedia(QUrl(streamUrl));
+    mediaPlayer->play();
+    m_currentRadioTitle = title;
+    m_currentRadioArtist = artist;
+    m_isRadioPlaying = true;
+    updateNowPlayingLabel();
+    emit radioStateChanged(true, title);
+}
+
+void AudioPlayer::stopRadio()
+{
+    mediaPlayer->stop();
+    m_isRadioPlaying = false;
+    m_currentRadioTitle.clear();
+    m_currentRadioArtist.clear();
+    updateNowPlayingLabel();
+    emit radioStateChanged(false, "");
 }
 
 void AudioPlayer::playTrack(const QString& filePath)
 {
     mediaPlayer->setMedia(QUrl::fromLocalFile(filePath));
     mediaPlayer->play();
+    m_isRadioPlaying = false;
 }
 
 void AudioPlayer::pauseTrack()
@@ -306,7 +185,10 @@ void AudioPlayer::pauseTrack()
 void AudioPlayer::setVolume(int volume)
 {
     mediaPlayer->setVolume(volume);
-    volumeSlider->setValue(volume);
+    if (volumeSlider) {
+        volumeSlider->setValue(volume);
+    }
+    updateVolumeIcon();
 }
 
 void AudioPlayer::seek(int position)
@@ -333,18 +215,10 @@ void AudioPlayer::playSelectedTrack()
 }
 
 void AudioPlayer::onPositionChanged(qint64 position)
-{
-    if (!progressSlider->isSliderDown()) {
-        progressSlider->setValue(position);
-    }
-    currentTimeLabel->setText(formatTime(position));
-}
+{}
 
 void AudioPlayer::onDurationChanged(qint64 duration)
-{
-    progressSlider->setRange(0, duration);
-    totalTimeLabel->setText(formatTime(duration));
-}
+{}
 
 void AudioPlayer::seekTrack(int position)
 {
@@ -354,25 +228,62 @@ void AudioPlayer::seekTrack(int position)
 void AudioPlayer::onPlaybackStateChanged()
 {
     updatePlaybackButtons();
+    if (mediaPlayer->state() == QMediaPlayer::StoppedState) {
+        stopRadio();
+    }
 }
 
 void AudioPlayer::updatePlaybackButtons()
-{
-    if (mediaPlayer->state() == QMediaPlayer::PlayingState) {
-        playPauseBtn->setIcon(QIcon::fromTheme("media-playback-pause"));
-    } else {
-        playPauseBtn->setIcon(QIcon::fromTheme("media-playback-start"));
-    }
-}
+{}
 
 void AudioPlayer::updateTrackInfo(const QString& title, const QString& artist)
 {
     if (nowPlayingLabel) {
-        nowPlayingLabel->setText(title);
-        // Обновляем artistLabel если нужно
-        QLabel *artistLabel = nowPlayingLabel->parentWidget()->findChild<QLabel*>();
-        if (artistLabel) {
-            artistLabel->setText(artist);
+        if (artist.isEmpty()) {
+            nowPlayingLabel->setText(title);
+        } else {
+            nowPlayingLabel->setText(QString("%1 - %2").arg(title, artist));
+        }
+    }
+}
+
+void AudioPlayer::onVolumeIconClicked()
+{
+    int currentVolume = volumeSlider->value();
+    if (currentVolume > 0) {
+        volumeSlider->setValue(0);
+    } else {
+        volumeSlider->setValue(50);
+    }
+}
+
+void AudioPlayer::updateNowPlayingLabel()
+{
+    if (nowPlayingLabel) {
+        if (m_isRadioPlaying && !m_currentRadioTitle.isEmpty()) {
+            QString displayText = m_currentRadioTitle;
+            if (!m_currentRadioArtist.isEmpty()) {
+                displayText = QString("%1 - %2").arg(m_currentRadioTitle, m_currentRadioArtist);
+            }
+            nowPlayingLabel->setText(displayText);
+        } else {
+            nowPlayingLabel->setText("Нет активной радиостанции");
+        }
+    }
+}
+
+void AudioPlayer::updateVolumeIcon()
+{
+    if (volumeIcon) {
+        int volume = volumeSlider->value();
+        if (volume == 0) {
+            volumeIcon->setText("🔇");
+        } else if (volume < 33) {
+            volumeIcon->setText("🔈");
+        } else if (volume < 66) {
+            volumeIcon->setText("🔉");
+        } else {
+            volumeIcon->setText("🔊");
         }
     }
 }

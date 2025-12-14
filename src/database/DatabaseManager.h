@@ -6,25 +6,8 @@
 #include <QList>
 #include <QMutex>
 #include <QObject>
-
-struct Track {
-    int id;
-    QString filePath;
-    QString fileHash;
-    QString title;
-    QString artist;
-    QString album;
-    int duration;
-    int playCount;
-    QString addedAt;
-};
-
-struct Playlist {
-    int id;
-    int userId;
-    QString name;
-    QString createdAt;
-};
+#include "core/models/Track.h"
+#include "core/models/Playlist.h"
 
 class DatabaseManager : public QObject
 {
@@ -33,29 +16,30 @@ class DatabaseManager : public QObject
 public:
     static DatabaseManager& instance();
     
-    // Подключение
     bool initialize();
     bool isConnected() const;
+    QSqlDatabase database() { return m_db; }
     
-    // Пользователи
     bool registerUser(const QString& username, const QString& password);
     bool authenticateUser(const QString& username, const QString& password);
     int getUserId(const QString& username);
     
-    // Треки
     bool addTrack(const QString& filePath, const QString& title, 
                  const QString& artist, const QString& album, 
                  int duration, int userId);
-    QList<Track> getUserTracks(int userId);
+    QList<TrackData> getUserTracks(int userId);
     bool incrementPlayCount(int trackId);
     bool deleteTrack(int trackId);
     
-    // API интеграция
- bool addTrackFromAPI(int userId, const QString& title, 
-                    const QString& artist, const QString& coverUrl,
-                    const QString& album = "", int duration = 0,
-                    const QString& genre = "");
-    
+    bool addRadioStation(int userId, const QString& name, const QString& country,
+                     const QString& streamUrl, const QString& genre, int bitrate);
+    QList<TrackData> getUserRadioStations(int userId);
+    bool deleteRadioStation(int stationId);
+    bool incrementRadioPlayCount(int stationId);
+    bool shareRadioStation(int userId, int stationId, const QStringList& friendIds);
+    bool addRadioToStatus(int userId, int stationId);
+    QList<TrackData> getSharedRadioStations(int userId);
+
 private:
     DatabaseManager(QObject *parent = nullptr);
     ~DatabaseManager();
@@ -72,4 +56,4 @@ private:
     bool m_initialized;
 };
 
-#endif // DATABASEMANAGER_H
+#endif

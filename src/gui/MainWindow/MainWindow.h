@@ -1,76 +1,99 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
-#include <QListWidgetItem>
-#include <QProgressDialog>
-#include "../Frameless/FramelessWindow.h"
 
-class QStackedWidget;
-class QListWidget;
-class QPushButton;
-class QLabel;
-class QLineEdit;
-class QTextEdit;
-class QProgressDialog;
+#include <QMainWindow>
+#include <QStackedWidget>
+#include <QPushButton>
+#include <QLabel>
+#include <QListWidget>
+#include <QLineEdit>
+#include <QTextEdit>
+#include <QGraphicsDropShadowEffect>
+#include "../Frameless/FramelessWindow.h"
+#include "core/models/Track.h"
+#include <vector>
+
+
+class FriendsPage;
+class MessagesPage;
 class MusicAPIManager;
 class AudioPlayer;
-struct Track;
 
-class MainWindow : public FramelessWindow
-{
+
+enum PageIndex {
+    MYMUSICPAGE = 0,
+    PROFILEPAGE = 1,
+    MESSAGESPAGE = 2,
+    FRIENDSPAGE = 3,
+    NOTIFICATIONSPAGE = 4,
+    PLAYLISTPAGE = 5,
+    MUSICPAGE = 6,
+    ROOMSPAGE = 7
+};
+
+
+class MainWindow : public FramelessWindow {
     Q_OBJECT
 
+
 public:
-    explicit MainWindow(const QString& username, int userId, QWidget *parent = nullptr);
+    MainWindow(const QString &username, int userId, QWidget *parent = nullptr);
     ~MainWindow();
+    
+
+
+protected:
+    bool eventFilter(QObject *obj, QEvent *event) override;
+
 
 private slots:
+    void setupConnections();
+    void playRadio(int radioId);
+    void onPlaylistItemClicked(QListWidgetItem *item);
+    void onRadioDeleteRequested(int radioId);
+    void loadUserRadio();
     void showProfilePage();
     void showMessagesPage();
     void showFriendsPage();
     void showNotificationsPage();
     void showPlaylistPage();
-    void searchMusic();
-    void onTracksFound(const QVariantList& tracks);
-    void showTopTracks();
-    void changeAvatar();
-    void loadUserTracks();
-    void playTrack(int trackId);
-    void onPlaylistItemClicked(QListWidgetItem *item);
-    void onTrackDeleteRequested(int trackId);
-    void onNetworkError(const QString& error);
     void showRoomsPage();
+    void changeAvatar();
+    void onRadioStationAdded();
 
-protected:
-    bool eventFilter(QObject *obj, QEvent *event) override;
 
 private:
     void setupUI();
-    void setupConnections();
     void createSidebar();
     void createPages();
-    void createMusicPage();
-    void createMyMusicPage();
-    void createRoomsPage();
-    void loadUserAvatar();
+    QWidget* createSimplePage(const QString& title, const QString& description);
+
+
     void setupAvatar();
     void setAvatarPixmap(const QPixmap& pixmap);
     void setDefaultAvatar();
     void saveAvatar(const QPixmap& avatar);
-    void enableSearchControls(bool enable);
+    void loadUserAvatar();
     void showAvatarOverlay();
     void hideAvatarOverlay();
     void onAvatarButtonEnter();
     void onAvatarButtonLeave();
 
+
+
     QString currentUsername;
     int currentUserId;
-    
+    QVector<TrackData> currentRadios;
+    int currentRadioIndex;
+
+
     QWidget *sidebar;
     QPushButton *avatarButton;
     QLabel *avatarOverlay;
     QLabel *usernameLabel;
+
+
     QPushButton *profileBtn;
     QPushButton *messagesBtn;
     QPushButton *friendsBtn;
@@ -79,7 +102,8 @@ private:
     QPushButton *musicSearchBtn;
     QPushButton *myMusicBtn;
     QPushButton *roomsBtn;
-    
+
+
     QStackedWidget *mainStack;
     QWidget *profilePage;
     QWidget *messagesPage;
@@ -89,35 +113,21 @@ private:
     QWidget *musicPage;
     QWidget *myMusicPage;
     QWidget *roomsPage;
-    
+
+
     QLineEdit *searchInput;
     QPushButton *searchButton;
     QPushButton *topTracksButton;
     QListWidget *tracksList;
     QTextEdit *trackInfo;
-    
     QListWidget *userTracksList;
     QPushButton *refreshTracksBtn;
     QPushButton *addLocalTrackBtn;
-    
+
+
     MusicAPIManager *apiManager;
     AudioPlayer *audioPlayer;
-    QLabel *loadingLabel;
-
-    QString avatarPath;
-    QList<Track> currentTracks;
-    int currentTrackIndex;
-
-    enum PageIndex {
-        MY_MUSIC_PAGE = 0,
-        PROFILE_PAGE,
-        MESSAGES_PAGE,
-        FRIENDS_PAGE,
-        NOTIFICATIONS_PAGE,
-        PLAYLIST_PAGE,
-        MUSIC_PAGE,
-        ROOMS_PAGE  
-    };
 };
 
-#endif
+
+#endif // MAINWINDOW_H

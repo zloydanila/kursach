@@ -1,68 +1,73 @@
 #include <QApplication>
-#include <QDebug>
-#include <QMessageBox>
 #include <QFile>
-#include <QDir>
-
 #include "gui/AuthWindow/AuthWindow.h"
 #include "database/DatabaseManager.h"
+#include "utils/Config.h"
+#include <QDebug>
+
+void loadStyleSheet(QApplication& app)
+{
+    QString styleSheet = R"(
+        * {
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        
+        QMainWindow {
+            background: qlineargradient(x1:0, y1:0, x2:1, y2:1,
+                stop:0 #0F0F14, stop:1 #1A1A21);
+        }
+        
+        QScrollBar:vertical {
+            background: rgba(255, 255, 255, 0.05);
+            width: 10px;
+            border-radius: 5px;
+            margin: 0px;
+        }
+        
+        QScrollBar::handle:vertical {
+            background: rgba(138, 43, 226, 0.5);
+            border-radius: 5px;
+            min-height: 30px;
+        }
+        
+        QScrollBar::handle:vertical:hover {
+            background: rgba(138, 43, 226, 0.7);
+        }
+        
+        QScrollBar::add-line:vertical,
+        QScrollBar::sub-line:vertical {
+            height: 0px;
+        }
+        
+        QToolTip {
+            background: #1A1A21;
+            color: white;
+            border: 1px solid rgba(138, 43, 226, 0.5);
+            border-radius: 4px;
+            padding: 5px;
+        }
+    )";
+    
+    app.setStyleSheet(styleSheet);
+}
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
     
-    qDebug() << "==========================================";
-    qDebug() << "Запуск SoundSpace...";
-    qDebug() << "==========================================";
+    app.setApplicationName("Chorus");
+    app.setApplicationVersion("1.0.0");
+    app.setOrganizationName("Chorus");
     
-    // Устанавливаем название приложения
-    QApplication::setApplicationName("SoundSpace");
-    QApplication::setOrganizationName("SoundSpace");
+    loadStyleSheet(app);
     
-    // Загружаем глобальные стили
-    QFile styleFile(":/styles/styles.css");
-    if (styleFile.open(QIODevice::ReadOnly)) {
-        QString styleSheet = QLatin1String(styleFile.readAll());
-        app.setStyleSheet(styleSheet);
-        qDebug() << "✅ Стили загружены";
-    } else {
-        qDebug() << "❌ Не удалось загрузить стили";
-        qDebug() << "Путь:" << styleFile.fileName();
-        qDebug() << "Рабочая директория:" << QDir::currentPath();
-    }
-    
-    qDebug() << "Инициализация базы данных...";
-    
-    // Инициализируем базу данных
     if (!DatabaseManager::instance().initialize()) {
-        qDebug() << "❌ Критическая ошибка: не удалось подключиться к базе данных";
-        
-        QMessageBox msgBox;
-        msgBox.setWindowTitle("Ошибка подключения");
-        msgBox.setText("Не удалось подключиться к базе данных.\n"
-                      "Проверьте интернет-соединение.");
-        msgBox.setIcon(QMessageBox::Critical);
-        msgBox.exec();
-        return -1;
+        qCritical() << "Failed to initialize database";
+        return 1;
     }
     
-    // Проверяем подключение
-    if (!DatabaseManager::instance().isConnected()) {
-        qDebug() << "❌ Нет подключения к базе данных";
-        QMessageBox::critical(nullptr, "Ошибка подключения", 
-            "Подключение к базе данных отсутствует.");
-        return -1;
-    }
-    
-    qDebug() << "✅ Подключение к базе данных установлено";
-    qDebug() << "==========================================";
-    
-    // Создаем и показываем окно авторизации
     AuthWindow authWindow;
     authWindow.show();
-    
-    qDebug() << "Окно авторизации запущено";
-    qDebug() << "==========================================";
     
     return app.exec();
 }

@@ -1,54 +1,69 @@
 #include "TrackWidget.h"
-#include <QLabel>
-#include <QPushButton>
-#include <QVBoxLayout>
 #include <QHBoxLayout>
+#include <QVBoxLayout>
+#include <QMenu>
 
-TrackWidget::TrackWidget(const QString& title, const QString& artist, const QString& duration, int trackId, QWidget *parent)
-    : QWidget(parent), m_trackId(trackId)
+TrackWidget::TrackWidget(const TrackData& track, QWidget *parent)
+    : QWidget(parent), m_trackId(track.id)
 {
-    QHBoxLayout *layout = new QHBoxLayout(this);
-    layout->setContentsMargins(10, 5, 10, 5);
+    setupUI(track);
+}
+
+void TrackWidget::setupUI(const TrackData& track)
+{
+    setFixedHeight(60);
     
-    QVBoxLayout *textLayout = new QVBoxLayout();
-    textLayout->setSpacing(2);
+    QHBoxLayout* mainLayout = new QHBoxLayout(this);
+    mainLayout->setContentsMargins(15, 10, 15, 10);
+    mainLayout->setSpacing(15);
     
-    QLabel *titleLabel = new QLabel(title);
-    titleLabel->setStyleSheet("QLabel { color: white; font-weight: bold; font-size: 14px; }");
+    QWidget* textWidget = new QWidget();
+    QVBoxLayout* textLayout = new QVBoxLayout(textWidget);
+    textLayout->setContentsMargins(0, 0, 0, 0);
+    textLayout->setSpacing(3);
     
-    QLabel *artistLabel = new QLabel(artist);
-    artistLabel->setStyleSheet("QLabel { color: #BBBBBB; font-size: 12px; }");
+    m_titleLabel = new QLabel(track.title);
+    m_titleLabel->setStyleSheet("color: white; font-size: 15px; font-weight: 600;");
     
-    textLayout->addWidget(titleLabel);
-    textLayout->addWidget(artistLabel);
+    m_artistLabel = new QLabel(track.artist);
+    m_artistLabel->setStyleSheet("color: rgba(255, 255, 255, 0.6); font-size: 13px;");
     
-    QLabel *durationLabel = new QLabel(duration);
-    durationLabel->setStyleSheet("QLabel { color: #BBBBBB; font-size: 12px; }");
+    textLayout->addWidget(m_titleLabel);
+    textLayout->addWidget(m_artistLabel);
     
-    QPushButton *playBtn = new QPushButton("▶");
-    playBtn->setFixedSize(30, 30);
-    playBtn->setStyleSheet(
-        "QPushButton {"
-        "   background-color: #8A2BE2;"
-        "   color: white;"
-        "   border: none;"
-        "   border-radius: 15px;"
-        "   font-size: 10px;"
-        "}"
-        "QPushButton:hover {"
-        "   background-color: #7B1FA2;"
-        "}"
-    );
+    m_durationLabel = new QLabel(formatDuration(track.duration));
+    m_durationLabel->setStyleSheet("color: rgba(255, 255, 255, 0.5); font-size: 13px;");
+    m_durationLabel->setFixedWidth(60);
     
-    connect(playBtn, &QPushButton::clicked, [this]() {
+    m_playButton = new QPushButton("▶");
+    m_playButton->setFixedSize(40, 40);
+    m_playButton->setStyleSheet(R"(
+        QPushButton {
+            background: #8A2BE2;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+        QPushButton:hover {
+            background: #9B4BFF;
+        }
+    )");
+    
+    connect(m_playButton, &QPushButton::clicked, [this]() {
         emit playRequested(m_trackId);
     });
     
-    layout->addLayout(textLayout);
-    layout->addStretch();
-    layout->addWidget(durationLabel);
-    layout->addWidget(playBtn);
+    mainLayout->addWidget(textWidget, 1);
+    mainLayout->addWidget(m_durationLabel);
+    mainLayout->addWidget(m_playButton);
     
-    setStyleSheet("TrackWidget { background-color: transparent; }");
-    setFixedHeight(50);
+    setStyleSheet("TrackWidget { background: transparent; }");
+}
+
+QString TrackWidget::formatDuration(int seconds)
+{
+    int minutes = seconds / 60;
+    int secs = seconds % 60;
+    return QString("%1:%2").arg(minutes).arg(secs, 2, 10, QChar('0'));
 }
