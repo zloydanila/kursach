@@ -74,27 +74,30 @@ void AudioPlayer::setupPlayerControls(QWidget *parent)
     )";
     
     previousBtn = new QToolButton();
-    previousBtn->setIcon(QApplication::style()->standardIcon(QStyle::SP_MediaSkipBackward));
-    previousBtn->setIconSize(QSize(22,22));
+    previousBtn->setText("⏮");
     previousBtn->setStyleSheet(playerBtnStyle);
     previousBtn->setFixedSize(40, 40);
     layout->addWidget(previousBtn);
 
     stopBtn = new QToolButton();
-    stopBtn->setIcon(QApplication::style()->standardIcon(QStyle::SP_MediaStop));
-    stopBtn->setIconSize(QSize(22,22));
+    nextBtn->setText("⏭");
+    nextBtn->setStyleSheet(playerBtnStyle);
+    nextBtn->setFixedSize(40, 40);
+    layout->addWidget(nextBtn);
+    
+    stopBtn->setText("⏹");
     stopBtn->setStyleSheet(playerBtnStyle);
     stopBtn->setFixedSize(40, 40);
     connect(stopBtn, &QToolButton::clicked, this, &AudioPlayer::stopRadio);
     layout->addWidget(stopBtn);
 
     nextBtn = new QToolButton();
-    nextBtn->setIcon(QApplication::style()->standardIcon(QStyle::SP_MediaSkipForward));
-    nextBtn->setIconSize(QSize(22,22));
+    nextBtn->setText("⏭");
     nextBtn->setStyleSheet(playerBtnStyle);
     nextBtn->setFixedSize(40, 40);
     layout->addWidget(nextBtn);
-layout->addSpacing(20);
+
+    layout->addSpacing(20);
 
     QWidget *volumeWidget = new QWidget();
     QHBoxLayout *volumeLayout = new QHBoxLayout(volumeWidget);
@@ -102,9 +105,8 @@ layout->addSpacing(20);
     volumeLayout->setSpacing(8);
     
     volumeIcon = new QToolButton();
-    volumeIcon->setIcon(QApplication::style()->standardIcon(QStyle::SP_MediaVolume));
-    volumeIcon->setIconSize(QSize(18,18));
-volumeIcon->setStyleSheet(playerBtnStyle);
+    volumeIcon->setText("🔊");
+    volumeIcon->setStyleSheet(playerBtnStyle);
     volumeIcon->setFixedSize(35, 35);
     connect(volumeIcon, &QToolButton::clicked, this, &AudioPlayer::onVolumeIconClicked);
     
@@ -139,9 +141,13 @@ volumeIcon->setStyleSheet(playerBtnStyle);
     layout->addWidget(volumeWidget);
     
     connect(volumeSlider, &QSlider::valueChanged, this, [this](int value) {
-        mediaPlayer->setVolume(value);    });
+        mediaPlayer->setVolume(value);
+        updateVolumeIcon();
+    });
     
-    updateNowPlayingLabel();}
+    updateNowPlayingLabel();
+    updateVolumeIcon();
+}
 
 void AudioPlayer::playRadio(const QString& streamUrl, const QString& title, const QString& artist)
 {
@@ -186,7 +192,9 @@ void AudioPlayer::setVolume(int volume)
     mediaPlayer->setVolume(volume);
     if (volumeSlider) {
         volumeSlider->setValue(volume);
-    }}
+    }
+    updateVolumeIcon();
+}
 
 void AudioPlayer::seek(int position)
 {
@@ -269,3 +277,18 @@ void AudioPlayer::updateNowPlayingLabel()
     }
 }
 
+void AudioPlayer::updateVolumeIcon()
+{
+    if (volumeIcon) {
+        int volume = volumeSlider->value();
+        if (volume == 0) {
+            volumeIcon->setText("🔇");
+        } else if (volume < 33) {
+            volumeIcon->setText("🔈");
+        } else if (volume < 66) {
+            volumeIcon->setText("🔉");
+        } else {
+            volumeIcon->setText("🔊");
+        }
+    }
+}

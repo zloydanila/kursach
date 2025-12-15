@@ -9,6 +9,7 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QTimer>
+
 #include "network/ChatManager.h"
 
 class ChatWidget : public QWidget
@@ -27,15 +28,17 @@ private slots:
 private:
     void setupUI();
     void loadMessages();
-    
+
     int m_userId;
     int m_friendId;
     QString m_friendName;
     ChatManager* m_chatManager;
-    
+
     QScrollArea* m_messagesArea;
     QVBoxLayout* m_messagesLayout;
     QLineEdit* m_messageInput;
+
+    QTimer* m_pollTimer = nullptr;
 };
 
 #endif

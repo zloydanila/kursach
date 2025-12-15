@@ -46,7 +46,10 @@ signals:
     void radioStateChanged(bool isPlaying, const QString& title);
 
 private:
-    void updateNowPlayingLabel();    QMediaPlayer *mediaPlayer;
+    void updateNowPlayingLabel();
+    void updateVolumeIcon();
+
+    QMediaPlayer *mediaPlayer;
     QWidget *playerControls;
     QLabel *nowPlayingLabel;
     QToolButton *previousBtn;

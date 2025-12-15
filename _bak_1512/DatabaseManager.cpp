@@ -1,5 +1,4 @@
 #include "DatabaseManager.h"
-#include <QDebug>
 #include "utils/Config.h"
 #include <QCryptographicHash>
 #include <QSqlError>
@@ -76,15 +75,6 @@ bool DatabaseManager::createTables() {
         "last_seen TIMESTAMP DEFAULT CURRENT_TIMESTAMP, "
         "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)"
     );
-
-    // migrations for existing DB
-    query.exec("ALTER TABLE users ADD COLUMN IF NOT EXISTS email VARCHAR(100)");
-    query.exec("ALTER TABLE users ADD COLUMN IF NOT EXISTS avatar_path TEXT");
-    query.exec("ALTER TABLE users ADD COLUMN IF NOT EXISTS status INTEGER DEFAULT 4");
-    query.exec("ALTER TABLE users ADD COLUMN IF NOT EXISTS bio TEXT");
-    query.exec("ALTER TABLE users ADD COLUMN IF NOT EXISTS last_seen TIMESTAMP DEFAULT CURRENT_TIMESTAMP");
-    query.exec("ALTER TABLE users ADD COLUMN IF NOT EXISTS created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP");
-
 
     ok = ok && query.exec(
         "CREATE TABLE IF NOT EXISTS tracks ("
@@ -498,27 +488,3 @@ QList<TrackData> DatabaseManager::getSharedRadioStations(int userId) {
     }
     return stations;
 }
-
-QList<QPair<int, QString>> DatabaseManager::searchUsers(const QString& queryText, int excludeUserId)
-{
-    QList<QPair<int, QString>> out;
-    QMutexLocker locker(&m_mutex);
-    if (!m_db.isOpen() && !initialize()) return out;
-
-    QString q = queryText.trimmed().toLower();
-    if (q.isEmpty()) return out;
-
-    QSqlQuery query(m_db);
-    query.prepare("SELECT id, username FROM users WHERE LOWER(username) LIKE ? AND id <> ? ORDER BY username LIMIT 50");
-    query.addBindValue("%" + q + "%");
-    query.addBindValue(excludeUserId);
-
-    if (query.exec()) {
-        while (query.next()) {
-            out.append({query.value(0).toInt(), query.value(1).toString()});
-        }
-    }
-    return out;
-}
-
-

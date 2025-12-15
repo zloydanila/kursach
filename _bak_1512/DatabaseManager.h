@@ -8,11 +8,9 @@
 #include <QMutex>
 #include "core/models/Track.h"
 
-class DatabaseManager : public QObject {
+class DatabaseManager : public QObject
+{
     Q_OBJECT
-signals:
-    void userRadioChanged(int userId);
-
 public:
     static DatabaseManager& instance();
 
@@ -24,8 +22,8 @@ public:
     bool registerUser(const QString& username, const QString& password);
     bool authenticateUser(const QString& username, const QString& password);
     int getUserId(const QString& username);
-QList<QPair<int, QString>> searchUsers(const QString& query, int excludeUserId);
-bool addTrack(const QString& filePath, const QString& title,
+
+    bool addTrack(const QString& filePath, const QString& title,
                   const QString& artist, const QString& album,
                   int duration, int userId);
     QList<TrackData> getUserTracks(int userId);
