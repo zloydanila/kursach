@@ -30,14 +30,13 @@ public:
 
     int getMaxCacheSize() const;
     QString getCachePath() const;
-    QString getAvatarsPath() const;
 
+    // эти методы у тебя объявлены, но их реализация в другом месте проекта
+    QString getAvatarsPath() const;
     bool getAutoLogin() const;
     void setAutoLogin(bool enabled);
-
     QString getLastUsername() const;
     void setLastUsername(const QString& username);
-
     int getDefaultVolume() const;
     void setDefaultVolume(int volume);
 
@@ -47,7 +46,7 @@ private:
     Config(const Config&) = delete;
     Config& operator=(const Config&) = delete;
 
-    QSettings* m_settings;
+    QSettings* m_settings = nullptr;
 };
 
 #endif

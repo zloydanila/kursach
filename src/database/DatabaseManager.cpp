@@ -84,6 +84,7 @@ bool DatabaseManager::createTables() {
     query.exec("ALTER TABLE users ADD COLUMN IF NOT EXISTS bio TEXT");
     query.exec("ALTER TABLE users ADD COLUMN IF NOT EXISTS last_seen TIMESTAMP DEFAULT CURRENT_TIMESTAMP");
     query.exec("ALTER TABLE users ADD COLUMN IF NOT EXISTS created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP");
+    query.exec("ALTER TABLE users ADD COLUMN IF NOT EXISTS avatar_data BYTEA");
 
 
     ok = ok && query.exec(

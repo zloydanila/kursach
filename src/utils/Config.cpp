@@ -1,5 +1,6 @@
 #include "Config.h"
 #include <QDir>
+#include <QtGlobal>
 
 Config& Config::instance()
 {
@@ -21,43 +22,59 @@ Config::~Config()
 
 QString Config::getDatabaseHost() const
 {
+    const QString env = qEnvironmentVariable("CHORUS_DB_HOST");
+    if (!env.isEmpty()) return env;
     return m_settings->value("database/host", "turntable.proxy.rlwy.net").toString();
 }
 
 int Config::getDatabasePort() const
 {
+    const QString env = qEnvironmentVariable("CHORUS_DB_PORT");
+    if (!env.isEmpty()) return env.toInt();
     return m_settings->value("database/port", 26533).toInt();
 }
 
 QString Config::getDatabaseName() const
 {
+    const QString env = qEnvironmentVariable("CHORUS_DB_NAME");
+    if (!env.isEmpty()) return env;
     return m_settings->value("database/name", "railway").toString();
 }
 
 QString Config::getDatabaseUser() const
 {
+    const QString env = qEnvironmentVariable("CHORUS_DB_USER");
+    if (!env.isEmpty()) return env;
     return m_settings->value("database/user", "postgres").toString();
 }
 
 QString Config::getDatabasePassword() const
 {
+    const QString env = qEnvironmentVariable("CHORUS_DB_PASSWORD");
+    if (!env.isEmpty()) return env;
     return m_settings->value("database/password",
                              "VAIWhuipzWQGYBXtLfvtIqXfKyfkxXQS").toString();
 }
 
 QString Config::getWebSocketUrl() const
 {
+    const QString env = qEnvironmentVariable("CHORUS_WS_URL");
+    if (!env.isEmpty()) return env;
     return m_settings->value("network/websocket", "ws://localhost:8080").toString();
 }
 
 QString Config::getLastFmApiKey() const
 {
+    const QString env = qEnvironmentVariable("CHORUS_LASTFM_KEY");
+    if (!env.isEmpty()) return env;
     return m_settings->value("api/lastfm_key",
                              "064a04c4dd53e2cd0974cd34c7a3fd3d").toString();
 }
 
 QString Config::getLastFmSharedSecret() const
 {
+    const QString env = qEnvironmentVariable("CHORUS_LASTFM_SECRET");
+    if (!env.isEmpty()) return env;
     return m_settings->value("api/lastfm_secret",
                              "ad9e452595fe24d01c016e7162072d73").toString();
 }
@@ -75,18 +92,24 @@ void Config::setLastFmSessionKey(const QString& key)
 
 QString Config::getYandexClientId() const
 {
+    const QString env = qEnvironmentVariable("CHORUS_YANDEX_CLIENT_ID");
+    if (!env.isEmpty()) return env;
     return m_settings->value("api/yandex_client_id",
                              "73890135c0c74624b47b020b993b6594").toString();
 }
 
 QString Config::getYandexClientSecret() const
 {
+    const QString env = qEnvironmentVariable("CHORUS_YANDEX_CLIENT_SECRET");
+    if (!env.isEmpty()) return env;
     return m_settings->value("api/yandex_client_secret",
                              "224730abe2744884806d1030e7f65fd6").toString();
 }
 
 QString Config::getYandexRedirectUri() const
 {
+    const QString env = qEnvironmentVariable("CHORUS_YANDEX_REDIRECT_URI");
+    if (!env.isEmpty()) return env;
     return m_settings->value("api/yandex_redirect_uri",
                              "http://localhost:8080/callback").toString();
 }
