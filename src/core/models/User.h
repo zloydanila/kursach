@@ -17,7 +17,9 @@ struct User {
     QString username;
     QString email;
     QString avatarPath;
-    UserStatus status;
+    
+    QByteArray avatarData;
+UserStatus status;
     QDateTime lastSeen;
     QString bio;
     QDateTime createdAt;

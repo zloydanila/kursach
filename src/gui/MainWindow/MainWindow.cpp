@@ -1,41 +1,16 @@
-#include <gui/MainWindow/MainWindow.h>
-#include "pages/FriendsPage.h"
-#include "pages/MessagesPage.h"
-#include <QVBoxLayout>
-#include <QInputDialog>
-#include <QHBoxLayout>
-#include <QStackedWidget>
-#include <QLabel>
-#include <QPushButton>
-#include <QFrame>
-#include <QLineEdit>
-#include <QListWidget>
-#include <QTextEdit>
-#include <QListWidgetItem>
-#include <QFileDialog>
-#include <QMessageBox>
-#include <QDir>
-#include <QFile>
-#include <QPixmap>
-#include <QPainter>
-#include <QPainterPath>
-#include <QToolButton>
-#include <QTimer>
+#include "MainWindow.h"
 #include <QApplication>
-#include <QMenu>
-#include <QEvent>
-#include <QScrollArea>
-#include <QScrollBar>
-#include <QDebug>
-#include "database/DatabaseManager.h"
+#include <QFile>
+#include <QMouseEvent>
+
 #include "database/api/MusicAPIManager.h"
 #include "audio/AudioPlayer.h"
-#include "core/models/Track.h"
 
 MainWindow::MainWindow(const QString &username, int userId, QWidget *parent)
     : FramelessWindow(parent)
     , currentUsername(username)
     , currentUserId(userId)
+    , currentRadioIndex(-1)
     , sidebar(nullptr)
     , avatarButton(nullptr)
     , avatarOverlay(nullptr)
@@ -44,19 +19,17 @@ MainWindow::MainWindow(const QString &username, int userId, QWidget *parent)
     , messagesBtn(nullptr)
     , friendsBtn(nullptr)
     , notificationsBtn(nullptr)
-    , playlistBtn(nullptr)
     , musicSearchBtn(nullptr)
     , myMusicBtn(nullptr)
     , roomsBtn(nullptr)
     , mainStack(nullptr)
     , profilePage(nullptr)
-    , messagesPage(nullptr)
-    , friendsPage(nullptr)
     , notificationsPage(nullptr)
-    , playlistPage(nullptr)
     , musicPage(nullptr)
     , myMusicPage(nullptr)
     , roomsPage(nullptr)
+    , messagesPage(nullptr)
+    , friendsPage(nullptr)
     , searchInput(nullptr)
     , searchButton(nullptr)
     , topTracksButton(nullptr)
@@ -67,7 +40,6 @@ MainWindow::MainWindow(const QString &username, int userId, QWidget *parent)
     , addLocalTrackBtn(nullptr)
     , apiManager(new MusicAPIManager(this))
     , audioPlayer(new AudioPlayer(this))
-    , currentRadioIndex(-1)
 {
     setupUI();
     setupConnections();
@@ -83,9 +55,7 @@ MainWindow::MainWindow(const QString &username, int userId, QWidget *parent)
         setStyleSheet(styleSheet);
     }
 
-    if (avatarButton) {
-        avatarButton->installEventFilter(this);
-    }
+    if (avatarButton) avatarButton->installEventFilter(this);
 
     setMinimumSize(1200, 750);
     resize(1400, 850);
@@ -95,28 +65,19 @@ MainWindow::MainWindow(const QString &username, int userId, QWidget *parent)
     QApplication::setFont(font);
 }
 
-MainWindow::~MainWindow()
-{
-}
+MainWindow::~MainWindow() {}
 
 bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 {
     if (obj == avatarButton) {
-        if (event->type() == QEvent::Enter) {
-            showAvatarOverlay();
-            return true;
-        } else if (event->type() == QEvent::Leave) {
-            hideAvatarOverlay();
-            return true;
-        }
+        if (event->type() == QEvent::Enter) { showAvatarOverlay(); return true; }
+        if (event->type() == QEvent::Leave) { hideAvatarOverlay(); return true; }
     }
 
-    if (obj == avatarOverlay) {
-        if (event->type() == QEvent::MouseButtonPress) {
-            changeAvatar();
-            hideAvatarOverlay();
-            return true;
-        }
+    if (obj == avatarOverlay && event->type() == QEvent::MouseButtonPress) {
+        changeAvatar();
+        hideAvatarOverlay();
+        return true;
     }
 
     return FramelessWindow::eventFilter(obj, event);

@@ -1,6 +1,7 @@
 #include "ChatManager.h"
 #include "database/DatabaseManager.h"
 #include <QSqlQuery>
+#include <QSqlError>
 #include <QDebug>
 
 ChatManager::ChatManager(int userId, QObject *parent)
@@ -140,52 +141,47 @@ bool ChatManager::markAsRead(int messageId)
 
 QVector<ChatPreview> ChatManager::getChatList()
 {
-    QVector<ChatPreview> chats;
-    
-    QSqlQuery query(DatabaseManager::instance().database());
-    query.prepare(
-        "WITH last_messages AS ( "
-        "    SELECT DISTINCT ON (LEAST(sender_id, receiver_id), GREATEST(sender_id, receiver_id)) "
-        "           CASE WHEN sender_id = ? THEN receiver_id ELSE sender_id END as other_user_id, "
-        "           content, timestamp, is_read "
-        "    FROM messages "
-        "    WHERE sender_id = ? OR receiver_id = ? "
-        "    ORDER BY LEAST(sender_id, receiver_id), GREATEST(sender_id, receiver_id), timestamp DESC "
-        ") "
-        "SELECT u.id, u.username, u.avatar_path, lm.content, lm.timestamp, "
-        "       COUNT(m.id) FILTER (WHERE m.receiver_id = ? AND m.is_read = false) as unread, "
-        "       u.status "
-        "FROM last_messages lm "
-        "INNER JOIN users u ON u.id = lm.other_user_id "
-        "LEFT JOIN messages m ON (m.sender_id = u.id AND m.receiver_id = ?) OR (m.receiver_id = u.id AND m.sender_id = ?) "
-        "GROUP BY u.id, u.username, u.avatar_path, lm.content, lm.timestamp, u.status "
-        "ORDER BY lm.timestamp DESC"
-    );
-    query.addBindValue(m_currentUserId);
-    query.addBindValue(m_currentUserId);
-    query.addBindValue(m_currentUserId);
-    query.addBindValue(m_currentUserId);
-    query.addBindValue(m_currentUserId);
-    query.addBindValue(m_currentUserId);
-    
-    if (query.exec()) {
-        while (query.next()) {
-            ChatPreview chat;
-            chat.userId = query.value(0).toInt();
-            chat.username = query.value(1).toString();
-            chat.avatarPath = query.value(2).toString();
-            chat.lastMessage = query.value(3).toString();
-            chat.lastMessageTime = query.value(4).toDateTime();
-            chat.unreadCount = query.value(5).toInt();
-            chat.isOnline = query.value(6).toInt() == 0;
-            
-            chats.append(chat);
-        }
-    }
-    
-    return chats;
-}
+    QVector<ChatPreview> out;
 
+    QSqlQuery q(DatabaseManager::instance().database());
+    const QString uid = QString::number(m_currentUserId);
+
+    const QString sql =
+        "SELECT peer_id, username, last_message, unread_count "
+        "FROM ("
+        "  SELECT DISTINCT ON (peer_id) "
+        "    peer_id, username, last_message, unread_count, ts "
+        "  FROM ("
+        "    SELECT "
+        "      CASE WHEN m.sender_id=" + uid + " THEN m.receiver_id ELSE m.sender_id END AS peer_id, "
+        "      u.username AS username, "
+        "      COALESCE(m.content, '') AS last_message, "
+        "      (SELECT COUNT(*) FROM messages x "
+        "         WHERE x.receiver_id=" + uid + " AND x.sender_id=u.id AND x.is_read=false) AS unread_count, "
+        "      m.timestamp AS ts "
+        "    FROM messages m "
+        "    JOIN users u ON u.id = CASE WHEN m.sender_id=" + uid + " THEN m.receiver_id ELSE m.sender_id END "
+        "    WHERE m.sender_id=" + uid + " OR m.receiver_id=" + uid + " "
+        "  ) t "
+        "  ORDER BY peer_id, ts DESC"
+        ") latest "
+        "ORDER BY ts DESC, peer_id";
+
+    if (!q.exec(sql)) {
+        qWarning() << "getChatList failed:" << q.lastError() << q.lastQuery();
+        return out;
+    }
+
+    while (q.next()) {
+        ChatPreview p;
+        p.userId = q.value(0).toInt();
+        p.username = q.value(1).toString();
+        p.lastMessage = q.value(2).toString();
+        p.unreadCount = q.value(3).toInt();
+        out.push_back(p);
+    }
+    return out;
+}
 int ChatManager::getUnreadCount()
 {
     QSqlQuery query(DatabaseManager::instance().database());

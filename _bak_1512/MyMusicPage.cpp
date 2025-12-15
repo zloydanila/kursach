@@ -27,7 +27,6 @@ void MyMusicPage::reloadStations()
     loadRadioStations();
 }
 
-
 void MyMusicPage::setupUI()
 {
     QVBoxLayout *mainLayout = new QVBoxLayout(this);

@@ -11,8 +11,9 @@
 
 class TrackManager;
 class LocalFileHandler;
+class AudioPlayer;
 
-class MyMusicPage : public QWidget
+class MyMusicPage
 {
     Q_OBJECT
 public:
@@ -20,6 +21,7 @@ public:
     ~MyMusicPage();
 
     void addRadioStation(const TrackData &station);
+
 
 public slots:
     void reloadStations();

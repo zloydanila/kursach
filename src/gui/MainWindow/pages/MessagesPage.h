@@ -9,10 +9,10 @@
 #include "network/ChatManager.h"
 #include "gui/widgets/ChatWidget.h"
 
-class MessagesPage : public QWidget
-{
+class MessagesPage : public QWidget {
     Q_OBJECT
-
+public slots:
+    void reloadDialog(int peerId);
 public:
     explicit MessagesPage(int userId, QWidget *parent = nullptr);
     
@@ -34,6 +34,8 @@ private:
     QWidget* m_chatListWidget;
     QListWidget* m_chatList;
     ChatWidget* m_currentChatWidget;
+    int m_currentPeerId = -1;
+    QTimer* m_refreshTimer = nullptr;
 };
 
 #endif

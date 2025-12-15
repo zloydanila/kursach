@@ -1,5 +1,10 @@
 #include "UserAvatar.h"
+#include <QDebug>
 #include <QPainter>
+#include <QVariant>
+#include <QSqlQuery>
+#include <QSqlError>
+#include "database/DatabaseManager.h"
 #include <QPainterPath>
 
 UserAvatar::UserAvatar(int size, QWidget *parent)
@@ -15,7 +20,34 @@ void UserAvatar::setUser(const User& user)
 {
     m_status = user.status;
     
-    if (!user.avatarPath.isEmpty()) {
+    
+    if (user.avatarData.isEmpty()) {
+        QSqlQuery q(DatabaseManager::instance().database());
+        q.prepare("SELECT avatar_data FROM users WHERE id=?");
+        q.addBindValue(QVariant(user.id));
+        if (q.exec() && q.next()) {
+            const QByteArray bytes = q.value(0).toByteArray();
+            if (!bytes.isEmpty()) {
+                QPixmap pm;
+                if (pm.loadFromData(bytes) && !pm.isNull()) {
+                    m_avatar = pm.scaled(m_size, m_size, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+                    m_hasAvatar = true;
+                    update();
+                    return;
+                }
+            }
+        }
+    }
+
+if (!user.avatarData.isEmpty()) {
+        QPixmap pm;
+        if (pm.loadFromData(user.avatarData) && !pm.isNull()) {
+            m_avatar = pm.scaled(m_size, m_size, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
+            m_hasAvatar = true;
+        } else {
+            m_hasAvatar = false;
+        }
+    } else if (!user.avatarPath.isEmpty()) {
         setAvatar(user.avatarPath);
     } else {
         m_initials = user.username.left(1).toUpper();

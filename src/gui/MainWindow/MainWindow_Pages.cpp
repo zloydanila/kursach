@@ -1,93 +1,62 @@
 #include "gui/MainWindow/MainWindow.h"
+#include "audio/AudioPlayer.h"
+
 #include "gui/MainWindow/pages/FriendsPage.h"
 #include "gui/MainWindow/pages/MessagesPage.h"
 #include "gui/MainWindow/pages/MyMusicPage.h"
 #include "gui/MainWindow/pages/SearchMusicPage.h"
-#include "gui/MainWindow/pages/RoomsPage.h"
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QLabel>
-#include <QPushButton>
+
 #include <QStackedWidget>
-#include <QDebug>
+#include <QPushButton>
 
 void MainWindow::createPages()
 {
     mainStack = new QStackedWidget();
-    mainStack->setStyleSheet(R"(
-        QStackedWidget {
-            background: #0F0F14;
-        }
-    )");
+    mainStack->setStyleSheet("QStackedWidget { background: #0F0F14; }");
 
-    MyMusicPage *myMusicPage = new MyMusicPage(currentUserId, this);
-    SearchMusicPage *musicSearchPage = new SearchMusicPage(currentUserId, audioPlayer, this);
-    FriendsPage *friendsPage = new FriendsPage(currentUserId, this);
-    MessagesPage *messagesPage = new MessagesPage(currentUserId, this);
+    auto *my = new MyMusicPage(currentUserId, this);
+    auto *search = new SearchMusicPage(currentUserId, audioPlayer, this);
+    auto *friends = new FriendsPage(currentUserId, this);
+    auto *messages = new MessagesPage(currentUserId, this);
 
-    MessagesPage *messagesPagePtr = dynamic_cast<MessagesPage*>(messagesPage);
-    FriendsPage *friendsPagePtr = dynamic_cast<FriendsPage*>(friendsPage);
+    myMusicPage = my;
+    musicPage = search;
+    friendsPage = friends;
+    messagesPage = messages;
 
-    if (friendsPagePtr && messagesPagePtr) {
-        connect(friendsPagePtr, &FriendsPage::openChatWithFriend, this, [this, messagesPagePtr](int friendId, const QString &friendName) {
-            messagesPagePtr->openChat(friendId, friendName);
-            mainStack->setCurrentWidget(messagesPagePtr);
-        });
-    }
-
-    QWidget *profilePage = createSimplePage("Профиль", "Здесь будет информация профиля");
-    QWidget *notificationsPage = createSimplePage("Уведомления", "Здесь будут уведомления");
-    QWidget *playlistPage = createSimplePage("Плейлисты", "Здесь будут плейлисты");
-    RoomsPage *roomsPage = new RoomsPage(currentUserId, this);
+    // УБРАНО ИЗ ПРОЕКТА
+    profilePage = nullptr;
+    notificationsPage = nullptr;
+    roomsPage = nullptr;
 
     mainStack->addWidget(myMusicPage);
-    mainStack->addWidget(profilePage);
-    mainStack->addWidget(messagesPage);
+    mainStack->addWidget(musicPage);
     mainStack->addWidget(friendsPage);
-    mainStack->addWidget(notificationsPage);
-    mainStack->addWidget(playlistPage);
-    mainStack->addWidget(musicSearchPage);
-    mainStack->addWidget(roomsPage);
+    mainStack->addWidget(messagesPage);
 
-    connect(musicSearchPage, &SearchMusicPage::stationAdded, this, &MainWindow::onRadioStationAdded);
+    connect(friendsPage, &FriendsPage::openChatWithFriend, this, [this](int friendId, const QString &friendName) {
+        messagesPage->openChat(friendId, friendName);
+        mainStack->setCurrentWidget(messagesPage);
+    });
 
-    qDebug() << "createPages: Все страницы созданы и подключены для userId:" << currentUserId;
+    connect(search, &SearchMusicPage::stationAdded, this, [this]() {
+        auto *p = qobject_cast<MyMusicPage*>(myMusicPage);
+        if (p) p->reloadStations();
+    });
+
+    connect(my, &MyMusicPage::playRadioRequested, this, [this](const QString& url, const QString& title, const QString& country) {
+        audioPlayer->playRadio(url, title, country);
+    });
+
+    if (myMusicBtn) connect(myMusicBtn, &QPushButton::clicked, this, &MainWindow::showMyMusicPage);
+    if (musicSearchBtn) connect(musicSearchBtn, &QPushButton::clicked, this, &MainWindow::showSearchRadioPage);
+    if (friendsBtn) connect(friendsBtn, &QPushButton::clicked, this, &MainWindow::showFriendsPage);
+    if (messagesBtn) connect(messagesBtn, &QPushButton::clicked, this, &MainWindow::showMessagesPage);
+
+    mainStack->setCurrentWidget(myMusicPage);
 }
 
-QWidget* MainWindow::createSimplePage(const QString &title, const QString &description)
+QWidget* MainWindow::createSimplePage(const QString&, const QString&)
 {
-    QWidget *page = new QWidget();
-    QVBoxLayout *layout = new QVBoxLayout(page);
-    layout->setContentsMargins(40, 40, 40, 40);
-
-    QLabel *titleLabel = new QLabel(title);
-    titleLabel->setStyleSheet(R"(
-        QLabel {
-            color: #FFFFFF;
-            font-size: 32px;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 20px;
-            background: transparent;
-            border: none;
-        }
-    )");
-
-    QLabel *descLabel = new QLabel(description);
-    descLabel->setStyleSheet(R"(
-        QLabel {
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 16px;
-            text-align: center;
-            background: transparent;
-            border: none;
-        }
-    )");
-
-    layout->addStretch();
-    layout->addWidget(titleLabel);
-    layout->addWidget(descLabel);
-    layout->addStretch();
-
-    return page;
+    return new QWidget();
 }

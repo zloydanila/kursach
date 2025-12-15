@@ -2,6 +2,7 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QScrollArea>
+#include <QTimer>
 
 MessagesPage::MessagesPage(int userId, QWidget *parent)
     : QWidget(parent)
@@ -15,6 +16,7 @@ MessagesPage::MessagesPage(int userId, QWidget *parent)
 
 void MessagesPage::setupUI()
 {
+
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
     mainLayout->setContentsMargins(0, 0, 0, 0);
     mainLayout->setSpacing(0);
@@ -26,7 +28,7 @@ void MessagesPage::setupUI()
     listLayout->setContentsMargins(40, 40, 40, 40);
     listLayout->setSpacing(20);
     
-    QLabel* titleLabel = new QLabel("💬 Сообщения");
+    QLabel* titleLabel = new QLabel("Сообщения");
     titleLabel->setStyleSheet(R"(
         color: white;
         font-size: 32px;
@@ -59,8 +61,7 @@ void MessagesPage::setupUI()
             background: rgba(255, 255, 255, 0.05);
         }
     )");
-    
-    listLayout->addWidget(titleLabel);
+listLayout->addWidget(titleLabel);
     listLayout->addWidget(m_chatList);
     
     m_stackedWidget->addWidget(m_chatListWidget);
@@ -120,6 +121,7 @@ void MessagesPage::openChat(int friendId, const QString& friendName)
         m_currentChatWidget->deleteLater();
     }
     
+    m_currentPeerId = friendId;
     m_currentChatWidget = new ChatWidget(m_userId, friendId, friendName);
     m_stackedWidget->addWidget(m_currentChatWidget);
     m_stackedWidget->setCurrentWidget(m_currentChatWidget);
@@ -138,4 +140,13 @@ void MessagesPage::refreshChats()
     if (m_stackedWidget->currentWidget() == m_chatListWidget) {
         loadChats();
     }
+}
+
+void MessagesPage::reloadDialog(int peerId)
+{
+    if (peerId <= 0) return;
+    // Очистить текущий вид, подтянуть последние N сообщений из DB и отрисовать
+    // Пример:
+    // auto msgs = DatabaseManager::instance().getMessages(currentUserId, peerId, 200);
+    // renderMessages(msgs);
 }

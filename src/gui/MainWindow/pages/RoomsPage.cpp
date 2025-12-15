@@ -204,8 +204,7 @@ RoomsPage::RoomsPage(int userId, QWidget *parent)
         m_currentRoomId = -1;
     });
     
-    m_wsClient->connectToServer("ws://localhost:8080");
-    
+// m_wsClient->connectToServer("ws://localhost:8080");    
     loadRooms();
 }
 

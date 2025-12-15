@@ -1,32 +1,7 @@
 #include "FriendCard.h"
+#include "UserAvatar.h"
 #include <QHBoxLayout>
 #include <QVBoxLayout>
-#include <QFileInfo>
-#include <QPainter>
-#include <QPainterPath>
-
-static QPixmap makeCircularPixmap(const QPixmap& src, int size)
-{
-    if (src.isNull()) return QPixmap();
-
-    QPixmap scaled = src.scaled(size, size, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
-    QPixmap out(size, size);
-    out.fill(Qt::transparent);
-
-    QPainter p(&out);
-    p.setRenderHint(QPainter::Antialiasing, true);
-    p.setRenderHint(QPainter::SmoothPixmapTransform, true);
-
-    QPainterPath path;
-    path.addEllipse(0, 0, size, size);
-    p.setClipPath(path);
-
-    int x = (size - scaled.width()) / 2;
-    int y = (size - scaled.height()) / 2;
-    p.drawPixmap(x, y, scaled);
-
-    return out;
-}
 
 FriendCard::FriendCard(const User& user, bool isRequest, bool isSearchResult, QWidget *parent)
     : QWidget(parent)
@@ -40,35 +15,9 @@ void FriendCard::setupUI(const User& user, bool isRequest, bool isSearchResult)
     mainLayout->setContentsMargins(15, 15, 15, 15);
     mainLayout->setSpacing(15);
 
-    // Avatar
-    m_avatarLabel = new QLabel();
-    m_avatarLabel->setFixedSize(60, 60);
-    m_avatarLabel->setAlignment(Qt::AlignCenter);
-
-    bool avatarSet = false;
-    const QString path = user.avatarPath.trimmed();
-    if (!path.isEmpty() && QFileInfo::exists(path)) {
-        QPixmap px(path);
-        if (!px.isNull()) {
-            m_avatarLabel->setPixmap(makeCircularPixmap(px, 60));
-            avatarSet = true;
-        }
-    }
-
-    if (!avatarSet) {
-        // fallback: circle with first letter
-        m_avatarLabel->setText(user.username.left(1).toUpper());
-        m_avatarLabel->setStyleSheet(
-            "background: #8A2BE2;"
-            "color: white;"
-            "font-size: 24px;"
-            "font-weight: bold;"
-            "border-radius: 30px;"
-        );
-    } else {
-        // no background when pixmap is set
-        m_avatarLabel->setStyleSheet("background: transparent;");
-    }
+    // Avatar (shared via DB avatar_data inside UserAvatar)
+    auto *avatarWidget = new UserAvatar(60, this);
+    avatarWidget->setUser(user);
 
     // Info
     QWidget* infoWidget = new QWidget();
@@ -80,7 +29,6 @@ void FriendCard::setupUI(const User& user, bool isRequest, bool isSearchResult)
     m_usernameLabel = new QLabel(user.username);
     m_usernameLabel->setStyleSheet("color: white; font-size: 16px; font-weight: 600; background: transparent;");
 
-    // If status enum exists in your model, keep it; otherwise just show empty
     m_statusLabel = new QLabel();
     m_statusLabel->setStyleSheet("color: rgba(255,255,255,0.6); font-size: 13px; background: transparent;");
     if (!getStatusText(user.status).isEmpty()) {
@@ -91,7 +39,7 @@ void FriendCard::setupUI(const User& user, bool isRequest, bool isSearchResult)
     infoLayout->addWidget(m_usernameLabel);
     infoLayout->addWidget(m_statusLabel);
 
-    mainLayout->addWidget(m_avatarLabel);
+    mainLayout->addWidget(avatarWidget);
     mainLayout->addWidget(infoWidget, 1);
 
     // Buttons

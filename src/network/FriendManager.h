@@ -16,7 +16,9 @@ public:
     bool acceptFriendRequest(int requesterId);
     bool rejectFriendRequest(int requesterId);
     bool removeFriend(int friendId);
-    QVector<User> getFriends();
+    
+    bool isFriend(int otherUserId);
+QVector<User> getFriends();
     QVector<User> getPendingRequests();
     QVector<User> searchUsers(const QString& query);
 
@@ -25,6 +27,8 @@ signals:
     void friendAdded(const User& user);
     void friendRemoved(int userId);
     void friendStatusChanged(int userId, UserStatus status);
+    void friendRequestSent(int toUserId);
+    void friendRequestChanged();
 
 private:
     int m_currentUserId;
