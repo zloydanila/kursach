@@ -25,17 +25,11 @@ services:
       DISPLAY: ${DISPLAY}
       QT_X11_NO_MITSHM: "1"
 
-      # звук через PulseAudio (или pipewire-pulse)
-      PULSE_SERVER: unix:/run/user/1000/pulse/native
+      PULSE_SERVER: unix:/run/user/${UID}/pulse/native
     volumes:
-      # X11
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
-
-      # твои файлы
-      - /home/ionin/Загрузки:/host/Downloads:ro
-
-      # PulseAudio сокет хоста
-      - /run/user/1000/pulse:/run/user/1000/pulse:rw
+      - ${DOWNLOADS_DIR}:/host/Downloads:ro
+      - /run/user/${UID}/pulse:/run/user/${UID}/pulse:rw
     depends_on:
       db:
         condition: service_healthy
