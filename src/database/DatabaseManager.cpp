@@ -19,9 +19,6 @@ DatabaseManager::DatabaseManager(QObject *parent)
 
 DatabaseManager::~DatabaseManager() {
     if (m_db.isOpen()) m_db.close();
-    if (QSqlDatabase::contains("soundspace_connection")) {
-        QSqlDatabase::removeDatabase("soundspace_connection");
-    }
 }
 
 bool DatabaseManager::initialize() {
@@ -50,7 +47,7 @@ bool DatabaseManager::openConnection() {
     m_db.setPassword(cfg.getDatabasePassword());
     m_db.setConnectOptions("connect_timeout=10");
 
-    if (!m_db.open()) return false;
+    if (!m_db.open()) { qWarning() << "DB open failed:" << m_db.lastError().text(); return false; }
 
     if (!createTables()) return false;
 
@@ -63,8 +60,15 @@ bool DatabaseManager::createTables() {
 
     QSqlQuery query(m_db);
     bool ok = true;
+    auto execOrLog = [&](const QString& sql){
+        if (!query.exec(sql)) {
+            qWarning() << "SQL failed:" << query.lastError().text() << "SQL:" << sql;
+            return false;
+        }
+        return true;
+    };
 
-    ok = ok && query.exec(
+    ok = ok && execOrLog(
         "CREATE TABLE IF NOT EXISTS users ("
         "id SERIAL PRIMARY KEY, "
         "username VARCHAR(50) UNIQUE NOT NULL, "
@@ -77,7 +81,6 @@ bool DatabaseManager::createTables() {
         "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP)"
     );
 
-    // migrations for existing DB
     query.exec("ALTER TABLE users ADD COLUMN IF NOT EXISTS email VARCHAR(100)");
     query.exec("ALTER TABLE users ADD COLUMN IF NOT EXISTS avatar_path TEXT");
     query.exec("ALTER TABLE users ADD COLUMN IF NOT EXISTS status INTEGER DEFAULT 4");
@@ -85,7 +88,6 @@ bool DatabaseManager::createTables() {
     query.exec("ALTER TABLE users ADD COLUMN IF NOT EXISTS last_seen TIMESTAMP DEFAULT CURRENT_TIMESTAMP");
     query.exec("ALTER TABLE users ADD COLUMN IF NOT EXISTS created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP");
     query.exec("ALTER TABLE users ADD COLUMN IF NOT EXISTS avatar_data BYTEA");
-
 
     ok = ok && query.exec(
         "CREATE TABLE IF NOT EXISTS tracks ("
@@ -250,9 +252,10 @@ bool DatabaseManager::registerUser(const QString& username, const QString& passw
     if (username.trimmed().length() < 3 || password.length() < 6) return false;
 
     QSqlQuery insert(m_db);
-    insert.prepare("INSERT INTO users (username, password_hash) VALUES (?, ?)");
+    insert.prepare("INSERT INTO users (username, password_hash, status, last_seen) VALUES (?, ?, ?, NOW())");
     insert.addBindValue(username.trimmed());
     insert.addBindValue(hashPassword(password));
+    insert.addBindValue(static_cast<int>(UserStatus::Offline));
     return insert.exec();
 }
 
@@ -277,6 +280,30 @@ int DatabaseManager::getUserId(const QString& username) {
     query.addBindValue(username.trimmed());
     if (query.exec() && query.next()) return query.value(0).toInt();
     return -1;
+}
+
+bool DatabaseManager::setUserStatus(int userId, UserStatus status)
+{
+    QMutexLocker locker(&m_mutex);
+    if (!m_db.isOpen() && !initialize()) return false;
+
+    QSqlQuery q(m_db);
+    q.prepare("UPDATE users SET status = ?, last_seen = NOW() WHERE id = ?");
+    q.addBindValue(static_cast<int>(status));
+    q.addBindValue(userId);
+    return q.exec();
+}
+
+UserStatus DatabaseManager::getUserStatus(int userId)
+{
+    QMutexLocker locker(&m_mutex);
+    if (!m_db.isOpen() && !initialize()) return UserStatus::Offline;
+
+    QSqlQuery q(m_db);
+    q.prepare("SELECT status FROM users WHERE id = ?");
+    q.addBindValue(userId);
+    if (!q.exec() || !q.next()) return UserStatus::Offline;
+    return static_cast<UserStatus>(q.value(0).toInt());
 }
 
 bool DatabaseManager::addTrack(const QString& filePath, const QString& title,
@@ -521,5 +548,3 @@ QList<QPair<int, QString>> DatabaseManager::searchUsers(const QString& queryText
     }
     return out;
 }
-
-

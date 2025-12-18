@@ -1,0 +1,68 @@
+/* Chorus dark UI */
+
+QWidget {
+  background: #0F0F14;
+  color: #EDEDED;
+  font-family: Inter, "Segoe UI", Arial;
+}
+
+/* Inputs */
+QLineEdit {
+  background: rgba(255,255,255,0.06);
+  border: 2px solid rgba(255,255,255,0.10);
+  border-radius: 12px;
+  padding: 0 16px;
+  color: #FFFFFF;
+  font-size: 14px;
+}
+QLineEdit:focus { border: 2px solid rgba(124,92,255,0.85); }
+QLineEdit::placeholder { color: rgba(255,255,255,0.45); }
+
+/* Accent button */
+QPushButton#accentButton {
+  background: rgba(124,92,255,0.20);
+  border: 1px solid rgba(124,92,255,0.45);
+  color: #FFFFFF;
+  border-radius: 12px;
+  padding: 8px 16px;
+  font-weight: 700;
+}
+QPushButton#accentButton:hover {
+  background: rgba(124,92,255,0.30);
+  border: 1px solid rgba(124,92,255,0.60);
+}
+QPushButton#accentButton:pressed {
+  background: rgba(124,92,255,0.16);
+  border: 1px solid rgba(124,92,255,0.70);
+}
+
+/* Icon button (▶) */
+QPushButton#iconButton {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.10);
+  color: #FFFFFF;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 900;
+}
+QPushButton#iconButton:hover { background: rgba(255,255,255,0.10); }
+QPushButton#iconButton:pressed { background: rgba(255,255,255,0.05); }
+
+/* Tabs */
+QPushButton[tab="true"] {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.10);
+  color: rgba(255,255,255,0.85);
+  border-radius: 10px;
+  padding: 8px 14px;
+  font-weight: 700;
+}
+QPushButton[tab="true"]:hover { background: rgba(255,255,255,0.07); }
+QPushButton[tab="true"]:checked {
+  background: rgba(124,92,255,0.18);
+  border: 1px solid rgba(124,92,255,0.50);
+  color: #FFFFFF;
+}
+
+/* Scroll */
+QScrollArea { background: #0F0F14; border: none; }

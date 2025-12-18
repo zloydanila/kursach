@@ -14,7 +14,7 @@ void Sidebar::setupUI()
     setFixedWidth(250);
     setStyleSheet(R"(
         QWidget {
-            background: rgba(0, 0, 0, 0.4);
+            background: transparent;
             border-right: 1px solid rgba(255, 255, 255, 0.05);
         }
     )");

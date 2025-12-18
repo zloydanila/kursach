@@ -178,7 +178,8 @@ void MainWindow::createSidebar()
     avatarEffect->setOffset(0, 0);
     avatarButton->setGraphicsEffect(avatarEffect);
 
-    usernameLabel = new QLabel(currentUsername);
+
+usernameLabel = new QLabel(currentUsername);
     usernameLabel->setStyleSheet(R"(
         QLabel { color: #FFFFFF; font-size: 18px; font-weight: 700; text-align: center; padding: 10px 0 5px 0; }
     )");
@@ -190,14 +191,10 @@ void MainWindow::createSidebar()
     statusButton->setObjectName("statusButton");
     statusButton->setToolButtonStyle(Qt::ToolButtonTextOnly);
     statusButton->setArrowType(Qt::NoArrow);
-    statusButton->setStyleSheet(R"(
-        QToolButton { color: #4CAF50; font-size: 14px; font-weight: 600; background: transparent; border: 1px solid rgba(76, 175, 80, 0.3); border-radius: 12px; padding: 6px 15px; margin: 0 70px; }
-        QToolButton:hover { background: rgba(76, 175, 80, 0.1); }
-        QToolButton::menu-indicator { width: 0px; }
-    )");
     statusButton->setCursor(Qt::PointingHandCursor);
 
-    profileLayout->addWidget(avatarButton, 0, Qt::AlignHCenter);
+    statusButton->setStyleSheet("QToolButton#statusButton{background:rgba(138,43,226,0.18);border:1px solid rgba(138,43,226,0.35);color:rgba(255,255,255,0.92);padding:8px 14px;border-radius:12px;font-size:13px;font-weight:800;}QToolButton#statusButton:hover{background:rgba(155,75,255,0.28);border:1px solid rgba(155,75,255,0.55);color:#fff;}QToolButton#statusButton:pressed{background:rgba(155,75,255,0.38);}QToolButton::menu-indicator{width:0px;}");
+profileLayout->addWidget(avatarButton, 0, Qt::AlignHCenter);
     profileLayout->addWidget(usernameLabel, 0, Qt::AlignHCenter);
     profileLayout->addWidget(statusButton, 0, Qt::AlignHCenter);
     sidebarLayout->addWidget(profileSection);
@@ -215,7 +212,8 @@ void MainWindow::createSidebar()
         QPushButton:pressed { background: rgba(138, 43, 226, 0.25); }
     )";
 
-    myMusicBtn = new QPushButton("Мои радиостанции");musicSearchBtn = new QPushButton("Поиск радио");
+    myMusicBtn = new QPushButton("Мои радиостанции");
+    musicSearchBtn = new QPushButton("Поиск радио");
     friendsBtn = new QPushButton("Друзья");
     messagesBtn = new QPushButton("Сообщения");
 
@@ -223,8 +221,7 @@ void MainWindow::createSidebar()
         myMusicBtn, musicSearchBtn, friendsBtn, messagesBtn
     };
 
-    qDebug() << "NAV ptrs" << myMusicBtn << musicSearchBtn << friendsBtn << messagesBtn;
-for (auto btn : navButtons) {
+    for (auto btn : navButtons) {
         btn->setStyleSheet(navButtonStyle);
         btn->setCursor(Qt::PointingHandCursor);
         navLayout->addWidget(btn);
@@ -274,48 +271,23 @@ for (auto btn : navButtons) {
 
     connect(onlineAction, &QAction::triggered, statusButton, [statusButton]() {
         statusButton->setText("Онлайн");
-        statusButton->setStyleSheet(R"(
-            QToolButton { color: #4CAF50; font-size: 14px; font-weight: 600; background: transparent; border: 1px solid rgba(76, 175, 80, 0.3); border-radius: 12px; padding: 6px 15px; margin: 0 70px; }
-            QToolButton:hover { background: rgba(76, 175, 80, 0.1); }
-            QToolButton::menu-indicator { width: 0px; }
-        )");
     });
 
     connect(awayAction, &QAction::triggered, statusButton, [statusButton]() {
         statusButton->setText("Отсутствую");
-        statusButton->setStyleSheet(R"(
-            QToolButton { color: #FFC107; font-size: 14px; font-weight: 600; background: transparent; border: 1px solid rgba(255, 193, 7, 0.3); border-radius: 12px; padding: 6px 15px; margin: 0 70px; }
-            QToolButton:hover { background: rgba(255, 193, 7, 0.1); }
-            QToolButton::menu-indicator { width: 0px; }
-        )");
     });
 
     connect(dndAction, &QAction::triggered, statusButton, [statusButton]() {
         statusButton->setText("Не беспокоить");
-        statusButton->setStyleSheet(R"(
-            QToolButton { color: #F44336; font-size: 14px; font-weight: 600; background: transparent; border: 1px solid rgba(244, 67, 54, 0.3); border-radius: 12px; padding: 6px 15px; margin: 0 70px; }
-            QToolButton:hover { background: rgba(244, 67, 54, 0.1); }
-            QToolButton::menu-indicator { width: 0px; }
-        )");
     });
 
     connect(invisibleAction, &QAction::triggered, statusButton, [statusButton]() {
         statusButton->setText("Невидимый");
-        statusButton->setStyleSheet(R"(
-            QToolButton { color: #9E9E9E; font-size: 14px; font-weight: 600; background: transparent; border: 1px solid rgba(158, 158, 158, 0.3); border-radius: 12px; padding: 6px 15px; margin: 0 70px; }
-            QToolButton:hover { background: rgba(158, 158, 158, 0.1); }
-            QToolButton::menu-indicator { width: 0px; }
-        )");
     });
 }
 
-// ===== Avatar UI methods (FIX for undefined reference) =====
-
 void MainWindow::setupAvatar()
-{
-    // Кнопка аватара уже создана в createSidebar()
-    if (avatarOverlay) avatarOverlay->hide();
-    loadUserAvatar(); // БД -> кэш -> дефолт (реализация в MainWindow_Avatar.cpp)
+{    loadUserAvatar();
 }
 
 void MainWindow::setAvatarPixmap(const QPixmap& pixmap)
@@ -323,11 +295,8 @@ void MainWindow::setAvatarPixmap(const QPixmap& pixmap)
     if (!avatarButton) return;
 
     const int size = 100;
-
-    // 1) Масштабируем так, чтобы заполнить квадрат size x size
     QPixmap src = pixmap.isNull() ? QPixmap() : pixmap.scaled(size, size, Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation);
 
-    // 2) Делаем круглый клип
     QPixmap out(size, size);
     out.fill(Qt::transparent);
 
@@ -338,7 +307,6 @@ void MainWindow::setAvatarPixmap(const QPixmap& pixmap)
         path.addEllipse(0, 0, size, size);
         p.setClipPath(path);
         if (!src.isNull()) {
-            // центрируем src в квадрате
             const int x = (size - src.width()) / 2;
             const int y = (size - src.height()) / 2;
             p.drawPixmap(x, y, src);
@@ -352,18 +320,40 @@ void MainWindow::setAvatarPixmap(const QPixmap& pixmap)
 void MainWindow::setDefaultAvatar()
 {
     if (!avatarButton) return;
-    avatarButton->setIcon(QIcon());
+
+    const int size = 100;
+    QString letter = currentUsername.trimmed().left(1).toUpper();
+    if (letter.isEmpty()) letter = "?";
+
+    QPixmap out(size, size);
+    out.fill(Qt::transparent);
+
+    QPainter p(&out);
+    p.setRenderHint(QPainter::Antialiasing, true);
+
+    QPainterPath path;
+    path.addEllipse(0, 0, size, size);
+    p.setClipPath(path);
+
+    QLinearGradient g(0, 0, size, size);
+    g.setColorAt(0, QColor(138, 43, 226));
+    g.setColorAt(1, QColor(155, 75, 255));
+    p.fillPath(path, g);
+
+    p.setClipping(false);
+    p.setPen(Qt::white);
+    QFont f = p.font();
+    f.setBold(true);
+    f.setPointSize(size / 2.5);
+    p.setFont(f);
+    p.drawText(out.rect(), Qt::AlignCenter, letter);
+
+    setAvatarPixmap(out);
 }
 
-void MainWindow::showAvatarOverlay()
-{
-    if (avatarOverlay) avatarOverlay->show();
-}
+void MainWindow::showAvatarOverlay() {}
 
-void MainWindow::hideAvatarOverlay()
-{
-    if (avatarOverlay) avatarOverlay->hide();
-}
+void MainWindow::hideAvatarOverlay() {}
 
 void MainWindow::changeAvatar()
 {
@@ -378,9 +368,6 @@ void MainWindow::changeAvatar()
     QPixmap px(fileName);
     if (px.isNull()) return;
 
-    // Сохраняем в БД + кэш (твой MainWindow_Avatar.cpp)
     saveAvatarToDbAndCache(px);
-
-    // Мгновенно обновляем UI
     setAvatarPixmap(px);
 }

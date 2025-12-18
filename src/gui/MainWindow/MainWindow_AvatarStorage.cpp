@@ -20,7 +20,6 @@ bool MainWindow::saveAvatarToDbAndCache(const QPixmap& pixmap)
 {
     if (pixmap.isNull()) return false;
 
-    // 1) В PNG bytes (для BYTEA)
     QByteArray bytes;
     {
         QBuffer buffer(&bytes);
@@ -28,7 +27,6 @@ bool MainWindow::saveAvatarToDbAndCache(const QPixmap& pixmap)
         if (!pixmap.save(&buffer, "PNG")) return false;
     }
 
-    // 2) Пишем в БД
     {
         QSqlQuery q(DatabaseManager::instance().database());
         q.prepare("UPDATE users SET avatar_data = ? WHERE id = ?");
@@ -40,7 +38,6 @@ bool MainWindow::saveAvatarToDbAndCache(const QPixmap& pixmap)
         }
     }
 
-    // 3) Пишем локальный кэш (чтобы быстрее грузилось и работало оффлайн)
     const QString cachePath = avatarCacheFilePath(currentUserId);
     QFile f(cachePath);
     if (f.open(QIODevice::WriteOnly)) {
@@ -53,7 +50,6 @@ bool MainWindow::saveAvatarToDbAndCache(const QPixmap& pixmap)
 
 void MainWindow::loadUserAvatar()
 {
-    // A) Сначала пробуем из БД (истина)
     {
         QSqlQuery q(DatabaseManager::instance().database());
         q.prepare("SELECT avatar_data FROM users WHERE id = ?");
@@ -66,7 +62,6 @@ void MainWindow::loadUserAvatar()
                 if (px.loadFromData(bytes, "PNG")) {
                     setAvatarPixmap(px);
 
-                    // обновим кэш
                     const QString cachePath = avatarCacheFilePath(currentUserId);
                     QFile f(cachePath);
                     if (f.open(QIODevice::WriteOnly)) {
@@ -81,7 +76,6 @@ void MainWindow::loadUserAvatar()
         }
     }
 
-    // B) Фолбэк: кэш-файл
     const QString cachePath = avatarCacheFilePath(currentUserId);
     if (QFile::exists(cachePath)) {
         QPixmap px(cachePath);
@@ -91,6 +85,5 @@ void MainWindow::loadUserAvatar()
         }
     }
 
-    // C) Дефолт
     setDefaultAvatar();
 }

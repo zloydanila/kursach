@@ -10,7 +10,24 @@ NotificationDialog::NotificationDialog(const QString &message, Type type, QWidge
 {
     setWindowFlags(Qt::Dialog | Qt::FramelessWindowHint);
     setAttribute(Qt::WA_TranslucentBackground);
-    resize(420, 150);
+    setModal(true);
+    setupUI(message, type);
+}
+
+NotificationDialog::~NotificationDialog() {}
+
+void NotificationDialog::setupUI(const QString &message, Type type)
+{
+    setStyleSheet(R"(
+        QToolTip {
+            background: #12121A;
+            color: rgba(255,255,255,0.92);
+            border: 1px solid rgba(138, 43, 226, 0.45);
+            padding: 6px 8px;
+            border-radius: 8px;
+            font-size: 12px;
+        }
+    )");
 
     QVBoxLayout *rootLayout = new QVBoxLayout(this);
     rootLayout->setContentsMargins(0, 0, 0, 0);
@@ -21,109 +38,93 @@ NotificationDialog::NotificationDialog(const QString &message, Type type, QWidge
     bg->setStyleSheet(R"(
         #notifyBg {
             background: #0F0F14;
-            border-radius: 14px;
-            border: 1px solid rgba(138, 43, 226, 0.5);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
     )");
 
     QVBoxLayout *layout = new QVBoxLayout(bg);
-    layout->setContentsMargins(20, 16, 20, 16);
-    layout->setSpacing(10);
+    layout->setContentsMargins(18, 16, 18, 14);
+    layout->setSpacing(12);
 
-    QHBoxLayout *headerLayout = new QHBoxLayout();
-    headerLayout->setContentsMargins(0, 0, 0, 0);
-    headerLayout->setSpacing(8);
+    QString accent = "#8A2BE2";
+    if (type == Error) accent = "#FF4D4D";
+    if (type == Success) accent = "#8A2BE2";
 
-    QLabel *iconLabel = new QLabel();
-    iconLabel->setFixedSize(20, 20);
-    iconLabel->setAlignment(Qt::AlignCenter);
-    iconLabel->setStyleSheet(R"(
+    QHBoxLayout *header = new QHBoxLayout();
+    header->setContentsMargins(0, 0, 0, 0);
+    header->setSpacing(10);
+
+    QLabel *dot = new QLabel();
+    dot->setFixedSize(10, 10);
+    dot->setStyleSheet(QString("background: %1; border-radius: 5px;").arg(accent));
+
+    QLabel *title = new QLabel();
+    title->setText(type == Error ? "Ошибка" : (type == Success ? "Успех" : "Информация"));
+    title->setStyleSheet(R"(
         QLabel {
-            color: #8A2BE2;
-            font-size: 16px;
-            font-weight: bold;
-            background: transparent;
-            border: none;
-        }
-    )");
-    if (type == Success)
-        iconLabel->setText("✓");
-    else if (type == Error)
-        iconLabel->setText("✕");
-    else
-        iconLabel->setText("ⓘ");
-
-    QLabel *titleLabel = new QLabel("Уведомление");
-    titleLabel->setStyleSheet(R"(
-        QLabel {
-            color: #FFFFFF;
+            color: rgba(255, 255, 255, 0.95);
             font-size: 15px;
-            font-weight: 600;
+            font-weight: 700;
             background: transparent;
-            border: none;
         }
     )");
 
-    headerLayout->addWidget(iconLabel);
-    headerLayout->addWidget(titleLabel);
-    headerLayout->addStretch();
+    header->addWidget(dot);
+    header->addWidget(title);
+    header->addStretch();
 
     QLabel *messageLabel = new QLabel(message);
     messageLabel->setWordWrap(true);
-    messageLabel->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    messageLabel->setTextFormat(Qt::PlainText);
     messageLabel->setStyleSheet(R"(
         QLabel {
-            color: rgba(255, 255, 255, 0.88);
+            color: rgba(255, 255, 255, 0.86);
             font-size: 14px;
             background: transparent;
-            border: none;
         }
     )");
 
-    QHBoxLayout *buttonLayout = new QHBoxLayout();
-    buttonLayout->setContentsMargins(0, 0, 0, 0);
-    buttonLayout->setSpacing(0);
+    QHBoxLayout *btnRow = new QHBoxLayout();
+    btnRow->setContentsMargins(0, 0, 0, 0);
+    btnRow->setSpacing(10);
 
     QPushButton *okBtn = new QPushButton("OK");
-    okBtn->setFixedHeight(34);
-    okBtn->setMinimumWidth(90);
-    okBtn->setStyleSheet(R"(
+    okBtn->setFixedHeight(36);
+    okBtn->setMinimumWidth(96);
+    okBtn->setCursor(Qt::PointingHandCursor);
+    okBtn->setStyleSheet(QString(R"(
         QPushButton {
-            background: #8A2BE2;
+            background: %1;
             color: #FFFFFF;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 14px;
-            font-weight: 600;
+            font-weight: 700;
         }
-        QPushButton:hover {
-            background: #9B4BFF;
-        }
-        QPushButton:pressed {
-            background: #7B1FA2;
-        }
-    )");
+        QPushButton:hover { background: rgba(155, 75, 255, 1.0); }
+        QPushButton:pressed { background: rgba(123, 31, 162, 1.0); }
+    )").arg(accent));
     connect(okBtn, &QPushButton::clicked, this, &QDialog::accept);
 
-    buttonLayout->addStretch();
-    buttonLayout->addWidget(okBtn);
+    btnRow->addStretch();
+    btnRow->addWidget(okBtn);
 
-    layout->addLayout(headerLayout);
+    layout->addLayout(header);
     layout->addWidget(messageLabel);
-    layout->addSpacing(6);
-    layout->addLayout(buttonLayout);
+    layout->addLayout(btnRow);
 
     rootLayout->addWidget(bg);
 
     QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect();
-    shadow->setBlurRadius(18);
-    shadow->setColor(QColor(0, 0, 0, 90));
-    shadow->setOffset(0, 4);
+    shadow->setBlurRadius(22);
+    shadow->setColor(QColor(0, 0, 0, 120));
+    shadow->setOffset(0, 6);
     bg->setGraphicsEffect(shadow);
-}
 
-NotificationDialog::~NotificationDialog() {}
-
-void NotificationDialog::setupUI(const QString &message, Type type)
-{
+    int h = 140;
+    int w = 440;
+    int lines = message.count('\n') + 1;
+    h += (lines > 2 ? 18 : 0);
+    resize(w, h);
 }

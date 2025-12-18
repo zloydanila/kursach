@@ -24,7 +24,6 @@ void MainWindow::createPages()
     friendsPage = friends;
     messagesPage = messages;
 
-    // УБРАНО ИЗ ПРОЕКТА
     profilePage = nullptr;
     notificationsPage = nullptr;
     roomsPage = nullptr;
@@ -42,6 +41,23 @@ void MainWindow::createPages()
     connect(search, &SearchMusicPage::stationAdded, this, [this]() {
         auto *p = qobject_cast<MyMusicPage*>(myMusicPage);
         if (p) p->reloadStations();
+    });
+
+    connect(my, &MyMusicPage::radioPlaylistChanged, this, [this](const QVector<TrackData>& stations) {
+        QVector<RadioItem> list;
+        list.reserve(stations.size());
+        for (const auto& s : stations) {
+            RadioItem r;
+            r.url = s.streamUrl;
+            r.title = s.title;
+            r.artist = s.artist;
+            list.push_back(r);
+        }
+        audioPlayer->setRadioPlaylist(list);
+    });
+
+    connect(my, &MyMusicPage::currentRadioIndexChanged, this, [this](int idx) {
+        audioPlayer->setCurrentRadioIndex(idx);
     });
 
     connect(my, &MyMusicPage::playRadioRequested, this, [this](const QString& url, const QString& title, const QString& country) {

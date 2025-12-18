@@ -1,10 +1,10 @@
 #include "ProfilePage.h"
 #include "core/managers/UserManager.h"
 #include "database/DatabaseManager.h"
+#include "gui/dialogs/NotificationDialog.h"
 
 #include <QVBoxLayout>
 #include <QFileDialog>
-#include <QMessageBox>
 #include <QPainter>
 #include <QPainterPath>
 #include <QCoreApplication>
@@ -105,7 +105,8 @@ void ProfilePage::onChangeAvatar()
 
     QPixmap avatar(fileName);
     if (avatar.isNull()) {
-        QMessageBox::warning(this, "Ошибка", "Не удалось загрузить изображение");
+        NotificationDialog dialog("Не удалось загрузить изображение", NotificationDialog::Error, this);
+        dialog.exec();
         return;
     }
 
@@ -114,12 +115,14 @@ void ProfilePage::onChangeAvatar()
     QString avatarPath = avatarDir + QString("/user_%1.png").arg(m_userId);
 
     if (!avatar.save(avatarPath)) {
-        QMessageBox::warning(this, "Ошибка", "Не удалось сохранить файл аватара");
+        NotificationDialog dialog("Не удалось сохранить файл аватара", NotificationDialog::Error, this);
+        dialog.exec();
         return;
     }
 
     if (!m_userManager->updateAvatar(m_userId, avatarPath)) {
-        QMessageBox::warning(this, "Ошибка", "Не удалось сохранить аватар в базе");
+        NotificationDialog dialog("Не удалось сохранить аватар в базе", NotificationDialog::Error, this);
+        dialog.exec();
         return;
     }
 

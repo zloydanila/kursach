@@ -2,12 +2,13 @@
 #include "gui/MainWindow/pages/MyMusicPage.h"
 #include "pages/FriendsPage.h"
 #include "pages/MessagesPage.h"
+#include "gui/dialogs/NotificationDialog.h"
 
 #include <QPushButton>
 #include <QStackedWidget>
 #include <QListWidgetItem>
-#include <QMessageBox>
 #include <QDebug>
+#include <QFile>
 
 #include "database/DatabaseManager.h"
 #include "audio/AudioPlayer.h"
@@ -38,7 +39,8 @@ void MainWindow::playRadio(int radioId)
                 audioPlayer->playTrack(radio.filePath);
                 DatabaseManager::instance().incrementPlayCount(radioId);
             } else {
-                QMessageBox::warning(this, "Ошибка", "Файл не найден: " + radio.filePath);
+                NotificationDialog dialog("Файл не найден: " + radio.filePath, NotificationDialog::Error, this);
+                dialog.exec();
             }
             break;
         }
@@ -54,8 +56,12 @@ void MainWindow::onPlaylistItemClicked(QListWidgetItem *item)
 void MainWindow::onRadioDeleteRequested(int radioId)
 {
     bool success = DatabaseManager::instance().deleteTrack(radioId);
-    QMessageBox::information(this, success ? "Успех" : "Ошибка",
-                             success ? "Радиостанция удалена!" : "Не удалось удалить радиостанцию");
+    NotificationDialog dialog(
+        success ? "Радиостанция удалена!" : "Не удалось удалить радиостанцию",
+        success ? NotificationDialog::Success : NotificationDialog::Error,
+        this
+    );
+    dialog.exec();
 }
 
 void MainWindow::loadUserRadio()

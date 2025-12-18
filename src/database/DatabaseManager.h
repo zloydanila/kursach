@@ -7,6 +7,7 @@
 #include <QStringList>
 #include <QMutex>
 #include "core/models/Track.h"
+#include "core/models/User.h"
 
 class DatabaseManager : public QObject {
     Q_OBJECT
@@ -24,8 +25,12 @@ public:
     bool registerUser(const QString& username, const QString& password);
     bool authenticateUser(const QString& username, const QString& password);
     int getUserId(const QString& username);
-QList<QPair<int, QString>> searchUsers(const QString& query, int excludeUserId);
-bool addTrack(const QString& filePath, const QString& title,
+    QList<QPair<int, QString>> searchUsers(const QString& query, int excludeUserId);
+
+    bool setUserStatus(int userId, UserStatus status);
+    UserStatus getUserStatus(int userId);
+
+    bool addTrack(const QString& filePath, const QString& title,
                   const QString& artist, const QString& album,
                   int duration, int userId);
     QList<TrackData> getUserTracks(int userId);

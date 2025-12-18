@@ -2,6 +2,7 @@ FROM ubuntu:22.04
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y \
+    gdb \
     build-essential cmake ninja-build pkg-config \
     qtbase5-dev qttools5-dev qttools5-dev-tools \
     qtmultimedia5-dev libqt5multimedia5-plugins \

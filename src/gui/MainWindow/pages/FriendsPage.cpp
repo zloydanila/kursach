@@ -1,7 +1,7 @@
 #include "FriendsPage.h"
 #include "gui/widgets/FriendCard.h"
+#include "gui/dialogs/NotificationDialog.h"
 
-#include <QMessageBox>
 #include <QScrollArea>
 #include <QLabel>
 #include <QDebug>
@@ -10,6 +10,7 @@
 #include <QLineEdit>
 #include <QPushButton>
 #include <QStackedWidget>
+#include <QFrame>
 
 FriendsPage::FriendsPage(int userId, QWidget *parent)
     : QWidget(parent)
@@ -22,14 +23,12 @@ FriendsPage::FriendsPage(int userId, QWidget *parent)
 
 void FriendsPage::setupUI()
 {
-    setStyleSheet("QWidget { background: #0F0F14; color: #FFFFFF; }");
-
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
     mainLayout->setContentsMargins(40, 40, 40, 40);
     mainLayout->setSpacing(25);
 
     QLabel* titleLabel = new QLabel("Друзья");
-    titleLabel->setStyleSheet("QLabel { color: #FFFFFF; font-size: 32px; font-weight: bold; background: transparent; }");
+    titleLabel->setStyleSheet("QLabel { color: #FFFFFF; font-size: 32px; font-weight: 800; background: transparent; }");
 
     QWidget* searchWidget = new QWidget();
     searchWidget->setStyleSheet("QWidget { background: transparent; }");
@@ -40,14 +39,10 @@ void FriendsPage::setupUI()
     m_searchInput = new QLineEdit();
     m_searchInput->setPlaceholderText("Поиск пользователей...");
     m_searchInput->setMinimumHeight(50);
-    m_searchInput->setObjectName("friendSearchInput");
-    m_searchInput->setStyleSheet(
-        "QLineEdit#friendSearchInput { background: rgba(255,255,255,0.08); border: 2px solid rgba(255,255,255,0.15); border-radius: 12px; padding: 0 20px; color: white; font-size: 14px; }"
-        "QLineEdit#friendSearchInput:focus { border: 2px solid #8A2BE2; }"
-        "QLineEdit#friendSearchInput::placeholder { color: rgba(255,255,255,0.45); }"
-    );
 
     QPushButton* searchBtn = new QPushButton("Поиск");
+    searchBtn->setObjectName("accentButton");
+    searchBtn->setCursor(Qt::PointingHandCursor);
     searchBtn->setMinimumHeight(50);
     searchBtn->setFixedWidth(120);
 
@@ -67,27 +62,28 @@ void FriendsPage::setupUI()
     m_requestsBtn->setCheckable(true);
     m_friendsBtn->setChecked(true);
 
+    m_friendsBtn->setProperty("tab", true);
+    m_requestsBtn->setProperty("tab", true);
+    m_friendsBtn->setCursor(Qt::PointingHandCursor);
+    m_requestsBtn->setCursor(Qt::PointingHandCursor);
+
     tabsLayout->addWidget(m_friendsBtn);
     tabsLayout->addWidget(m_requestsBtn);
     tabsLayout->addStretch();
 
     m_stackedWidget = new QStackedWidget();
-    m_stackedWidget->setStyleSheet("QStackedWidget { background: #0F0F14; }");
 
     QWidget* friendsScroll = new QWidget();
-    friendsScroll->setStyleSheet("QWidget { background: #0F0F14; }");
     m_friendsLayout = new QVBoxLayout(friendsScroll);
     m_friendsLayout->setContentsMargins(0, 0, 0, 0);
     m_friendsLayout->setSpacing(15);
 
     QWidget* requestsScroll = new QWidget();
-    requestsScroll->setStyleSheet("QWidget { background: #0F0F14; }");
     m_requestsLayout = new QVBoxLayout(requestsScroll);
     m_requestsLayout->setContentsMargins(0, 0, 0, 0);
     m_requestsLayout->setSpacing(15);
 
     QWidget* searchScroll = new QWidget();
-    searchScroll->setStyleSheet("QWidget { background: #0F0F14; }");
     m_searchLayout = new QVBoxLayout(searchScroll);
     m_searchLayout->setContentsMargins(0, 0, 0, 0);
     m_searchLayout->setSpacing(15);
@@ -95,19 +91,16 @@ void FriendsPage::setupUI()
     m_friendsWidget = new QScrollArea();
     m_friendsWidget->setWidgetResizable(true);
     m_friendsWidget->setFrameShape(QFrame::NoFrame);
-    m_friendsWidget->setStyleSheet("QScrollArea { background: #0F0F14; border: none; }");
     m_friendsWidget->setWidget(friendsScroll);
 
     m_requestsWidget = new QScrollArea();
     m_requestsWidget->setWidgetResizable(true);
     m_requestsWidget->setFrameShape(QFrame::NoFrame);
-    m_requestsWidget->setStyleSheet("QScrollArea { background: #0F0F14; border: none; }");
     m_requestsWidget->setWidget(requestsScroll);
 
     m_searchWidget = new QScrollArea();
     m_searchWidget->setWidgetResizable(true);
     m_searchWidget->setFrameShape(QFrame::NoFrame);
-    m_searchWidget->setStyleSheet("QScrollArea { background: #0F0F14; border: none; }");
     m_searchWidget->setWidget(searchScroll);
 
     m_stackedWidget->addWidget(m_friendsWidget);
@@ -136,11 +129,9 @@ static void clearLayout(QVBoxLayout* lay)
 
 void FriendsPage::loadFriends()
 {
-    qDebug() << "=== Loading friends ===";
     clearLayout(m_friendsLayout);
 
     QVector<User> friends = m_friendManager->getFriends();
-    qDebug() << "Found" << friends.size() << "friends";
 
     if (friends.isEmpty()) {
         QLabel* emptyLabel = new QLabel("У вас пока нет друзей");
@@ -157,16 +148,13 @@ void FriendsPage::loadFriends()
     }
 
     m_friendsLayout->addStretch();
-    qDebug() << "=== Friends loading complete ===";
 }
 
 void FriendsPage::loadRequests()
 {
-    qDebug() << "=== Loading requests ===";
     clearLayout(m_requestsLayout);
 
     QVector<User> requests = m_friendManager->getPendingRequests();
-    qDebug() << "Found" << requests.size() << "requests";
 
     if (requests.isEmpty()) {
         QLabel* emptyLabel = new QLabel("Нет новых запросов в друзья");
@@ -189,7 +177,8 @@ void FriendsPage::searchUsers()
 {
     QString query = m_searchInput->text().trimmed();
     if (query.isEmpty()) {
-        QMessageBox::warning(this, "Ошибка", "Введите имя пользователя для поиска");
+        NotificationDialog dialog("Введите имя пользователя для поиска", NotificationDialog::Error, this);
+        dialog.exec();
         return;
     }
     QVector<User> results = m_friendManager->searchUsers(query);
@@ -238,20 +227,24 @@ void FriendsPage::onShowRequests()
 void FriendsPage::onAddFriend(int userId)
 {
     if (m_friendManager->sendFriendRequest(userId)) {
-        QMessageBox::information(this, "Успех", "Запрос в друзья отправлен!");
+        NotificationDialog dialog("Запрос в друзья отправлен!", NotificationDialog::Success, this);
+        dialog.exec();
     } else {
-        QMessageBox::warning(this, "Ошибка", "Не удалось отправить запрос");
+        NotificationDialog dialog("Не удалось отправить запрос", NotificationDialog::Error, this);
+        dialog.exec();
     }
 }
 
 void FriendsPage::onAcceptRequest(int userId)
 {
     if (m_friendManager->acceptFriendRequest(userId)) {
-        QMessageBox::information(this, "Успех", "Запрос принят!");
+        NotificationDialog dialog("Запрос принят!", NotificationDialog::Success, this);
+        dialog.exec();
         loadRequests();
         loadFriends();
     } else {
-        QMessageBox::warning(this, "Ошибка", "Не удалось принять запрос");
+        NotificationDialog dialog("Не удалось принять запрос", NotificationDialog::Error, this);
+        dialog.exec();
     }
 }
 
@@ -260,7 +253,8 @@ void FriendsPage::onRejectRequest(int userId)
     if (m_friendManager->rejectFriendRequest(userId)) {
         loadRequests();
     } else {
-        QMessageBox::warning(this, "Ошибка", "Не удалось отклонить запрос");
+        NotificationDialog dialog("Не удалось отклонить запрос", NotificationDialog::Error, this);
+        dialog.exec();
     }
 }
 
@@ -269,7 +263,8 @@ void FriendsPage::onRemoveFriend(int userId)
     if (m_friendManager->removeFriend(userId)) {
         loadFriends();
     } else {
-        QMessageBox::warning(this, "Ошибка", "Не удалось удалить друга");
+        NotificationDialog dialog("Не удалось удалить друга", NotificationDialog::Error, this);
+        dialog.exec();
     }
 }
 

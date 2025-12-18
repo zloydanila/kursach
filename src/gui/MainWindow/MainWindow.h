@@ -7,6 +7,7 @@
 #include <QListWidget>
 #include <QLineEdit>
 #include <QTextEdit>
+#include <QCloseEvent>
 #include "../Frameless/FramelessWindow.h"
 #include "core/models/Track.h"
 
@@ -23,6 +24,7 @@ public:
 
 protected:
     bool eventFilter(QObject *obj, QEvent *event) override;
+    void closeEvent(QCloseEvent *event) override;
 
 private slots:
     void setupConnections();
@@ -81,14 +83,13 @@ private:
 
     QWidget *profilePage;
     QWidget *notificationsPage;
-    QWidget *musicPage;     // SearchMusicPage
-    QWidget *myMusicPage;   // MyMusicPage
-    QWidget *roomsPage;     // RoomsPage
+    QWidget *musicPage;
+    QWidget *myMusicPage;
+    QWidget *roomsPage;
 
     FriendsPage *friendsPage;
     MessagesPage *messagesPage;
 
-    // Старые поля поиска по трекам — оставим, чтобы конструктор не падал
     QLineEdit *searchInput;
     QPushButton *searchButton;
     QPushButton *topTracksButton;
