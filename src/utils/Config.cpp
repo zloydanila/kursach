@@ -53,7 +53,7 @@ QString Config::getDatabasePassword() const
     const QString env = qEnvironmentVariable("CHORUS_DB_PASSWORD");
     if (!env.isEmpty()) return env;
     return m_settings->value("database/password",
-                             "__REMOVED__").toString();
+                             "CHANGE_ME").toString();
 }
 
 QString Config::getWebSocketUrl() const
@@ -68,7 +68,7 @@ QString Config::getLastFmApiKey() const
     const QString env = qEnvironmentVariable("CHORUS_LASTFM_KEY");
     if (!env.isEmpty()) return env;
     return m_settings->value("api/lastfm_key",
-                             "__REMOVED__").toString();
+                             "CHANGE_ME").toString();
 }
 
 QString Config::getLastFmSharedSecret() const
@@ -76,7 +76,7 @@ QString Config::getLastFmSharedSecret() const
     const QString env = qEnvironmentVariable("CHORUS_LASTFM_SECRET");
     if (!env.isEmpty()) return env;
     return m_settings->value("api/lastfm_secret",
-                             "__REMOVED__").toString();
+                             "CHANGE_ME").toString();
 }
 
 QString Config::getLastFmSessionKey() const
@@ -95,7 +95,7 @@ QString Config::getYandexClientId() const
     const QString env = qEnvironmentVariable("CHORUS_YANDEX_CLIENT_ID");
     if (!env.isEmpty()) return env;
     return m_settings->value("api/yandex_client_id",
-                             "__REMOVED__").toString();
+                             "CHANGE_ME").toString();
 }
 
 QString Config::getYandexClientSecret() const
@@ -103,7 +103,7 @@ QString Config::getYandexClientSecret() const
     const QString env = qEnvironmentVariable("CHORUS_YANDEX_CLIENT_SECRET");
     if (!env.isEmpty()) return env;
     return m_settings->value("api/yandex_client_secret",
-                             "__REMOVED__").toString();
+                             "CHANGE_ME").toString();
 }
 
 QString Config::getYandexRedirectUri() const
