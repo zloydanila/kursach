@@ -8,7 +8,7 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U appuser -d appdb"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 5s
       timeout: 5s
       retries: 20
@@ -18,12 +18,22 @@ services:
     environment:
       DB_HOST: db
       DB_PORT: "5432"
-      DB_NAME: appdb
-      DB_USER: appuser
-      DB_PASSWORD: apppass
+      DB_NAME: ${POSTGRES_DB}
+      DB_USER: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+
+      CHORUS_DB_HOST: db
+      CHORUS_DB_PORT: "5432"
+      CHORUS_DB_NAME: ${POSTGRES_DB}
+      CHORUS_DB_USER: ${POSTGRES_USER}
+      CHORUS_DB_PASSWORD: ${POSTGRES_PASSWORD}
 
       DISPLAY: ${DISPLAY}
       QT_X11_NO_MITSHM: "1"
+
+      # Force software rendering in container (fixes MESA/iris/drm issues)
+      LIBGL_ALWAYS_SOFTWARE: "1"
+      QT_XCB_FORCE_SOFTWARE_OPENGL: "1"
 
       PULSE_SERVER: unix:/run/user/${UID}/pulse/native
     volumes:

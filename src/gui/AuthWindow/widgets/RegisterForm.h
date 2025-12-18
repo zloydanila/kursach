@@ -22,8 +22,7 @@ private slots:
 private:
     void setupUI();
     bool validateInput();
-    
-    QLineEdit* m_emailInput;
+
     QLineEdit* m_usernameInput;
     QLineEdit* m_passwordInput;
     QLineEdit* m_confirmPasswordInput;

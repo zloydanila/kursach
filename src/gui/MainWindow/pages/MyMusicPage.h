@@ -27,6 +27,12 @@ public slots:
 signals:
     void playRadioRequested(const QString& url, const QString& title, const QString& country);
 
+    
+    void radioPlaylistChanged(const QVector<TrackData>& stations);
+
+   
+    void currentRadioIndexChanged(int index);
+
 private slots:
     void onRefreshClicked();
     void onPlayRadioClicked();

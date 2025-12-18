@@ -29,14 +29,16 @@ SearchMusicPage::SearchMusicPage(int userId, AudioPlayer *audioPlayer, QWidget *
     , mcurrentSelectedIndex(-1)
 {
     qDebug() << "SearchMusicPage::SearchMusicPage - audioPlayer:" << audioPlayer;
-    
+
     DatabaseManager::instance().initialize();
     setupUI();
 
     connect(mapiManager, &MusicAPIManager::stationsFound, this, &SearchMusicPage::onStationsFound);
     connect(mapiManager, &MusicAPIManager::errorOccurred, this, &SearchMusicPage::onNetworkError);
-}
 
+    mgenreCombo->setCurrentText("Все");
+    onGenreChanged("Все");
+}
 
 SearchMusicPage::~SearchMusicPage() {}
 
@@ -288,15 +290,16 @@ void SearchMusicPage::onTopStationsClicked()
 
 void SearchMusicPage::onGenreChanged(const QString &genre)
 {
-    if (genre.isEmpty() || genre == "Все")
-        return;
-
     mloadingLabel->show();
     mstationsList->clear();
     mstationInfo->clear();
     mcurrentStations.clear();
 
-    qDebug() << "SearchMusicPage::onGenreChanged: Поиск по жанру:" << genre;
+    if (genre.isEmpty() || genre == "Все") {
+        mapiManager->getTopStations(muserId);
+        return;
+    }
+
     mapiManager->getStationsByGenre(genre, muserId);
 }
 
@@ -409,11 +412,6 @@ void SearchMusicPage::onStationContextMenu(const QPoint &pos)
         }
     }
     else if (selected == addAction) {
-        qDebug() << "onStationContextMenu: Попытка добавления радиостанции"
-                 << "userId:" << muserId
-                 << "title:" << station.value("title").toString()
-                 << "streamUrl:" << station.value("streamUrl").toString();
-
         bool success = DatabaseManager::instance().addRadioStation(
             muserId,
             station.value("title").toString(),
@@ -422,8 +420,6 @@ void SearchMusicPage::onStationContextMenu(const QPoint &pos)
             station.value("genre").toString(),
             station.value("bitrate").toInt()
         );
-
-        qDebug() << "onStationContextMenu: Результат добавления - success:" << success;
 
         if (success) {
             NotificationDialog dialog(

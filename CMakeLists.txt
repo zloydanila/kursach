@@ -31,7 +31,7 @@ set(SOURCES
     src/gui/MainWindow/MainWindow.cpp
     src/gui/MainWindow/MainWindow_UI.cpp
     src/gui/MainWindow/MainWindow_Pages.cpp
-    src/gui/MainWindow/MainWindow_Avatar.cpp
+    src/gui/MainWindow/MainWindow_AvatarStorage.cpp
     src/gui/MainWindow/MainWindow_Slots.cpp
 
     src/gui/MainWindow/pages/FriendsPage.cpp

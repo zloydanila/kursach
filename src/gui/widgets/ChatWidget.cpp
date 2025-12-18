@@ -1,8 +1,8 @@
 #include "ChatWidget.h"
 #include "MessageBubble.h"
+#include "gui/dialogs/NotificationDialog.h"
 
 #include <QScrollBar>
-#include <QMessageBox>
 
 ChatWidget::ChatWidget(int userId, int friendId, const QString& friendName, QWidget *parent)
     : QWidget(parent)
@@ -15,7 +15,6 @@ ChatWidget::ChatWidget(int userId, int friendId, const QString& friendName, QWid
     setupUI();
     loadMessages();
 
-    // Автообновление (polling)
     m_pollTimer = new QTimer(this);
     m_pollTimer->setInterval(900);
     connect(m_pollTimer, &QTimer::timeout, this, [this]() { loadMessages(); });
@@ -140,6 +139,7 @@ void ChatWidget::onSendMessage()
         m_messageInput->clear();
         loadMessages();
     } else {
-        QMessageBox::warning(this, "Ошибка", "Не удалось отправить сообщение");
+        NotificationDialog dialog("Не удалось отправить сообщение", NotificationDialog::Error, this);
+        dialog.exec();
     }
 }

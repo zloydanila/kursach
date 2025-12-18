@@ -9,7 +9,7 @@ class NotificationDialog : public QDialog
     Q_OBJECT
 public:
     enum Type { Success, Error, Info };
-    
+
     explicit NotificationDialog(const QString &message, Type type = Type::Info, QWidget *parent = nullptr);
     ~NotificationDialog();
 

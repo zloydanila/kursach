@@ -6,13 +6,6 @@
 #include <QVariant>
 #include <QDebug>
 
-static QString escSql(const QString& s)
-{
-    QString t = s;
-    t.replace("'", "''");
-    return t;
-}
-
 FriendManager::FriendManager(int userId, QObject *parent)
     : QObject(parent)
     , m_currentUserId(userId)
@@ -24,17 +17,16 @@ bool FriendManager::sendFriendRequest(int targetUserId)
     if (m_currentUserId == targetUserId) return false;
 
     QSqlQuery q(DatabaseManager::instance().database());
-    const QString sql = QString(
+    q.prepare(
         "INSERT INTO friend_requests(sender_id, receiver_id, status, created_at) "
-        "VALUES (%1, %2, 'pending', NOW()) "
+        "VALUES (?, ?, 'pending', NOW()) "
         "ON CONFLICT (sender_id, receiver_id) "
         "DO UPDATE SET status='pending', created_at=EXCLUDED.created_at"
-    ).arg(m_currentUserId).arg(targetUserId);
+    );
+    q.addBindValue(m_currentUserId);
+    q.addBindValue(targetUserId);
 
-    if (!q.exec(sql)) {
-        qWarning() << "sendFriendRequest error:" << q.lastError();
-        return false;
-    }
+    if (!q.exec()) return false;
     emit friendRequestSent(targetUserId);
     emit friendRequestChanged();
     return true;
@@ -47,29 +39,31 @@ bool FriendManager::acceptFriendRequest(int requesterId)
 
     QSqlQuery q(db);
 
-    QString upd = QString(
+    q.prepare(
         "UPDATE friend_requests SET status='accepted' "
-        "WHERE sender_id=%1 AND receiver_id=%2 AND status='pending'"
-    ).arg(requesterId).arg(m_currentUserId);
+        "WHERE sender_id=? AND receiver_id=? AND status='pending'"
+    );
+    q.addBindValue(requesterId);
+    q.addBindValue(m_currentUserId);
 
-    if (!q.exec(upd)) {
-        qWarning() << "acceptFriendRequest update error:" << q.lastError();
-        db.rollback();
-        return false;
-    }
+    if (!q.exec()) { db.rollback(); return false; }
     if (q.numRowsAffected() == 0) { db.rollback(); return false; }
 
-    QString ins1 = QString(
+    q.prepare(
         "INSERT INTO friendships(user_id, friend_id, created_at) "
-        "VALUES (%1, %2, NOW()) ON CONFLICT (user_id, friend_id) DO NOTHING"
-    ).arg(m_currentUserId).arg(requesterId);
-    if (!q.exec(ins1)) { qWarning() << "insert1 error:" << q.lastError(); db.rollback(); return false; }
+        "VALUES (?, ?, NOW()) ON CONFLICT (user_id, friend_id) DO NOTHING"
+    );
+    q.addBindValue(m_currentUserId);
+    q.addBindValue(requesterId);
+    if (!q.exec()) { db.rollback(); return false; }
 
-    QString ins2 = QString(
+    q.prepare(
         "INSERT INTO friendships(user_id, friend_id, created_at) "
-        "VALUES (%1, %2, NOW()) ON CONFLICT (user_id, friend_id) DO NOTHING"
-    ).arg(requesterId).arg(m_currentUserId);
-    if (!q.exec(ins2)) { qWarning() << "insert2 error:" << q.lastError(); db.rollback(); return false; }
+        "VALUES (?, ?, NOW()) ON CONFLICT (user_id, friend_id) DO NOTHING"
+    );
+    q.addBindValue(requesterId);
+    q.addBindValue(m_currentUserId);
+    if (!q.exec()) { db.rollback(); return false; }
 
     if (!db.commit()) return false;
     emit friendRequestChanged();
@@ -79,15 +73,14 @@ bool FriendManager::acceptFriendRequest(int requesterId)
 bool FriendManager::rejectFriendRequest(int requesterId)
 {
     QSqlQuery q(DatabaseManager::instance().database());
-    QString sql = QString(
+    q.prepare(
         "UPDATE friend_requests SET status='rejected' "
-        "WHERE sender_id=%1 AND receiver_id=%2 AND status='pending'"
-    ).arg(requesterId).arg(m_currentUserId);
+        "WHERE sender_id=? AND receiver_id=? AND status='pending'"
+    );
+    q.addBindValue(requesterId);
+    q.addBindValue(m_currentUserId);
 
-    if (!q.exec(sql)) {
-        qWarning() << "rejectFriendRequest error:" << q.lastError();
-        return false;
-    }
+    if (!q.exec()) return false;
     if (q.numRowsAffected() > 0) { emit friendRequestChanged(); return true; }
     return false;
 }
@@ -98,30 +91,27 @@ bool FriendManager::removeFriend(int friendId)
     if (!db.transaction()) return false;
 
     QSqlQuery q(db);
-    QString sql = QString(
+    q.prepare(
         "DELETE FROM friendships "
-        "WHERE (user_id=%1 AND friend_id=%2) OR (user_id=%2 AND friend_id=%1)"
-    ).arg(m_currentUserId).arg(friendId);
+        "WHERE (user_id=? AND friend_id=?) OR (user_id=? AND friend_id=?)"
+    );
+    q.addBindValue(m_currentUserId);
+    q.addBindValue(friendId);
+    q.addBindValue(friendId);
+    q.addBindValue(m_currentUserId);
 
-    if (!q.exec(sql)) {
-        qWarning() << "removeFriend error:" << q.lastError();
-        db.rollback();
-        return false;
-    }
+    if (!q.exec()) { db.rollback(); return false; }
     return db.commit();
 }
 
 bool FriendManager::isFriend(int otherUserId)
 {
     QSqlQuery q(DatabaseManager::instance().database());
-    QString sql = QString(
-        "SELECT 1 FROM friendships WHERE user_id=%1 AND friend_id=%2 LIMIT 1"
-    ).arg(m_currentUserId).arg(otherUserId);
+    q.prepare("SELECT 1 FROM friendships WHERE user_id=? AND friend_id=? LIMIT 1");
+    q.addBindValue(m_currentUserId);
+    q.addBindValue(otherUserId);
 
-    if (!q.exec(sql)) {
-        qWarning() << "isFriend error:" << q.lastError();
-        return false;
-    }
+    if (!q.exec()) return false;
     return q.next();
 }
 
@@ -130,18 +120,16 @@ QVector<User> FriendManager::getFriends()
     QVector<User> out;
     QSqlQuery q(DatabaseManager::instance().database());
 
-    QString sql = QString(
-        "SELECT u.id, u.username, u.email, u.avatar_path, u.status, u.bio, u.last_seen, u.created_at "
+    q.prepare(
+        "SELECT u.id, u.username, u.email, u.avatar_path, CASE WHEN u.status = 3 THEN 3 WHEN NOW() - u.last_seen <= INTERVAL '30 seconds' THEN u.status ELSE 4 END AS status, u.bio, u.last_seen, u.created_at "
         "FROM friendships f "
         "JOIN users u ON u.id = f.friend_id "
-        "WHERE f.user_id = %1 "
+        "WHERE f.user_id = ? "
         "ORDER BY u.username"
-    ).arg(m_currentUserId);
+    );
+    q.addBindValue(m_currentUserId);
 
-    if (!q.exec(sql)) {
-        qWarning() << "getFriends error:" << q.lastError();
-        return out;
-    }
+    if (!q.exec()) return out;
 
     while (q.next()) {
         User u{};
@@ -164,18 +152,16 @@ QVector<User> FriendManager::getPendingRequests()
     QVector<User> out;
     QSqlQuery q(DatabaseManager::instance().database());
 
-    QString sql = QString(
-        "SELECT u.id, u.username, u.email, u.avatar_path, u.status, u.bio, u.last_seen, u.created_at "
+    q.prepare(
+        "SELECT u.id, u.username, u.email, u.avatar_path, CASE WHEN u.status = 3 THEN 3 WHEN NOW() - u.last_seen <= INTERVAL '30 seconds' THEN u.status ELSE 4 END AS status, u.bio, u.last_seen, u.created_at "
         "FROM friend_requests fr "
         "JOIN users u ON u.id = fr.sender_id "
-        "WHERE fr.receiver_id = %1 AND fr.status = 'pending' "
+        "WHERE fr.receiver_id = ? AND fr.status = 'pending' "
         "ORDER BY fr.created_at DESC"
-    ).arg(m_currentUserId);
+    );
+    q.addBindValue(m_currentUserId);
 
-    if (!q.exec(sql)) {
-        qWarning() << "getPendingRequests error:" << q.lastError();
-        return out;
-    }
+    if (!q.exec()) return out;
 
     while (q.next()) {
         User u{};
@@ -197,23 +183,27 @@ QVector<User> FriendManager::searchUsers(const QString& query)
 {
     QVector<User> out;
 
-    QString term = query.trimmed();
+    const QString term = query.trimmed();
     if (term.isEmpty()) return out;
 
-    QString pat = "%" + escSql(term) + "%";
-
     QSqlQuery q(DatabaseManager::instance().database());
-    QString sql = QString(
-        "SELECT id, username, email, avatar_path, status, bio, last_seen, created_at "
-        "FROM users "
-        "WHERE id <> %1 AND (username ILIKE '%2' OR email ILIKE '%2') "
-        "ORDER BY username LIMIT 50"
-    ).arg(m_currentUserId).arg(pat);
+    q.prepare(
+        "SELECT u.id, u.username, u.email, u.avatar_path, CASE WHEN u.status = 3 THEN 3 WHEN NOW() - u.last_seen <= INTERVAL '30 seconds' THEN u.status ELSE 4 END AS status, u.bio, u.last_seen, u.created_at, "
+        "       (f.friend_id IS NOT NULL) AS is_friend "
+        "FROM users u "
+        "LEFT JOIN friendships f ON f.user_id = ? AND f.friend_id = u.id "
+        "WHERE u.id <> ? AND (u.username ILIKE ? OR u.email ILIKE ?) "
+        "ORDER BY u.username "
+        "LIMIT 50"
+    );
 
-    if (!q.exec(sql)) {
-        qWarning() << "searchUsers error:" << q.lastError();
-        return out;
-    }
+    const QString pat = "%" + term + "%";
+    q.addBindValue(m_currentUserId);
+    q.addBindValue(m_currentUserId);
+    q.addBindValue(pat);
+    q.addBindValue(pat);
+
+    if (!q.exec()) return out;
 
     while (q.next()) {
         User u{};
@@ -225,7 +215,7 @@ QVector<User> FriendManager::searchUsers(const QString& query)
         u.bio = q.value(5).toString();
         u.lastSeen = q.value(6).toDateTime();
         u.createdAt = q.value(7).toDateTime();
-        u.isFriend = isFriend(u.id);
+        u.isFriend = q.value(8).toBool();
         out.push_back(u);
     }
     return out;

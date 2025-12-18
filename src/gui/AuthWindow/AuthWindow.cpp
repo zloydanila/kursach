@@ -2,6 +2,7 @@
 #include "gui/AuthWindow/widgets/LoginForm.h"
 #include "gui/AuthWindow/widgets/RegisterForm.h"
 #include "gui/MainWindow/MainWindow.h"
+#include "database/DatabaseManager.h"
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QLabel>
@@ -40,8 +41,7 @@ void AuthWindow::setupUI()
         #centralWidget { background: #0F0F14; border-radius: 20px; }
     )");
     setCentralWidget(central);
-
-    QVBoxLayout* mainLayout = new QVBoxLayout(central);
+QVBoxLayout* mainLayout = new QVBoxLayout(central);
     mainLayout->setContentsMargins(0, 0, 0, 0);
     mainLayout->setSpacing(0);
 
@@ -87,13 +87,14 @@ void AuthWindow::setupUI()
     QWidget* contentWidget = new QWidget();
     QVBoxLayout* contentLayout = new QVBoxLayout(contentWidget);
     contentLayout->setContentsMargins(40, 20, 40, 40);
-    contentLayout->setSpacing(16);    m_loginForm = new LoginForm();
+    contentLayout->setSpacing(16);
+
+    m_loginForm = new LoginForm();
     m_registerForm = new RegisterForm();
 
     m_stackedWidget->addWidget(m_loginForm);
-    m_stackedWidget->addWidget(m_registerForm);
-
-    contentLayout->addWidget(m_stackedWidget, 1);
+m_stackedWidget->addWidget(m_registerForm);
+contentLayout->addWidget(m_stackedWidget, 1);
 
     mainLayout->addWidget(m_titleBarWidget);
     mainLayout->addWidget(contentWidget, 1);
@@ -143,12 +144,18 @@ void AuthWindow::onLoginSuccess(const QString& username, int userId)
 
 void AuthWindow::onRegisterSuccess()
 {
+    // After registration, go to login form and keep window open
     switchToLogin();
+    this->show();
+    this->raise();
+    this->activateWindow();
 }
+
 
 void AuthWindow::showMainWindow(const QString& username, int userId)
 {
-    MainWindow* mainWindow = new MainWindow(username, userId);
-    mainWindow->show();
+    MainWindow* w = new MainWindow(username, userId);
+    w->show();
     this->close();
 }
+

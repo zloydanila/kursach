@@ -1,31 +1,19 @@
 #include "AudioPlayer.h"
+
 #include <QSlider>
 #include <QLabel>
 #include <QToolButton>
 #include <QHBoxLayout>
 #include <QStyle>
 #include <QApplication>
-#include <QDebug>
+#include <QUrl>
 
 AudioPlayer::AudioPlayer(QObject *parent)
     : QObject(parent)
     , mediaPlayer(new QMediaPlayer(this))
-    , playerControls(nullptr)
-    , nowPlayingLabel(nullptr)
-    , previousBtn(nullptr)
-    , nextBtn(nullptr)
-    , volumeIcon(nullptr)
-    , volumeSlider(nullptr)
-    , stopBtn(nullptr)
 {
     mediaPlayer->setVolume(50);
-    
     connect(mediaPlayer, &QMediaPlayer::stateChanged, this, &AudioPlayer::onPlaybackStateChanged);
-    connect(mediaPlayer, &QMediaPlayer::mediaStatusChanged, this, [this](QMediaPlayer::MediaStatus status) {
-        if (status == QMediaPlayer::EndOfMedia || status == QMediaPlayer::InvalidMedia) {
-            stopRadio();
-        }
-    });
 }
 
 AudioPlayer::~AudioPlayer() {}
@@ -40,117 +28,120 @@ void AudioPlayer::setupPlayerControls(QWidget *parent)
             border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
     )");
-    
+
     QHBoxLayout *layout = new QHBoxLayout(playerControls);
     layout->setContentsMargins(30, 10, 30, 10);
-    layout->setSpacing(20);
-    
+    layout->setSpacing(14);
+
     nowPlayingLabel = new QLabel("Нет активной радиостанции");
-    nowPlayingLabel->setStyleSheet(R"(
-        QLabel {
-            color: #FFFFFF;
-            font-size: 14px;
-            font-weight: 600;
-            background: transparent;
-        }
-    )");
-    nowPlayingLabel->setMinimumWidth(200);
-    nowPlayingLabel->setMaximumWidth(300);
+    nowPlayingLabel->setStyleSheet("color: #FFFFFF; font-size: 14px; font-weight: 600; background: transparent;");
+    nowPlayingLabel->setMinimumWidth(220);
+    nowPlayingLabel->setMaximumWidth(420);
     layout->addWidget(nowPlayingLabel);
     layout->addStretch();
-    
-    QString playerBtnStyle = R"(
+
+    const QString playerBtnStyle = R"(
         QToolButton {
-            background: transparent;
-            border: none;
-            color: rgba(255, 255, 255, 0.7);
-            border-radius: 15px;
-            font-size: 16px;
+            background: rgba(155, 75, 255, 0.35);
+            border: 1px solid rgba(155, 75, 255, 0.22);
+            border-radius: 16px;
         }
-        QToolButton:hover {
-            color: #FFFFFF;
-            background: rgba(255, 255, 255, 0.1);
-        }
+        QToolButton:hover { background: rgba(155, 75, 255, 0.55); }
+        QToolButton:pressed { background: rgba(155, 75, 255, 0.75); }
     )";
-    
+
     previousBtn = new QToolButton();
     previousBtn->setIcon(QApplication::style()->standardIcon(QStyle::SP_MediaSkipBackward));
-    previousBtn->setIconSize(QSize(22,22));
+    previousBtn->setIconSize(QSize(22, 22));
     previousBtn->setStyleSheet(playerBtnStyle);
-    previousBtn->setFixedSize(40, 40);
+    previousBtn->setFixedSize(44, 44);
+    connect(previousBtn, &QToolButton::clicked, this, &AudioPlayer::playPrev);
     layout->addWidget(previousBtn);
 
-    stopBtn = new QToolButton();
-    stopBtn->setIcon(QApplication::style()->standardIcon(QStyle::SP_MediaStop));
-    stopBtn->setIconSize(QSize(22,22));
-    stopBtn->setStyleSheet(playerBtnStyle);
-    stopBtn->setFixedSize(40, 40);
-    connect(stopBtn, &QToolButton::clicked, this, &AudioPlayer::stopRadio);
-    layout->addWidget(stopBtn);
+    playPauseBtn = new QToolButton();
+    playPauseBtn->setIcon(QApplication::style()->standardIcon(QStyle::SP_MediaPlay));
+    playPauseBtn->setIconSize(QSize(24, 24));
+    playPauseBtn->setStyleSheet(playerBtnStyle);
+    playPauseBtn->setFixedSize(48, 48);
+    connect(playPauseBtn, &QToolButton::clicked, this, &AudioPlayer::togglePlayPause);
+    layout->addWidget(playPauseBtn);
 
     nextBtn = new QToolButton();
     nextBtn->setIcon(QApplication::style()->standardIcon(QStyle::SP_MediaSkipForward));
-    nextBtn->setIconSize(QSize(22,22));
+    nextBtn->setIconSize(QSize(22, 22));
     nextBtn->setStyleSheet(playerBtnStyle);
-    nextBtn->setFixedSize(40, 40);
+    nextBtn->setFixedSize(44, 44);
+    connect(nextBtn, &QToolButton::clicked, this, &AudioPlayer::playNext);
     layout->addWidget(nextBtn);
-layout->addSpacing(20);
+
+    layout->addSpacing(16);
 
     QWidget *volumeWidget = new QWidget();
     QHBoxLayout *volumeLayout = new QHBoxLayout(volumeWidget);
     volumeLayout->setContentsMargins(0, 0, 0, 0);
-    volumeLayout->setSpacing(8);
-    
+    volumeLayout->setSpacing(5);
+
     volumeIcon = new QToolButton();
     volumeIcon->setIcon(QApplication::style()->standardIcon(QStyle::SP_MediaVolume));
-    volumeIcon->setIconSize(QSize(18,18));
-volumeIcon->setStyleSheet(playerBtnStyle);
-    volumeIcon->setFixedSize(35, 35);
-    connect(volumeIcon, &QToolButton::clicked, this, &AudioPlayer::onVolumeIconClicked);
-    
+    volumeIcon->setIconSize(QSize(16, 16));
+    volumeIcon->setStyleSheet(playerBtnStyle);
+    volumeIcon->setFixedSize(34, 34);
+    volumeLayout->addWidget(volumeIcon);
+
     volumeSlider = new QSlider(Qt::Horizontal);
     volumeSlider->setRange(0, 100);
-    volumeSlider->setValue(50);
-    volumeSlider->setFixedWidth(100);
+    volumeSlider->setValue(mediaPlayer->volume());
+    volumeSlider->setFixedWidth(130);
     volumeSlider->setStyleSheet(R"(
-        QSlider::groove:horizontal {
-            background: rgba(255, 255, 255, 0.1);
-            height: 4px;
-            border-radius: 2px;
-        }
-        QSlider::sub-page:horizontal {
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 2px;
-        }
-        QSlider::handle:horizontal {
-            background: #FFFFFF;
-            width: 10px;
-            height: 10px;
-            margin: -3px 0;
-            border-radius: 5px;
-        }
-        QSlider::handle:horizontal:hover {
-            background: #8A2BE2;
-        }
+        QSlider::groove:horizontal { background: rgba(255,255,255,0.10); height: 4px; border-radius: 2px; }
+        QSlider::sub-page:horizontal { background: rgba(155,75,255,0.65); border-radius: 2px; }
+        QSlider::handle:horizontal { background: #FFFFFF; width: 12px; height: 12px; margin: -4px 0; border-radius: 6px; }
+        QSlider::handle:horizontal:hover { background: #9B4BFF; }
     )");
-    
-    volumeLayout->addWidget(volumeIcon);
-    volumeLayout->addWidget(volumeSlider);
-    layout->addWidget(volumeWidget);
-    
     connect(volumeSlider, &QSlider::valueChanged, this, [this](int value) {
-        mediaPlayer->setVolume(value);    });
-    
-    updateNowPlayingLabel();}
+        mediaPlayer->setVolume(value);
+        if (value == 0) volumeIcon->setIcon(QApplication::style()->standardIcon(QStyle::SP_MediaVolumeMuted));
+        else volumeIcon->setIcon(QApplication::style()->standardIcon(QStyle::SP_MediaVolume));
+    });
+    volumeLayout->addWidget(volumeSlider);
+
+    layout->addWidget(volumeWidget);
+
+    updateNowPlayingLabel();
+    onPlaybackStateChanged();
+}
+
+void AudioPlayer::setRadioPlaylist(const QVector<RadioItem>& radios)
+{
+    m_radios = radios;
+    if (m_radios.isEmpty()) {
+        m_currentIndex = -1;
+        return;
+    }
+    if (m_currentIndex < 0 || m_currentIndex >= m_radios.size())
+        m_currentIndex = 0;
+}
+
+void AudioPlayer::setCurrentRadioIndex(int index)
+{
+    if (index < 0 || index >= m_radios.size()) {
+        m_currentIndex = -1;
+        return;
+    }
+    m_currentIndex = index;
+}
 
 void AudioPlayer::playRadio(const QString& streamUrl, const QString& title, const QString& artist)
 {
-    qDebug() << "Playing radio station:" << title << streamUrl;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    mediaPlayer->setSource(QUrl(streamUrl));
+#else
     mediaPlayer->setMedia(QUrl(streamUrl));
+#endif
     mediaPlayer->play();
+
     m_currentRadioTitle = title;
     m_currentRadioArtist = artist;
-    m_isRadioPlaying = true;
     updateNowPlayingLabel();
     emit radioStateChanged(true, title);
 }
@@ -158,39 +149,10 @@ void AudioPlayer::playRadio(const QString& streamUrl, const QString& title, cons
 void AudioPlayer::stopRadio()
 {
     mediaPlayer->stop();
-    m_isRadioPlaying = false;
     m_currentRadioTitle.clear();
     m_currentRadioArtist.clear();
     updateNowPlayingLabel();
     emit radioStateChanged(false, "");
-}
-
-void AudioPlayer::playTrack(const QString& filePath)
-{
-    mediaPlayer->setMedia(QUrl::fromLocalFile(filePath));
-    mediaPlayer->play();
-    m_isRadioPlaying = false;
-}
-
-void AudioPlayer::pauseTrack()
-{
-    if (mediaPlayer->state() == QMediaPlayer::PlayingState) {
-        mediaPlayer->pause();
-    } else {
-        mediaPlayer->play();
-    }
-}
-
-void AudioPlayer::setVolume(int volume)
-{
-    mediaPlayer->setVolume(volume);
-    if (volumeSlider) {
-        volumeSlider->setValue(volume);
-    }}
-
-void AudioPlayer::seek(int position)
-{
-    mediaPlayer->setPosition(position);
 }
 
 bool AudioPlayer::isPlaying() const
@@ -198,74 +160,93 @@ bool AudioPlayer::isPlaying() const
     return mediaPlayer->state() == QMediaPlayer::PlayingState;
 }
 
-QString AudioPlayer::formatTime(qint64 milliseconds)
-{
-    qint64 seconds = milliseconds / 1000;
-    qint64 minutes = seconds / 60;
-    seconds = seconds % 60;
-    return QString("%1:%2").arg(minutes).arg(seconds, 2, 10, QChar('0'));
-}
-
-void AudioPlayer::playSelectedTrack()
-{
-    pauseTrack();
-}
-
-void AudioPlayer::onPositionChanged(qint64 position)
-{}
-
-void AudioPlayer::onDurationChanged(qint64 duration)
-{}
-
-void AudioPlayer::seekTrack(int position)
-{
-    mediaPlayer->setPosition(position);
-}
-
 void AudioPlayer::onPlaybackStateChanged()
 {
-    updatePlaybackButtons();
-    if (mediaPlayer->state() == QMediaPlayer::StoppedState) {
-        stopRadio();
-    }
-}
-
-void AudioPlayer::updatePlaybackButtons()
-{}
-
-void AudioPlayer::updateTrackInfo(const QString& title, const QString& artist)
-{
-    if (nowPlayingLabel) {
-        if (artist.isEmpty()) {
-            nowPlayingLabel->setText(title);
-        } else {
-            nowPlayingLabel->setText(QString("%1 - %2").arg(title, artist));
-        }
-    }
-}
-
-void AudioPlayer::onVolumeIconClicked()
-{
-    int currentVolume = volumeSlider->value();
-    if (currentVolume > 0) {
-        volumeSlider->setValue(0);
-    } else {
-        volumeSlider->setValue(50);
-    }
+    if (!playPauseBtn) return;
+    if (mediaPlayer->state() == QMediaPlayer::PlayingState)
+        playPauseBtn->setIcon(QApplication::style()->standardIcon(QStyle::SP_MediaPause));
+    else
+        playPauseBtn->setIcon(QApplication::style()->standardIcon(QStyle::SP_MediaPlay));
 }
 
 void AudioPlayer::updateNowPlayingLabel()
 {
-    if (nowPlayingLabel) {
-        if (m_isRadioPlaying && !m_currentRadioTitle.isEmpty()) {
-            QString displayText = m_currentRadioTitle;
-            if (!m_currentRadioArtist.isEmpty()) {
-                displayText = QString("%1 - %2").arg(m_currentRadioTitle, m_currentRadioArtist);
-            }
-            nowPlayingLabel->setText(displayText);
-        } else {
-            nowPlayingLabel->setText("Нет активной радиостанции");
-        }
+    if (!nowPlayingLabel) return;
+
+    if (!m_currentRadioTitle.isEmpty()) {
+        QString t = m_currentRadioTitle;
+        if (!m_currentRadioArtist.isEmpty())
+            t = QString("%1 - %2").arg(m_currentRadioTitle, m_currentRadioArtist);
+        nowPlayingLabel->setText(t);
+    } else {
+        nowPlayingLabel->setText("Нет активной радиостанции");
     }
 }
 
+void AudioPlayer::playCurrentFromPlaylist()
+{
+    if (m_radios.isEmpty()) return;
+    if (m_currentIndex < 0 || m_currentIndex >= m_radios.size())
+        m_currentIndex = 0;
+
+    const auto &r = m_radios[m_currentIndex];
+    playRadio(r.url, r.title, r.artist);
+}
+
+void AudioPlayer::playPrev()
+{
+    if (m_radios.isEmpty()) return;
+    if (m_currentIndex < 0) m_currentIndex = 0;
+    m_currentIndex = (m_currentIndex - 1 + m_radios.size()) % m_radios.size();
+    playCurrentFromPlaylist();
+}
+
+void AudioPlayer::playNext()
+{
+    if (m_radios.isEmpty()) return;
+    if (m_currentIndex < 0) m_currentIndex = 0;
+    m_currentIndex = (m_currentIndex + 1) % m_radios.size();
+    playCurrentFromPlaylist();
+}
+
+void AudioPlayer::togglePlayPause()
+{
+    // Одна кнопка: если уже есть источник — просто play/pause
+    if (mediaPlayer->mediaStatus() != QMediaPlayer::NoMedia) {
+        if (mediaPlayer->state() == QMediaPlayer::PlayingState) mediaPlayer->pause();
+        else mediaPlayer->play();
+        return;
+    }
+
+    // Если источника нет — стартуем текущую/первую станцию
+    playCurrentFromPlaylist();
+}
+
+void AudioPlayer::pauseTrack()
+{
+    // оставлено для совместимости если где-то вызывается
+    togglePlayPause();
+}
+
+void AudioPlayer::setVolume(int volume)
+{
+    mediaPlayer->setVolume(volume);
+    if (volumeSlider) volumeSlider->setValue(volume);
+}
+
+void AudioPlayer::seek(int position)
+{
+    mediaPlayer->setPosition(position);
+}
+
+void AudioPlayer::updateTrackInfo(const QString& title, const QString& artist)
+{
+    m_currentRadioTitle = title;
+    m_currentRadioArtist = artist;
+    updateNowPlayingLabel();
+}
+
+void AudioPlayer::playTrack(const QString& filePath)
+{
+    playRadio(filePath, m_currentRadioTitle.isEmpty() ? "Радио" : m_currentRadioTitle, m_currentRadioArtist);
+}

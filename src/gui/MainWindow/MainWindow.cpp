@@ -2,9 +2,11 @@
 #include <QApplication>
 #include <QFile>
 #include <QMouseEvent>
+#include <QCloseEvent>
 
 #include "database/api/MusicAPIManager.h"
 #include "audio/AudioPlayer.h"
+#include "database/DatabaseManager.h"
 
 MainWindow::MainWindow(const QString &username, int userId, QWidget *parent)
     : FramelessWindow(parent)
@@ -13,7 +15,8 @@ MainWindow::MainWindow(const QString &username, int userId, QWidget *parent)
     , currentRadioIndex(-1)
     , sidebar(nullptr)
     , avatarButton(nullptr)
-    , avatarOverlay(nullptr)
+    ,
+    avatarOverlay(nullptr)
     , usernameLabel(nullptr)
     , profileBtn(nullptr)
     , messagesBtn(nullptr)
@@ -47,6 +50,8 @@ MainWindow::MainWindow(const QString &username, int userId, QWidget *parent)
     loadUserAvatar();
     loadUserRadio();
 
+    DatabaseManager::instance().setUserStatus(currentUserId, UserStatus::Online);
+
     setWindowTitle("Chorus - " + username);
 
     QFile styleFile("styles/styles.css");
@@ -69,16 +74,11 @@ MainWindow::~MainWindow() {}
 
 bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 {
-    if (obj == avatarButton) {
-        if (event->type() == QEvent::Enter) { showAvatarOverlay(); return true; }
-        if (event->type() == QEvent::Leave) { hideAvatarOverlay(); return true; }
-    }
+         return FramelessWindow::eventFilter(obj, event);
+}
 
-    if (obj == avatarOverlay && event->type() == QEvent::MouseButtonPress) {
-        changeAvatar();
-        hideAvatarOverlay();
-        return true;
-    }
-
-    return FramelessWindow::eventFilter(obj, event);
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    DatabaseManager::instance().setUserStatus(currentUserId, UserStatus::Offline);
+    FramelessWindow::closeEvent(event);
 }
