@@ -6,3 +6,5 @@ secrets.*
 config/secrets.*
 .env*
 !.env.example
+build/
+docker-compose.override.yml
