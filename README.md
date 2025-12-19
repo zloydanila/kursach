@@ -1,7 +1,6 @@
-git clone <repo>
-cd <repo>
+cd ~/Загрузки/kursach-realese
+docker compose down -v
+docker compose up -d --build --scale app=1
 
-xhost +local:docker
-
-docker compose down -v   # первый раз (или если нужно сбросить БД)
-docker compose up --build --scale app=2
+docker compose up -d --scale app=2
+docker compose ps
