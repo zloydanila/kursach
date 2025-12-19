@@ -1,0 +1,14 @@
+build/
+*.o
+*.a
+*.so
+*.dll
+*.exe
+*.db
+*.autogen
+*.moc
+*.qrc
+CMakeFiles/
+Makefile
+*.cmake
+.cmake/

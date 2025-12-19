@@ -1,0 +1,48 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  app:
+    build: .
+    environment:
+      DB_HOST: db
+      DB_PORT: "5432"
+      DB_NAME: ${POSTGRES_DB}
+      DB_USER: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+
+      CHORUS_DB_HOST: db
+      CHORUS_DB_PORT: "5432"
+      CHORUS_DB_NAME: ${POSTGRES_DB}
+      CHORUS_DB_USER: ${POSTGRES_USER}
+      CHORUS_DB_PASSWORD: ${POSTGRES_PASSWORD}
+
+      DISPLAY: ${DISPLAY}
+      QT_X11_NO_MITSHM: "1"
+
+      # Force software rendering in container (fixes MESA/iris/drm issues)
+      LIBGL_ALWAYS_SOFTWARE: "1"
+      QT_XCB_FORCE_SOFTWARE_OPENGL: "1"
+
+      PULSE_SERVER: unix:/run/user/${UID}/pulse/native
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ${DOWNLOADS_DIR}:/host/Downloads:ro
+      - /run/user/${UID}/pulse:/run/user/${UID}/pulse:rw
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  pgdata:
